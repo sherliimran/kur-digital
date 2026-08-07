@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Kirim Notifikasi - Admin</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:22px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+.container{
+    padding:20px;
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+
+.card h2{
+    margin-top:0;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+    margin-bottom:18px;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:8px;
+    cursor:pointer;
+}
+
+.kirim{
+    background:#0057B8;
+}
+
+.back{
+    background:#555;
+}
+
+.notif-item{
+    padding:15px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.notif-item:last-child{
+    border-bottom:none;
+}
+
+.notif-title{
+    font-size:17px;
+    font-weight:bold;
+    color:#0057B8;
+}
+
+.notif-message{
+    margin-top:7px;
+    line-height:1.5;
+    color:#444;
+}
+
+.notif-date{
+    margin-top:8px;
+    color:#777;
+    font-size:12px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:25px 10px;
+}
+
+.info{
+    background:#eef6ff;
+    color:#174a7c;
+    padding:13px;
+    border-radius:10px;
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:18px;
+}
+
+.success{
+    display:none;
+    background:#dcfce7;
+    color:#166534;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <h1>🔔 Kirim Notifikasi</h1>
+
+    <p>
+        Panel Admin KUR Digital
+    </p>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- FORM NOTIFIKASI -->
+
+<div class="card">
+
+    <div class="info">
+
+        Pesan yang dikirim akan tersimpan
+        pada sistem notifikasi nasabah
+        dan otomatis tercatat dalam
+        Riwayat Aktivitas Admin.
+
+    </div>
+
+
+    <div
+        id="pesanBerhasil"
+        class="success">
+
+        ✓ Notifikasi berhasil dikirim.
+
+    </div>
+
+
+    <h2>
+        Pesan Untuk Nasabah
+    </h2>
+
+
+    <label for="judul">
+
+        Judul Notifikasi
+
+    </label>
+
+
+    <input
+        type="text"
+        id="judul"
+        placeholder="Contoh: Pengajuan KUR Disetujui">
+
+
+    <label for="pesan">
+
+        Isi Pesan
+
+    </label>
+
+
+    <textarea
+        id="pesan"
+        placeholder="Tulis pesan untuk nasabah..."></textarea>
+
+
+    <button
+        type="button"
+        class="kirim"
+        onclick="kirimNotifikasi()">
+
+        🔔 Kirim Notifikasi
+
+    </button>
+
+</div>
+
+
+
+<!-- RIWAYAT NOTIFIKASI -->
+
+<div class="card">
+
+    <h2>
+        Riwayat Notifikasi
+    </h2>
+
+
+    <div id="riwayatNotifikasi">
+
+        <div class="empty">
+
+            🔔
+
+            <br><br>
+
+            Belum ada notifikasi.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- KEMBALI -->
+
+<button
+    type="button"
+    class="back"
+    onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+/* ==================================
+   CATAT AKTIVITAS ADMIN
+================================== */
+
+function catatAktivitas(judul, detail){
+
+    let riwayat = [];
+
+
+    try{
+
+        riwayat =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatAktivitas"
+                )
+            ) || [];
+
+    }catch(error){
+
+        riwayat = [];
+
+    }
+
+
+    const aktivitas = {
+
+        id: Date.now(),
+
+        judul: judul,
+
+        detail: detail,
+
+        tanggal:
+            new Date()
+            .toLocaleString("id-ID")
+
+    };
+
+
+    riwayat.unshift(aktivitas);
+
+
+    localStorage.setItem(
+        "riwayatAktivitas",
+        JSON.stringify(riwayat)
+    );
+
+}
+
+
+
+/* ==================================
+   KIRIM NOTIFIKASI
+================================== */
+
+function kirimNotifikasi(){
+
+    const inputJudul =
+        document.getElementById("judul");
+
+
+    const inputPesan =
+        document.getElementById("pesan");
+
+
+    const judul =
+        inputJudul.value.trim();
+
+
+    const pesan =
+        inputPesan.value.trim();
+
+
+    /* Validasi */
+
+    if(!judul){
+
+        alert(
+            "Judul notifikasi harus diisi."
+        );
+
+        inputJudul.focus();
+
+        return;
+
+    }
+
+
+    if(!pesan){
+
+        alert(
+            "Isi pesan harus diisi."
+        );
+
+        inputPesan.focus();
+
+        return;
+
+    }
+
+
+
+    /* Ambil data notifikasi */
+
+    let notifikasi = [];
+
+
+    try{
+
+        notifikasi =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            ) || [];
+
+    }catch(error){
+
+        notifikasi = [];
+
+    }
+
+
+
+    /* Waktu */
+
+    const waktu =
+        new Date()
+        .toLocaleString("id-ID");
+
+
+
+    /* Buat notifikasi */
+
+    const data = {
+
+        id: Date.now(),
+
+        judul: judul,
+
+        pesan: pesan,
+
+        tanggal: waktu,
+
+        dibaca: false
+
+    };
+
+
+
+    /* Masukkan ke awal */
+
+    notifikasi.unshift(data);
+
+
+
+    /* Simpan */
+
+    localStorage.setItem(
+        "notifikasi",
+        JSON.stringify(notifikasi)
+    );
+
+
+
+    /* Catat aktivitas Admin */
+
+    catatAktivitas(
+
+        "Notifikasi Dikirim",
+
+        'Admin mengirim notifikasi "' +
+        judul +
+        '" kepada nasabah.'
+
+    );
+
+
+
+    /* Bersihkan form */
+
+    inputJudul.value = "";
+
+    inputPesan.value = "";
+
+
+
+    /* Tampilkan riwayat */
+
+    tampilkanNotifikasi();
+
+
+
+    /* Tampilkan pesan sukses */
+
+    const sukses =
+        document.getElementById(
+            "pesanBerhasil"
+        );
+
+
+    sukses.style.display =
+        "block";
+
+
+    setTimeout(
+        function(){
+
+            sukses.style.display =
+                "none";
+
+        },
+        3000
+    );
+
+
+    alert(
+        "Notifikasi berhasil dikirim."
+    );
+
+}
+
+
+
+/* ==================================
+   TAMPILKAN RIWAYAT NOTIFIKASI
+================================== */
+
+function tampilkanNotifikasi(){
+
+    const tempat =
+        document.getElementById(
+            "riwayatNotifikasi"
+        );
+
+
+    let data = [];
+
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            ) || [];
+
+    }catch(error){
+
+        data = [];
+
+    }
+
+
+
+    if(data.length === 0){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                🔔
+
+                <br><br>
+
+                Belum ada notifikasi.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    tempat.innerHTML =
+
+        data.map(
+
+            function(item){
+
+                return `
+
+                    <div class="notif-item">
+
+                        <div class="notif-title">
+
+                            🔔
+                            ${item.judul}
+
+                        </div>
+
+
+                        <div class="notif-message">
+
+                            ${item.pesan}
+
+                        </div>
+
+
+                        <div class="notif-date">
+
+                            🕒
+                            ${item.tanggal}
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        ).join("");
+
+}
+
+
+
+/* ==================================
+   CEK LOGIN ADMIN
+================================== */
+
+if(
+    localStorage.getItem(
+        "adminLogin"
+    ) !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    tampilkanNotifikasi();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

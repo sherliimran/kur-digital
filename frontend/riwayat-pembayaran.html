@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Riwayat Pembayaran - KUR Digital</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#222;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:25px 20px;
+    border-radius:0 0 28px 28px;
+}
+
+.header h1{
+    margin:0;
+    font-size:27px;
+}
+
+.header p{
+    margin:8px 0 0;
+    font-size:15px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#0057B8;
+}
+
+/* =========================
+   RINGKASAN
+========================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.summary-box{
+    background:white;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+
+.summary-title{
+    color:#777;
+    font-size:13px;
+}
+
+.summary-value{
+    color:#0057B8;
+    font-size:25px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+/* =========================
+   RIWAYAT
+========================= */
+
+.riwayat{
+    border:1px solid #e5e7eb;
+    border-radius:18px;
+    padding:18px;
+    margin-top:15px;
+}
+
+.riwayat-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.angsuran{
+    color:#0057B8;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.nominal{
+    color:#0057B8;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:11px 0;
+    border-bottom:1px solid #eee;
+}
+
+.row:last-child{
+    border-bottom:none;
+}
+
+.label{
+    color:#777;
+}
+
+.value{
+    font-weight:bold;
+    text-align:right;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status.success{
+    background:#d1fae5;
+    color:#166534;
+}
+
+.status.failed{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.info{
+    background:#eaf5ff;
+    color:#174a7c;
+    padding:15px;
+    border-radius:14px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.warning{
+    background:#fff7d6;
+    color:#705d16;
+    padding:15px;
+    border-radius:14px;
+    line-height:1.5;
+    margin-bottom:18px;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:35px 15px;
+}
+
+.empty-icon{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:13px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.refresh{
+    background:#0057B8;
+}
+
+.back{
+    background:#555;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:480px){
+
+    .summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .summary-value{
+        font-size:21px;
+    }
+
+    .riwayat-header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+    <h1>
+        📋 Riwayat Pembayaran
+    </h1>
+
+    <p>
+        KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- =========================
+     INFO
+========================= -->
+
+<div class="info">
+
+    <b>Riwayat Angsuran</b><br>
+
+    Di halaman ini Anda dapat melihat
+    seluruh pembayaran angsuran yang
+    pernah dikirim dan status verifikasinya.
+
+</div>
+
+
+<div class="warning">
+
+    ⚠️ <b>Mode DEMO</b><br>
+
+    Data pembayaran pada aplikasi ini
+    merupakan simulasi dan tersimpan
+    di perangkat/browser.
+
+</div>
+
+
+<!-- =========================
+     RINGKASAN
+========================= -->
+
+<div class="summary">
+
+
+    <div class="summary-box">
+
+        <div class="summary-title">
+
+            Total Pembayaran
+
+        </div>
+
+        <div
+            class="summary-value"
+            id="totalPembayaran">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <div class="summary-title">
+
+            Sudah Diverifikasi
+
+        </div>
+
+        <div
+            class="summary-value"
+            id="totalLunas">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <div class="summary-title">
+
+            Total Dibayar
+
+        </div>
+
+        <div
+            class="summary-value"
+            id="totalNominal">
+
+            Rp 0
+
+        </div>
+
+    </div>
+
+
+    <div class="summary-box">
+
+        <div class="summary-title">
+
+            Angsuran Berikutnya
+
+        </div>
+
+        <div
+            class="summary-value"
+            id="angsuranBerikutnya">
+
+            Ke-1
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     DAFTAR RIWAYAT
+========================= -->
+
+<div class="card">
+
+    <h2>
+        Riwayat Angsuran
+    </h2>
+
+
+    <div id="daftarRiwayat">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📋
+            </div>
+
+            Memuat riwayat pembayaran...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     REFRESH
+========================= -->
+
+<button
+    class="refresh"
+    onclick="tampilkanRiwayat()">
+
+    🔄 Refresh Riwayat
+
+</button>
+
+
+<!-- =========================
+     KEMBALI
+========================= -->
+
+<button
+    class="back"
+    onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function rupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   AMBIL PEMBAYARAN
+========================= */
+
+function ambilPembayaran(){
+
+    let data = null;
+
+
+    const keys = [
+
+        "pembayaranAngsuran",
+
+        "pembayaran",
+
+        "pembayaranMasuk"
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < keys.length;
+        i++
+    ){
+
+        try{
+
+            const hasil =
+                JSON.parse(
+                    localStorage.getItem(
+                        keys[i]
+                    )
+                );
+
+
+            if(
+                Array.isArray(hasil)
+            ){
+
+                data = hasil;
+
+                break;
+
+            }
+
+
+            if(
+                hasil &&
+                typeof hasil === "object"
+            ){
+
+                data = [hasil];
+
+                break;
+
+            }
+
+        }catch(e){}
+
+    }
+
+
+    return data || [];
+
+}
+
+
+
+/* =========================
+   ANGKA ANGSURAN
+========================= */
+
+function nomorAngsuran(item){
+
+    let teks =
+        item.angsuran ||
+        item.pembayaran ||
+        item.jenis ||
+        "";
+
+
+    const cocok =
+        String(teks).match(
+            /\d+/
+        );
+
+
+    if(cocok){
+
+        return Number(
+            cocok[0]
+        );
+
+    }
+
+
+    if(
+        item.angsuranKe
+    ){
+
+        return Number(
+            item.angsuranKe
+        );
+
+    }
+
+
+    return 1;
+
+}
+
+
+
+/* =========================
+   STATUS
+========================= */
+
+function statusKelas(status){
+
+    if(
+
+        status ===
+        "Pembayaran Berhasil Diverifikasi"
+
+        ||
+
+        status ===
+        "Disetujui"
+
+        ||
+
+        status ===
+        "Terverifikasi"
+
+    ){
+
+        return "success";
+
+    }
+
+
+    if(
+
+        status ===
+        "Pembayaran Ditolak"
+
+        ||
+
+        status ===
+        "Ditolak"
+
+    ){
+
+        return "failed";
+
+    }
+
+
+    return "";
+
+}
+
+
+
+/* =========================
+   TAMPILKAN RIWAYAT
+========================= */
+
+function tampilkanRiwayat(){
+
+    const tempat =
+        document.getElementById(
+            "daftarRiwayat"
+        );
+
+
+    let data =
+        ambilPembayaran();
+
+
+    /* Urutkan dari angsuran
+       paling kecil */
+
+    data.sort(
+        function(a,b){
+
+            return (
+                nomorAngsuran(a)
+                -
+                nomorAngsuran(b)
+            );
+
+        }
+    );
+
+
+    /* =====================
+       RINGKASAN
+    ===================== */
+
+    const total =
+        data.length;
+
+
+    const lunas =
+        data.filter(
+            function(item){
+
+                return (
+
+                    item.status ===
+                    "Pembayaran Berhasil Diverifikasi"
+
+                    ||
+
+                    item.status ===
+                    "Disetujui"
+
+                    ||
+
+                    item.status ===
+                    "Terverifikasi"
+
+                );
+
+            }
+        ).length;
+
+
+    let totalNominal = 0;
+
+
+    data.forEach(
+        function(item){
+
+            const status =
+                item.status || "";
+
+
+            if(
+
+                status ===
+                "Pembayaran Berhasil Diverifikasi"
+
+                ||
+
+                status ===
+                "Disetujui"
+
+                ||
+
+                status ===
+                "Terverifikasi"
+
+            ){
+
+                totalNominal +=
+                    Number(
+                        item.jumlah ||
+                        item.nominal ||
+                        item.amount ||
+                        0
+                    );
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalPembayaran"
+    ).innerHTML =
+        total;
+
+
+    document.getElementById(
+        "totalLunas"
+    ).innerHTML =
+        lunas;
+
+
+    document.getElementById(
+        "totalNominal"
+    ).innerHTML =
+        rupiah(
+            totalNominal
+        );
+
+
+    /* =====================
+       ANGSURAN BERIKUTNYA
+    ===================== */
+
+    let berikutnya =
+        Number(
+            localStorage.getItem(
+                "angsuranBerikutnya"
+            ) || 0
+        );
+
+
+    if(
+        berikutnya <= 0
+    ){
+
+        let terbesar = 0;
+
+
+        data.forEach(
+            function(item){
+
+                const nomor =
+                    nomorAngsuran(
+                        item
+                    );
+
+
+                if(
+                    nomor > terbesar
+                ){
+
+                    terbesar =
+                        nomor;
+
+                }
+
+            }
+        );
+
+
+        berikutnya =
+            terbesar + 1;
+
+
+        if(
+            terbesar === 0
+        ){
+
+            berikutnya = 1;
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "angsuranBerikutnya"
+    ).innerHTML =
+        "Ke-" +
+        berikutnya;
+
+
+    /* =====================
+       DATA KOSONG
+    ===================== */
+
+    if(
+        data.length === 0
+    ){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                <b>Belum ada riwayat pembayaran</b>
+
+                <br><br>
+
+                Pembayaran angsuran Anda
+                akan muncul di sini setelah
+                mengirim bukti pembayaran.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* =====================
+       TAMPILKAN DATA
+    ===================== */
+
+    tempat.innerHTML =
+        data.map(
+            function(item){
+
+                const nomor =
+                    nomorAngsuran(
+                        item
+                    );
+
+
+                const jumlah =
+                    Number(
+                        item.jumlah ||
+                        item.nominal ||
+                        item.amount ||
+                        0
+                    );
+
+
+                const status =
+                    item.status ||
+                    "Menunggu Verifikasi Admin";
+
+
+                const kelas =
+                    statusKelas(
+                        status
+                    );
+
+
+                const tanggal =
+                    item.tanggal ||
+                    item.waktu ||
+                    "-";
+
+
+                const bukti =
+                    item.namaFile ||
+                    item.bukti ||
+                    item.file ||
+                    "-";
+
+
+                let verifikasi =
+                    item.tanggalVerifikasi ||
+                    "-";
+
+
+                return `
+
+                    <div class="riwayat">
+
+
+                        <div class="riwayat-header">
+
+                            <div class="angsuran">
+
+                                Angsuran ke-${nomor}
+
+                            </div>
+
+
+                            <div class="nominal">
+
+                                ${rupiah(jumlah)}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="label">
+
+                                Tanggal Pembayaran
+
+                            </div>
+
+                            <div class="value">
+
+                                ${tanggal}
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="label">
+
+                                Status
+
+                            </div>
+
+                            <div class="value">
+
+                                <span
+                                    class="status ${kelas}">
+
+                                    ${status}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="label">
+
+                                Bukti Pembayaran
+
+                            </div>
+
+                            <div class="value">
+
+                                ${bukti}
+
+                            </div>
+
+                        </div>
+
+
+                        ${
+                            verifikasi !== "-"
+                            ?
+                            `
+
+                            <div class="row">
+
+                                <div class="label">
+
+                                    Waktu Verifikasi
+
+                                </div>
+
+                                <div class="value">
+
+                                    ${verifikasi}
+
+                                </div>
+
+                            </div>
+
+                            `
+                            :
+                            ""
+                        }
+
+
+                        ${
+                            item.alasanPenolakan
+                            ?
+                            `
+
+                            <div
+                                style="
+                                background:#fee2e2;
+                                color:#991b1b;
+                                padding:12px;
+                                border-radius:12px;
+                                margin-top:15px;
+                                line-height:1.5;
+                                ">
+
+                                <b>
+                                    Alasan Penolakan:
+                                </b>
+
+                                <br>
+
+                                ${item.alasanPenolakan}
+
+                            </div>
+
+                            `
+                            :
+                            ""
+                        }
+
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+
+/* =========================
+   UPDATE OTOMATIS
+========================= */
+
+window.addEventListener(
+    "storage",
+    function(){
+
+        tampilkanRiwayat();
+
+    }
+);
+
+
+
+/* =========================
+   JALANKAN
+========================= */
+
+tampilkanRiwayat();
+
+
+</script>
+
+
+</body>
+
+</html>

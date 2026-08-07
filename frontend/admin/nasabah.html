@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Data Nasabah - Admin</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:22px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#0057B8;
+}
+
+.data{
+    margin-top:15px;
+}
+
+.row{
+    border-bottom:1px solid #ddd;
+    padding:13px 0;
+}
+
+.label{
+    color:#777;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.value{
+    font-size:17px;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.status{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    background:#fff3cd;
+    color:#856404;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#0057B8;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.back{
+    background:#555;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>Data Nasabah</h1>
+
+    <p>
+        Panel Admin KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+    <div class="card">
+
+        <h2>
+            Informasi Nasabah
+        </h2>
+
+
+        <div id="dataNasabah">
+
+            <div class="empty">
+                Memuat data nasabah...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="back"
+        onclick="window.location.href='dashboard.html'">
+
+        ← Kembali ke Dashboard
+
+    </button>
+
+
+</div>
+
+
+<script>
+
+
+function tampilkanNasabah(){
+
+    const nama =
+        localStorage.getItem("nama");
+
+    const email =
+        localStorage.getItem("email");
+
+    const hp =
+        localStorage.getItem("hp");
+
+    const pengajuan =
+        localStorage.getItem("pengajuan");
+
+
+    const tempat =
+        document.getElementById(
+            "dataNasabah"
+        );
+
+
+    if(!nama){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                Belum ada data nasabah.
+
+                <br><br>
+
+                Silakan lakukan pendaftaran
+                melalui aplikasi nasabah.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let status =
+        "Belum Mengajukan";
+
+
+    if(pengajuan){
+
+        status =
+            "Sudah Mengajukan KUR";
+
+    }
+
+
+    tempat.innerHTML = `
+
+        <div class="data">
+
+            <div class="row">
+
+                <div class="label">
+                    Nama Lengkap
+                </div>
+
+                <div class="value">
+                    ${nama}
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="label">
+                    Email
+                </div>
+
+                <div class="value">
+                    ${email || "-"}
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="label">
+                    Nomor HP
+                </div>
+
+                <div class="value">
+                    ${hp || "-"}
+                </div>
+
+            </div>
+
+
+            <div class="row">
+
+                <div class="label">
+                    Status
+                </div>
+
+                <div class="value">
+
+                    <span class="status">
+                        ${status}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+if(
+    localStorage.getItem("adminLogin")
+    !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    tampilkanNasabah();
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

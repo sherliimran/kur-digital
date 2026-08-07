@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pengajuan KUR</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+margin:0;
+background:#f5f7fb;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+.header{
+background:#0057B8;
+color:white;
+padding:25px;
+text-align:center;
+border-radius:0 0 25px 25px;
+}
+
+.form{
+width:90%;
+margin:20px auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:10px;
+box-sizing:border-box;
+font-size:15px;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#0057B8;
+color:white;
+font-size:17px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<h2>Pengajuan KUR</h2>
+
+<p>Lengkapi data berikut</p>
+
+</div>
+
+<div class="form">
+
+<input type="text" id="nama" placeholder="Nama Lengkap">
+
+<input type="text" id="nik" placeholder="NIK">
+
+<input type="text" id="hp" placeholder="Nomor HP">
+
+<textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
+
+<input type="text" id="usaha" placeholder="Nama Usaha">
+
+<select id="jenisUsaha">
+
+<option>Kuliner</option>
+
+<option>Perdagangan</option>
+
+<option>Pertanian</option>
+
+<option>Peternakan</option>
+
+<option>Jasa</option>
+
+</select>
+
+<input type="number" id="lamaUsaha" placeholder="Lama Usaha (Tahun)">
+
+<input type="number" id="penghasilan" placeholder="Penghasilan per Bulan">
+
+<input type="number" id="pinjaman" placeholder="Jumlah Pinjaman">
+
+<select id="tenor">
+
+<option>12 Bulan</option>
+
+<option>24 Bulan</option>
+
+<option>36 Bulan</option>
+
+<option>48 Bulan</option>
+
+<option>60 Bulan</option>
+
+</select>
+
+<label>Foto KTP</label>
+
+<input type="file" id="ktp">
+
+<label>Foto Selfie</label>
+
+<input type="file" id="selfie">
+
+<label>Foto Tempat Usaha</label>
+
+<input type="file" id="usahaFoto">
+
+<button onclick="kirimPengajuan()">
+
+Ajukan Sekarang
+
+</button>
+
+<button onclick="window.location.href='dashboard.html'">
+
+Kembali
+
+</button>
+
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>

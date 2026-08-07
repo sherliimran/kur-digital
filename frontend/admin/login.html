@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login - KUR Digital</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.login-box{
+    width:90%;
+    max-width:400px;
+    background:white;
+    padding:30px 25px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.12);
+    box-sizing:border-box;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.logo img{
+    width:80px;
+    height:80px;
+    object-fit:contain;
+}
+
+h1{
+    text-align:center;
+    color:#0057B8;
+    margin:10px 0 5px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-top:15px;
+    margin-bottom:7px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    box-sizing:border-box;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:25px;
+    border:none;
+    border-radius:12px;
+    background:#0057B8;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+.info{
+    margin-top:20px;
+    padding:12px;
+    background:#eef5ff;
+    border-radius:10px;
+    text-align:center;
+    font-size:13px;
+    color:#555;
+}
+
+.error{
+    color:red;
+    text-align:center;
+    margin-top:15px;
+    display:none;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-box">
+
+    <div class="logo">
+
+        <img src="../img/logo.png"
+             alt="KUR Digital">
+
+    </div>
+
+
+    <h1>Admin KUR Digital</h1>
+
+    <p class="subtitle">
+        Panel Administrasi
+    </p>
+
+
+    <label for="username">
+        Username
+    </label>
+
+    <input
+        type="text"
+        id="username"
+        placeholder="Masukkan username"
+        autocomplete="username">
+
+
+    <label for="password">
+        Password
+    </label>
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Masukkan password"
+        autocomplete="current-password">
+
+
+    <button onclick="loginAdmin()">
+        MASUK SEBAGAI ADMIN
+    </button>
+
+
+    <p id="error"
+       class="error">
+        Username atau password salah.
+    </p>
+
+
+    <div class="info">
+
+        Login demo admin<br>
+
+        Username: <b>admin</b><br>
+
+        Password: <b>123456</b>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function loginAdmin(){
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+
+    if(username === "admin" &&
+       password === "123456"){
+
+        localStorage.setItem(
+            "adminLogin",
+            "true"
+        );
+
+        window.location.href =
+            "dashboard.html";
+
+    }else{
+
+        document.getElementById("error")
+            .style.display = "block";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

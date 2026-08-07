@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Admin - KUR Digital</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#222;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:25px 20px;
+    border-radius:0 0 28px 28px;
+}
+
+.header h1{
+    margin:0;
+    font-size:27px;
+}
+
+.header p{
+    margin:8px 0 0;
+    opacity:.9;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+    padding:20px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.card h2{
+    margin-top:0;
+    color:#0057B8;
+}
+
+
+/* =========================
+   STATISTIK
+========================= */
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    padding:18px;
+    border-radius:17px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+
+.stat-title{
+    color:#777;
+    font-size:14px;
+}
+
+.stat-value{
+    color:#0057B8;
+    font-size:28px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+
+/* =========================
+   MENU ADMIN
+========================= */
+
+.menu{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.menu button{
+    border:none;
+    border-radius:15px;
+    padding:18px 10px;
+    min-height:95px;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.menu button:active{
+    transform:scale(.97);
+}
+
+.blue{
+    background:#0057B8;
+}
+
+.green{
+    background:#16a34a;
+}
+
+.orange{
+    background:#ea580c;
+}
+
+.purple{
+    background:#7c3aed;
+}
+
+.gray{
+    background:#555;
+}
+
+.red{
+    background:#dc2626;
+}
+
+
+/* =========================
+   PAYMENT INFO
+========================= */
+
+.payment-info{
+    background:#f8fafc;
+    padding:17px;
+    border-radius:15px;
+}
+
+.payment-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:12px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.payment-row:last-child{
+    border-bottom:none;
+}
+
+.payment-row span:first-child{
+    color:#777;
+}
+
+.payment-row span:last-child{
+    font-weight:bold;
+    text-align:right;
+    word-break:break-word;
+}
+
+
+/* =========================
+   BADGE
+========================= */
+
+.badge{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    background:#fff3cd;
+    color:#856404;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.badge.success{
+    background:#d1fae5;
+    color:#166534;
+}
+
+.badge.danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+
+/* =========================
+   NOTIFIKASI
+========================= */
+
+.notification{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+    padding:15px;
+    background:#eef5ff;
+    border-left:5px solid #0057B8;
+    border-radius:12px;
+}
+
+.notification-title{
+    font-weight:bold;
+}
+
+.notification-message{
+    color:#555;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.notification-badge{
+    min-width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#dc2626;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    font-size:13px;
+}
+
+
+/* =========================
+   ACTIVITY
+========================= */
+
+.activity{
+    padding:14px 0;
+    border-bottom:1px solid #eee;
+}
+
+.activity:last-child{
+    border-bottom:none;
+}
+
+.activity-title{
+    font-weight:bold;
+    color:#0057B8;
+}
+
+.activity-detail{
+    margin-top:5px;
+    color:#555;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.activity-date{
+    margin-top:5px;
+    color:#999;
+    font-size:12px;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:25px 10px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    text-align:center;
+    color:#888;
+    font-size:12px;
+    padding:10px 0 30px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:500px){
+
+    .stat-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .menu{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .payment-row{
+        flex-direction:row;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+    <h1>
+        🛠️ Dashboard Admin
+    </h1>
+
+    <p>
+        Panel Administrator KUR Digital
+    </p>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- =========================
+     STATISTIK
+========================= -->
+
+<div class="stat-grid">
+
+
+    <div class="stat">
+
+        <div class="stat-title">
+            Total Pengajuan
+        </div>
+
+        <div
+            class="stat-value"
+            id="totalPengajuan">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-title">
+            Pengajuan Menunggu
+        </div>
+
+        <div
+            class="stat-value"
+            id="pengajuanMenunggu">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-title">
+            Total Pembayaran
+        </div>
+
+        <div
+            class="stat-value"
+            id="totalPembayaran">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-title">
+            Menunggu Verifikasi
+        </div>
+
+        <div
+            class="stat-value"
+            id="menungguPembayaran">
+
+            0
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     MENU UTAMA
+========================= -->
+
+<div class="card">
+
+    <h2>
+        🛠️ Menu Administrator
+    </h2>
+
+
+    <div class="menu">
+
+
+        <button
+            class="blue"
+            onclick="window.location.href='pengajuan-admin.html'">
+
+            📝<br>
+            Kelola Pengajuan
+
+        </button>
+
+
+        <button
+            class="green"
+            onclick="window.location.href='verifikasi-pembayaran.html'">
+
+            💳<br>
+            Verifikasi Pembayaran
+
+        </button>
+
+
+        <button
+            class="orange"
+            onclick="window.location.href='pengaturan-pembayaran.html'">
+
+            ⚙️<br>
+            Pengaturan Pembayaran
+
+        </button>
+
+
+        <button
+            class="purple"
+            onclick="window.location.href='riwayat-aktivitas.html'">
+
+            📋<br>
+            Riwayat Aktivitas
+
+        </button>
+
+
+        <button
+            class="gray"
+            onclick="window.location.href='notifikasi-admin.html'">
+
+            🔔<br>
+            Notifikasi Admin
+
+        </button>
+
+
+        <button
+            class="red"
+            onclick="logoutAdmin()">
+
+            🚪<br>
+            Keluar
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     REKENING AKTIF
+========================= -->
+
+<div class="card">
+
+    <h2>
+        🏦 Rekening Pembayaran Aktif
+    </h2>
+
+
+    <div class="payment-info">
+
+
+        <div class="payment-row">
+
+            <span>
+                Bank
+            </span>
+
+            <span id="bankAktif">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span>
+                Nomor Rekening
+            </span>
+
+            <span id="rekeningAktif">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span>
+                Atas Nama
+            </span>
+
+            <span id="pemilikAktif">
+                -
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <button
+        class="blue"
+        style="width:100%;margin-top:15px;"
+        onclick="window.location.href='pengaturan-pembayaran.html'">
+
+        ⚙️ Ubah Rekening Pembayaran
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================
+     STATUS PEMBAYARAN
+========================= -->
+
+<div class="card">
+
+    <h2>
+        💳 Status Pembayaran
+    </h2>
+
+
+    <div class="payment-info">
+
+
+        <div class="payment-row">
+
+            <span>
+                Pembayaran Terakhir
+            </span>
+
+            <span id="pembayaranTerakhir">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span>
+                Status
+            </span>
+
+            <span>
+
+                <span
+                    class="badge"
+                    id="statusPembayaran">
+
+                    Belum Ada
+
+                </span>
+
+            </span>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     NOTIFIKASI
+========================= -->
+
+<div class="card">
+
+    <h2>
+        🔔 Notifikasi
+    </h2>
+
+
+    <div class="notification">
+
+
+        <div>
+
+            <div
+                class="notification-title"
+                id="notifTitle">
+
+                Tidak ada notifikasi baru.
+
+            </div>
+
+
+            <div
+                class="notification-message"
+                id="notifMessage">
+
+                Semua aktivitas telah diproses.
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="notification-badge"
+            id="notifBadge"
+            style="display:none;">
+
+            0
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     AKTIVITAS ADMIN
+========================= -->
+
+<div class="card">
+
+    <h2>
+        📋 Aktivitas Terbaru
+    </h2>
+
+
+    <div id="aktivitasTerbaru">
+
+        <div class="empty">
+
+            Belum ada aktivitas.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<div class="footer">
+
+    KUR Digital Admin<br>
+
+    © 2026 KUR Digital
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function rupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   AMBIL ARRAY LOCAL STORAGE
+========================= */
+
+function ambilArray(key){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(key)
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }catch(e){
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =========================
+   AMBIL PEMBAYARAN
+========================= */
+
+function ambilPembayaran(){
+
+    const keys = [
+
+        "pembayaranAngsuran",
+
+        "pembayaran",
+
+        "pembayaranMasuk"
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < keys.length;
+        i++
+    ){
+
+        const data =
+            ambilArray(keys[i]);
+
+
+        if(data.length > 0){
+
+            return data;
+
+        }
+
+    }
+
+
+    return [];
+
+}
+
+
+
+/* =========================
+   LOAD STATISTIK
+========================= */
+
+function loadStatistik(){
+
+    const pengajuan =
+        ambilArray(
+            "pengajuan"
+        );
+
+
+    const pembayaran =
+        ambilPembayaran();
+
+
+    document.getElementById(
+        "totalPengajuan"
+    ).innerHTML =
+        pengajuan.length;
+
+
+    const pengajuanMenunggu =
+        pengajuan.filter(function(item){
+
+            const status =
+                String(
+                    item.status || ""
+                ).toLowerCase();
+
+
+            return (
+                status.includes("menunggu") ||
+                status.includes("diproses") ||
+                status === ""
+            );
+
+        }).length;
+
+
+    document.getElementById(
+        "pengajuanMenunggu"
+    ).innerHTML =
+        pengajuanMenunggu;
+
+
+    document.getElementById(
+        "totalPembayaran"
+    ).innerHTML =
+        pembayaran.length;
+
+
+    const menunggu =
+        pembayaran.filter(function(item){
+
+            const status =
+                item.status || "";
+
+
+            return (
+                status ===
+                "Menunggu Verifikasi Admin"
+                ||
+                status ===
+                "Menunggu Verifikasi"
+                ||
+                !status
+            );
+
+        }).length;
+
+
+    document.getElementById(
+        "menungguPembayaran"
+    ).innerHTML =
+        menunggu;
+
+}
+
+
+
+/* =========================
+   LOAD REKENING
+========================= */
+
+function loadRekening(){
+
+    let data = null;
+
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "pengaturanPembayaran"
+                )
+            );
+
+    }catch(e){
+
+        data = null;
+
+    }
+
+
+    if(
+        !data ||
+        typeof data !== "object"
+    ){
+
+        data = {
+
+            namaBank:
+                "BRI",
+
+            nomorRekening:
+                "0000 0000 0000",
+
+            namaPemilik:
+                "KUR Digital DEMO"
+
+        };
+
+    }
+
+
+    document.getElementById(
+        "bankAktif"
+    ).innerHTML =
+        data.namaBank || "-";
+
+
+    document.getElementById(
+        "rekeningAktif"
+    ).innerHTML =
+        data.nomorRekening || "-";
+
+
+    document.getElementById(
+        "pemilikAktif"
+    ).innerHTML =
+        data.namaPemilik || "-";
+
+}
+
+
+
+/* =========================
+   LOAD STATUS PEMBAYARAN
+========================= */
+
+function loadStatusPembayaran(){
+
+    const data =
+        ambilPembayaran();
+
+
+    if(data.length === 0){
+
+        document.getElementById(
+            "pembayaranTerakhir"
+        ).innerHTML =
+            "Belum ada pembayaran.";
+
+
+        return;
+
+    }
+
+
+    const item =
+        data[0];
+
+
+    document.getElementById(
+        "pembayaranTerakhir"
+    ).innerHTML =
+        item.nama ||
+        "Nasabah";
+
+
+    const status =
+        item.status ||
+        "Menunggu Verifikasi Admin";
+
+
+    const badge =
+        document.getElementById(
+            "statusPembayaran"
+        );
+
+
+    badge.innerHTML =
+        status;
+
+
+    badge.className =
+        "badge";
+
+
+    if(
+        status ===
+        "Pembayaran Berhasil Diverifikasi"
+        ||
+        status ===
+        "Disetujui"
+    ){
+
+        badge.classList.add(
+            "success"
+        );
+
+    }
+
+
+    if(
+        status ===
+        "Pembayaran Ditolak"
+        ||
+        status ===
+        "Ditolak"
+    ){
+
+        badge.classList.add(
+            "danger"
+        );
+
+    }
+
+}
+
+
+
+/* =========================
+   LOAD NOTIFIKASI
+========================= */
+
+function loadNotifikasi(){
+
+    const data =
+        ambilArray(
+            "notifikasiAdmin"
+        );
+
+
+    /*
+       Jika sistem lama memakai
+       key notifikasi, tetap dibaca.
+    */
+
+    let semua =
+        data;
+
+
+    if(
+        semua.length === 0
+    ){
+
+        semua =
+            ambilArray(
+                "notifikasi"
+            );
+
+    }
+
+
+    const belumDibaca =
+        semua.filter(function(item){
+
+            return item.dibaca !== true;
+
+        });
+
+
+    const badge =
+        document.getElementById(
+            "notifBadge"
+        );
+
+
+    if(
+        belumDibaca.length > 0
+    ){
+
+        badge.style.display =
+            "flex";
+
+        badge.innerHTML =
+            belumDibaca.length;
+
+
+        document.getElementById(
+            "notifTitle"
+        ).innerHTML =
+            belumDibaca[0].judul ||
+            "Notifikasi baru";
+
+
+        document.getElementById(
+            "notifMessage"
+        ).innerHTML =
+            belumDibaca[0].pesan ||
+            belumDibaca[0].message ||
+            "Ada aktivitas baru.";
+
+    }else{
+
+        badge.style.display =
+            "none";
+
+
+        if(semua.length > 0){
+
+            document.getElementById(
+                "notifTitle"
+            ).innerHTML =
+                semua[0].judul ||
+                "Tidak ada notifikasi baru.";
+
+
+            document.getElementById(
+                "notifMessage"
+            ).innerHTML =
+                semua[0].pesan ||
+                semua[0].message ||
+                "Semua aktivitas telah diproses.";
+
+        }
+
+    }
+
+}
+
+
+
+/* =========================
+   LOAD AKTIVITAS
+========================= */
+
+function loadAktivitas(){
+
+    const data =
+        ambilArray(
+            "riwayatAktivitas"
+        );
+
+
+    const tempat =
+        document.getElementById(
+            "aktivitasTerbaru"
+        );
+
+
+    if(data.length === 0){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                Belum ada aktivitas Admin.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const tampil =
+        data.slice(0,5);
+
+
+    tempat.innerHTML =
+        tampil.map(function(item){
+
+            return `
+
+                <div class="activity">
+
+                    <div class="activity-title">
+
+                        ${item.judul || "Aktivitas"}
+
+                    </div>
+
+                    <div class="activity-detail">
+
+                        ${item.detail || "-"}
+
+                    </div>
+
+                    <div class="activity-date">
+
+                        ${item.tanggal || "-"}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+
+/* =========================
+   LOGOUT ADMIN
+========================= */
+
+function logoutAdmin(){
+
+    const yakin =
+        confirm(
+            "Apakah Anda yakin ingin keluar dari Panel Admin?"
+        );
+
+
+    if(!yakin){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "adminLogin"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =========================
+   AUTO REFRESH
+========================= */
+
+function loadDashboardAdmin(){
+
+    loadStatistik();
+
+    loadRekening();
+
+    loadStatusPembayaran();
+
+    loadNotifikasi();
+
+    loadAktivitas();
+
+}
+
+
+loadDashboardAdmin();
+
+
+/*
+   Refresh otomatis setiap 5 detik.
+   Berguna ketika nasabah mengirim
+   pembayaran dari halaman lain.
+*/
+
+setInterval(
+    loadDashboardAdmin,
+    5000
+);
+
+
+</script>
+
+
+</body>
+
+</html>

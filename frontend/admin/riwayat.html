@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Riwayat Aktivitas - Admin</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#1f2937;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:22px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+.container{
+    padding:20px;
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+
+.activity{
+    display:flex;
+    gap:12px;
+    padding:16px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.activity:last-child{
+    border-bottom:none;
+}
+
+.icon{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#eef6ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+    flex-shrink:0;
+}
+
+.content{
+    flex:1;
+}
+
+.title{
+    font-weight:bold;
+    color:#0057B8;
+}
+
+.detail{
+    margin-top:5px;
+    line-height:1.5;
+    font-size:14px;
+    color:#555;
+}
+
+.date{
+    margin-top:7px;
+    color:#888;
+    font-size:11px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:35px 10px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.back{
+    background:#555;
+}
+
+.clear{
+    background:#dc2626;
+}
+
+.info{
+    background:#eef6ff;
+    color:#174a7c;
+    padding:14px;
+    border-radius:12px;
+    font-size:13px;
+    line-height:1.5;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>📊 Riwayat Aktivitas</h1>
+
+    <p>
+        Catatan aktivitas Admin KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<div class="card">
+
+    <div class="info">
+
+        Semua perubahan status,
+        pencairan saldo, dan aktivitas
+        administrasi akan ditampilkan
+        di halaman ini.
+
+    </div>
+
+</div>
+
+
+<div class="card">
+
+    <div id="daftarAktivitas">
+
+        <div class="empty">
+
+            Memuat riwayat...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+class="clear"
+onclick="hapusRiwayat()">
+
+    🗑 Hapus Riwayat
+
+</button>
+
+
+<button
+class="back"
+onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   ICON AKTIVITAS
+========================= */
+
+function iconAktivitas(judul){
+
+    judul =
+        String(judul || "")
+        .toLowerCase();
+
+
+    if(
+        judul.includes("saldo")
+    ){
+
+        return "💰";
+
+    }
+
+
+    if(
+        judul.includes("verifikasi")
+        ||
+        judul.includes("status")
+    ){
+
+        return "📋";
+
+    }
+
+
+    if(
+        judul.includes("notifikasi")
+    ){
+
+        return "🔔";
+
+    }
+
+
+    if(
+        judul.includes("dicairkan")
+    ){
+
+        return "💸";
+
+    }
+
+
+    if(
+        judul.includes("pengajuan")
+    ){
+
+        return "📝";
+
+    }
+
+
+    return "⚙️";
+
+}
+
+
+/* =========================
+   TAMPILKAN RIWAYAT
+========================= */
+
+function tampilkanRiwayat(){
+
+    const tempat =
+        document.getElementById(
+            "daftarAktivitas"
+        );
+
+
+    let data = [];
+
+
+    /*
+       Ambil riwayat aktivitas
+       utama terlebih dahulu.
+    */
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatAktivitas"
+                )
+            )
+            || [];
+
+    }catch(e){
+
+        data = [];
+
+    }
+
+
+    /*
+       Tambahkan riwayat status
+       jika belum masuk ke
+       riwayat aktivitas.
+    */
+
+    let statusData = [];
+
+
+    try{
+
+        statusData =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatStatus"
+                )
+            )
+            || [];
+
+    }catch(e){
+
+        statusData = [];
+
+    }
+
+
+    statusData.forEach(
+        function(item){
+
+            const sudahAda =
+                data.some(
+                    function(x){
+
+                        return (
+                            x.tanggal ===
+                            item.tanggal
+                            &&
+                            x.status ===
+                            item.status
+                        );
+
+                    }
+                );
+
+
+            if(!sudahAda){
+
+                data.push({
+
+                    judul:
+                        "Status Pengajuan",
+
+                    detail:
+                        "Status pengajuan "
+                        +
+                        (
+                            item.nama
+                            || "-"
+                        )
+                        +
+                        " berubah menjadi "
+                        +
+                        item.status
+                        +
+                        " (" +
+                        item.progress +
+                        "%).",
+
+                    tanggal:
+                        item.tanggal,
+
+                    status:
+                        item.status
+
+                });
+
+            }
+
+        }
+    );
+
+
+    /*
+       Urutkan berdasarkan
+       tanggal yang tersimpan.
+    */
+
+    data.sort(
+        function(a,b){
+
+            return (
+                String(b.tanggal)
+            )
+            .localeCompare(
+                String(a.tanggal)
+            );
+
+        }
+    );
+
+
+    if(data.length === 0){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                📊
+
+                <br><br>
+
+                Belum ada aktivitas.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    tempat.innerHTML =
+        data.map(
+            function(item){
+
+                return `
+
+                    <div class="activity">
+
+                        <div class="icon">
+
+                            ${
+                                iconAktivitas(
+                                    item.judul
+                                )
+                            }
+
+                        </div>
+
+
+                        <div class="content">
+
+                            <div class="title">
+
+                                ${
+                                    item.judul
+                                    || "Aktivitas Admin"
+                                }
+
+                            </div>
+
+
+                            <div class="detail">
+
+                                ${
+                                    item.detail
+                                    || "-"
+                                }
+
+                            </div>
+
+
+                            <div class="date">
+
+                                🕒
+                                ${
+                                    item.tanggal
+                                    || "-"
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================
+   HAPUS RIWAYAT
+========================= */
+
+function hapusRiwayat(){
+
+    const yakin =
+        confirm(
+            "Hapus seluruh riwayat aktivitas?"
+        );
+
+
+    if(!yakin){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "riwayatAktivitas"
+    );
+
+
+    localStorage.removeItem(
+        "riwayatStatus"
+    );
+
+
+    alert(
+        "Riwayat berhasil dihapus."
+    );
+
+
+    tampilkanRiwayat();
+
+}
+
+
+/* =========================
+   CEK LOGIN ADMIN
+========================= */
+
+if(
+    localStorage.getItem(
+        "adminLogin"
+    ) !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    tampilkanRiwayat();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

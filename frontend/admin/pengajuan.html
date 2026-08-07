@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Pengajuan KUR - Admin</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:22px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.title{
+    color:#0057B8;
+    margin-top:0;
+}
+
+.row{
+    padding:13px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.label{
+    color:#777;
+    font-size:13px;
+    margin-bottom:5px;
+}
+
+.value{
+    font-size:17px;
+    font-weight:bold;
+    word-break:break-word;
+}
+
+.status{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:20px;
+    background:#fff3cd;
+    color:#856404;
+    font-weight:bold;
+}
+
+.progress-box{
+    margin-top:15px;
+}
+
+.progress-bg{
+    width:100%;
+    height:18px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#0057B8;
+    color:white;
+    text-align:center;
+    line-height:18px;
+    font-size:11px;
+    transition:.3s;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
+
+.actions button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.btn20{
+    background:#6b7280;
+}
+
+.btn40{
+    background:#0057B8;
+}
+
+.btn60{
+    background:#f59e0b;
+}
+
+.btn80{
+    background:#7c3aed;
+}
+
+.btn100{
+    background:#16a34a;
+}
+
+.btnTolak{
+    background:#dc2626;
+}
+
+.back{
+    background:#555;
+}
+
+.reset{
+    background:#222;
+}
+
+.info{
+    background:#eef6ff;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    color:#174a7c;
+    line-height:1.5;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>Pengajuan KUR</h1>
+
+    <p>
+        Panel Admin KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<div class="card">
+
+<h2 class="title">
+Detail Pengajuan
+</h2>
+
+
+<div id="pengajuanData">
+
+    <div class="empty">
+        Memuat data pengajuan...
+    </div>
+
+</div>
+
+
+</div>
+
+
+<div class="card">
+
+<h2 class="title">
+Progress Pengajuan
+</h2>
+
+
+<div class="progress-box">
+
+<div class="progress-bg">
+
+<div
+class="progress-bar"
+id="progressBar">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="info" id="statusInfo">
+
+Memuat status...
+
+</div>
+
+
+</div>
+
+
+<div class="card">
+
+<h2 class="title">
+Update Status
+</h2>
+
+
+<div class="actions">
+
+
+<button
+class="btn20"
+onclick="ubahStatus(20,'Menunggu Verifikasi')">
+
+20% — Menunggu Verifikasi
+
+</button>
+
+
+<button
+class="btn40"
+onclick="ubahStatus(40,'Verifikasi Dokumen')">
+
+40% — Verifikasi Dokumen
+
+</button>
+
+
+<button
+class="btn60"
+onclick="ubahStatus(60,'Survey Lapangan')">
+
+60% — Survey Lapangan
+
+</button>
+
+
+<button
+class="btn80"
+onclick="ubahStatus(80,'Persetujuan Kredit')">
+
+80% — Persetujuan Kredit
+
+</button>
+
+
+<button
+class="btn100"
+onclick="ubahStatus(100,'Dana Dicairkan')">
+
+100% — Dana Dicairkan
+
+</button>
+
+
+<button
+class="btnTolak"
+onclick="ubahStatus(0,'Pengajuan Ditolak')">
+
+✕ Tolak Pengajuan
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+
+<button
+class="back"
+onclick="window.location.href='dashboard.html'">
+
+← Kembali ke Dashboard
+
+</button>
+
+
+<button
+class="reset"
+onclick="resetPengajuan()">
+
+Reset Pengajuan
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =================================
+   TAMPILKAN DATA PENGAJUAN
+================================= */
+
+function tampilkanPengajuan(){
+
+    const data =
+        localStorage.getItem("pengajuan");
+
+
+    const tempat =
+        document.getElementById(
+            "pengajuanData"
+        );
+
+
+    if(!data){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                Belum ada pengajuan KUR.
+
+            </div>
+
+        `;
+
+        document.getElementById(
+            "statusInfo"
+        ).innerHTML =
+            "Belum ada pengajuan.";
+
+        document.getElementById(
+            "progressBar"
+        ).style.width = "0%";
+
+        document.getElementById(
+            "progressBar"
+        ).innerHTML = "0%";
+
+        return;
+
+    }
+
+
+    let p;
+
+
+    try{
+
+        p = JSON.parse(data);
+
+    }catch(e){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                Data pengajuan tidak valid.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const pinjaman =
+        Number(p.pinjaman || 0);
+
+
+    const progress =
+        Number(
+            localStorage.getItem(
+                "progress"
+            )
+            || p.progress
+            || 20
+        );
+
+
+    const status =
+        localStorage.getItem("status")
+        ||
+        p.status
+        ||
+        "Menunggu Verifikasi";
+
+
+    tempat.innerHTML = `
+
+        <div class="row">
+
+            <div class="label">
+                Nomor Pengajuan
+            </div>
+
+            <div class="value">
+                KUR-20260001
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Nama Pemohon
+            </div>
+
+            <div class="value">
+                ${p.nama || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                NIK
+            </div>
+
+            <div class="value">
+                ${p.nik || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Nomor HP
+            </div>
+
+            <div class="value">
+                ${p.hp || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Alamat
+            </div>
+
+            <div class="value">
+                ${p.alamat || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Nama Usaha
+            </div>
+
+            <div class="value">
+                ${p.usaha || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Jenis Usaha
+            </div>
+
+            <div class="value">
+                ${p.jenisUsaha || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Lama Usaha
+            </div>
+
+            <div class="value">
+                ${p.lamaUsaha || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Penghasilan
+            </div>
+
+            <div class="value">
+                Rp ${Number(
+                    p.penghasilan || 0
+                ).toLocaleString("id-ID")}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Jumlah Pinjaman
+            </div>
+
+            <div class="value">
+                Rp ${pinjaman.toLocaleString("id-ID")}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Tenor
+            </div>
+
+            <div class="value">
+                ${p.tenor || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Status
+            </div>
+
+            <div class="value">
+
+                <span class="status">
+                    ${status}
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    tampilkanProgress(
+        progress,
+        status
+    );
+
+}
+
+
+/* =================================
+   TAMPILKAN PROGRESS
+================================= */
+
+function tampilkanProgress(
+    progress,
+    status
+){
+
+    const bar =
+        document.getElementById(
+            "progressBar"
+        );
+
+
+    bar.style.width =
+        progress + "%";
+
+
+    bar.innerHTML =
+        progress + "%";
+
+
+    document.getElementById(
+        "statusInfo"
+    ).innerHTML =
+
+        "<b>Status:</b> "
+        + status
+        + "<br><br>"
+        + "<b>Progress:</b> "
+        + progress
+        + "%";
+
+}
+
+
+/* =================================
+   UBAH STATUS
+================================= */
+
+function ubahStatus(
+    progress,
+    status
+){
+
+    const data =
+        localStorage.getItem(
+            "pengajuan"
+        );
+
+
+    if(!data){
+
+        alert(
+            "Belum ada pengajuan KUR."
+        );
+
+        return;
+
+    }
+
+
+    let p;
+
+
+    try{
+
+        p = JSON.parse(data);
+
+    }catch(e){
+
+        alert(
+            "Data pengajuan tidak valid."
+        );
+
+        return;
+
+    }
+
+
+    const statusLama =
+        localStorage.getItem(
+            "status"
+        )
+        ||
+        p.status
+        ||
+        "Menunggu Verifikasi";
+
+
+    /*
+       Jika status sama,
+       tidak perlu membuat
+       notifikasi baru.
+    */
+
+    if(
+        statusLama === status
+        &&
+        Number(
+            localStorage.getItem(
+                "progress"
+            )
+        ) === progress
+    ){
+
+        alert(
+            "Status sudah berada pada tahap tersebut."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       Simpan status
+    */
+
+    localStorage.setItem(
+        "status",
+        status
+    );
+
+
+    localStorage.setItem(
+        "progress",
+        progress
+    );
+
+
+    /*
+       Update data pengajuan
+    */
+
+    p.status =
+        status;
+
+
+    p.progress =
+        progress;
+
+
+    localStorage.setItem(
+        "pengajuan",
+        JSON.stringify(p)
+    );
+
+
+    /*
+       Jika 100%,
+       saldo pinjaman dicairkan.
+    */
+
+    if(progress === 100){
+
+        const saldoLama =
+            Number(
+                localStorage.getItem(
+                    "saldoPinjaman"
+                )
+                || 0
+            );
+
+
+        const jumlahPinjaman =
+            Number(
+                p.pinjaman
+                || 0
+            );
+
+
+        /*
+           Hindari menambahkan
+           pinjaman berkali-kali.
+        */
+
+        if(
+            !p.sudahDicairkan
+        ){
+
+            const saldoBaru =
+                saldoLama
+                +
+                jumlahPinjaman;
+
+
+            localStorage.setItem(
+                "saldoPinjaman",
+                saldoBaru
+            );
+
+
+            localStorage.setItem(
+                "saldo",
+                saldoBaru
+            );
+
+
+            p.sudahDicairkan =
+                true;
+
+
+            localStorage.setItem(
+                "pengajuan",
+                JSON.stringify(p)
+            );
+
+        }
+
+    }
+
+
+    /*
+       Buat notifikasi otomatis
+    */
+
+    buatNotifikasiStatus(
+        status,
+        progress
+    );
+
+
+    /*
+       Catat riwayat status
+    */
+
+    simpanRiwayatStatus(
+        status,
+        progress
+    );
+
+
+    tampilkanPengajuan();
+
+
+    alert(
+
+        "Status berhasil diubah.\n\n"
+
+        + status
+
+        + "\nProgress: "
+
+        + progress
+
+        + "%"
+
+        + "\n\nNotifikasi otomatis telah dikirim."
+
+    );
+
+}
+
+
+/* =================================
+   NOTIFIKASI OTOMATIS
+================================= */
+
+function buatNotifikasiStatus(
+    status,
+    progress
+){
+
+    let judul =
+        "";
+
+
+    let pesan =
+        "";
+
+
+    if(progress === 20){
+
+        judul =
+            "Pengajuan Diterima";
+
+
+        pesan =
+            "Pengajuan KUR Anda telah diterima "
+            +
+            "dan sedang menunggu proses verifikasi.";
+
+    }
+
+
+    else if(progress === 40){
+
+        judul =
+            "Verifikasi Dokumen";
+
+
+        pesan =
+            "Dokumen pengajuan KUR Anda sedang "
+            +
+            "dalam proses verifikasi.";
+
+    }
+
+
+    else if(progress === 60){
+
+        judul =
+            "Survey Lapangan";
+
+
+        pesan =
+            "Pengajuan KUR Anda telah masuk "
+            +
+            "tahap survey lapangan.";
+
+    }
+
+
+    else if(progress === 80){
+
+        judul =
+            "Persetujuan Kredit";
+
+
+        pesan =
+            "Pengajuan KUR Anda sedang dalam "
+            +
+            "proses persetujuan kredit.";
+
+    }
+
+
+    else if(progress === 100){
+
+        judul =
+            "Dana Dicairkan";
+
+
+        pesan =
+            "Selamat! Pengajuan KUR Anda telah "
+            +
+            "disetujui dan dana pinjaman telah "
+            +
+            "dicairkan.";
+
+    }
+
+
+    else if(progress === 0){
+
+        judul =
+            "Pengajuan Ditolak";
+
+
+        pesan =
+            "Mohon maaf, pengajuan KUR Anda "
+            +
+            "belum dapat disetujui.";
+
+    }
+
+
+    else{
+
+        judul =
+            status;
+
+
+        pesan =
+            "Status pengajuan KUR Anda telah "
+            +
+            "diperbarui menjadi "
+            +
+            status
+            +
+            ".";
+
+    }
+
+
+    let notifikasi =
+        [];
+
+
+    try{
+
+        notifikasi =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            )
+            || [];
+
+    }catch(e){
+
+        notifikasi = [];
+
+    }
+
+
+    notifikasi.unshift({
+
+        id:
+            Date.now(),
+
+        judul:
+            judul,
+
+        pesan:
+            pesan,
+
+        tanggal:
+            new Date()
+            .toLocaleString(
+                "id-ID"
+            ),
+
+        dibaca:
+            false
+
+    });
+
+
+    localStorage.setItem(
+        "notifikasi",
+        JSON.stringify(
+            notifikasi
+        )
+    );
+
+}
+
+
+/* =================================
+   RIWAYAT STATUS
+================================= */
+
+function simpanRiwayatStatus(
+    status,
+    progress
+){
+
+    let riwayat =
+        [];
+
+
+    try{
+
+        riwayat =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatStatus"
+                )
+            )
+            || [];
+
+    }catch(e){
+
+        riwayat = [];
+
+    }
+
+
+    const data =
+        localStorage.getItem(
+            "pengajuan"
+        );
+
+
+    let p =
+        {};
+
+
+    if(data){
+
+        try{
+
+            p =
+                JSON.parse(data);
+
+        }catch(e){
+
+            p = {};
+
+        }
+
+    }
+
+
+    riwayat.unshift({
+
+        tanggal:
+            new Date()
+            .toLocaleString(
+                "id-ID"
+            ),
+
+        nomor:
+            "KUR-20260001",
+
+        nama:
+            p.nama || "-",
+
+        pinjaman:
+            p.pinjaman || 0,
+
+        tenor:
+            p.tenor || "-",
+
+        status:
+            status,
+
+        progress:
+            progress
+
+    });
+
+
+    localStorage.setItem(
+        "riwayatStatus",
+        JSON.stringify(
+            riwayat
+        )
+    );
+
+}
+
+
+/* =================================
+   RESET PENGAJUAN
+================================= */
+
+function resetPengajuan(){
+
+    const yakin =
+        confirm(
+            "Apakah Anda yakin ingin menghapus pengajuan ini?"
+        );
+
+
+    if(!yakin){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "pengajuan"
+    );
+
+    localStorage.removeItem(
+        "status"
+    );
+
+    localStorage.removeItem(
+        "progress"
+    );
+
+    localStorage.removeItem(
+        "saldoPinjaman"
+    );
+
+    localStorage.removeItem(
+        "saldo"
+    );
+
+
+    alert(
+        "Data pengajuan berhasil direset."
+    );
+
+
+    tampilkanPengajuan();
+
+}
+
+
+/* =================================
+   CEK LOGIN ADMIN
+================================= */
+
+if(
+    localStorage.getItem(
+        "adminLogin"
+    ) !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    tampilkanPengajuan();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

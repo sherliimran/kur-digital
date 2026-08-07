@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Admin - KUR Digital</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#1f2937;
+}
+
+
+/* HEADER */
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:25px 20px 30px;
+    border-radius:0 0 28px 28px;
+}
+
+.header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:8px 0 0;
+    opacity:.9;
+}
+
+.admin-badge{
+    background:rgba(255,255,255,.18);
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+
+/* CONTAINER */
+
+.container{
+    padding:18px;
+    max-width:700px;
+    margin:auto;
+}
+
+
+/* WELCOME */
+
+.welcome{
+    margin-top:-5px;
+    background:white;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+    margin-bottom:18px;
+}
+
+.welcome h2{
+    margin:0;
+    color:#0057B8;
+    font-size:20px;
+}
+
+.welcome p{
+    margin:7px 0 0;
+    color:#666;
+}
+
+
+/* STATISTICS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    padding:17px;
+    border-radius:16px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+}
+
+.stat-icon{
+    font-size:25px;
+}
+
+.stat-number{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:7px;
+    color:#0057B8;
+}
+
+.stat-label{
+    font-size:13px;
+    color:#777;
+    margin-top:4px;
+}
+
+
+/* SECTION */
+
+.section-title{
+    font-size:18px;
+    margin:20px 2px 12px;
+}
+
+
+/* MENU */
+
+.menu{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.menu-card{
+    background:white;
+    border:none;
+    border-radius:17px;
+    padding:20px 12px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.menu-card:active{
+    transform:scale(.97);
+}
+
+.menu-icon{
+    font-size:30px;
+}
+
+.menu-title{
+    font-size:15px;
+    font-weight:bold;
+    margin-top:9px;
+}
+
+.menu-desc{
+    font-size:11px;
+    color:#777;
+    margin-top:5px;
+}
+
+
+/* PENGAJUAN TERBARU */
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:17px;
+    box-shadow:0 5px 15px rgba(0,0,0,.07);
+    margin-bottom:15px;
+}
+
+.detail-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+.detail-row:last-child{
+    border-bottom:none;
+}
+
+.detail-label{
+    color:#777;
+    font-size:13px;
+}
+
+.detail-value{
+    font-weight:bold;
+    text-align:right;
+    font-size:14px;
+}
+
+
+/* STATUS */
+
+.status{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:15px;
+    background:#fff3cd;
+    color:#856404;
+    font-size:12px;
+}
+
+
+/* PROGRESS */
+
+.progress-bg{
+    height:12px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:12px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#0057B8;
+    transition:.3s;
+}
+
+
+/* QUICK ACTION */
+
+.quick{
+    background:#eef6ff;
+    border-radius:17px;
+    padding:17px;
+    margin-top:18px;
+}
+
+.quick h3{
+    margin:0 0 8px;
+    color:#0057B8;
+}
+
+.quick p{
+    margin:0;
+    font-size:13px;
+    line-height:1.5;
+    color:#555;
+}
+
+
+/* LOGOUT */
+
+.logout{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#dc2626;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    color:#999;
+    font-size:11px;
+    padding:25px 10px;
+}
+
+
+/* BADGE */
+
+.badge{
+    display:inline-block;
+    min-width:20px;
+    padding:3px 6px;
+    border-radius:12px;
+    background:#dc2626;
+    color:white;
+    font-size:10px;
+    margin-left:5px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+    <div class="header-top">
+
+        <div>
+
+            <h1>Dashboard Admin</h1>
+
+            <p>KUR Digital</p>
+
+        </div>
+
+
+        <div class="admin-badge">
+
+            ADMIN
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- WELCOME -->
+
+<div class="welcome">
+
+    <h2>
+        Selamat Datang, Admin 👋
+    </h2>
+
+    <p>
+        Kelola pengajuan dan layanan
+        nasabah dari satu tempat.
+    </p>
+
+</div>
+
+
+
+<!-- STATISTIK -->
+
+<div class="stats">
+
+
+<div class="stat">
+
+    <div class="stat-icon">
+        📋
+    </div>
+
+    <div
+        class="stat-number"
+        id="jumlahPengajuan">
+
+        0
+
+    </div>
+
+    <div class="stat-label">
+
+        Pengajuan
+
+    </div>
+
+</div>
+
+
+
+<div class="stat">
+
+    <div class="stat-icon">
+        ⏳
+    </div>
+
+    <div
+        class="stat-number"
+        id="menunggu">
+
+        0
+
+    </div>
+
+    <div class="stat-label">
+
+        Menunggu
+
+    </div>
+
+</div>
+
+
+
+<div class="stat">
+
+    <div class="stat-icon">
+        💰
+    </div>
+
+    <div
+        class="stat-number"
+        id="saldo">
+
+        Rp 0
+
+    </div>
+
+    <div class="stat-label">
+
+        Saldo Pinjaman
+
+    </div>
+
+</div>
+
+
+
+<div class="stat">
+
+    <div class="stat-icon">
+        🔔
+    </div>
+
+    <div
+        class="stat-number"
+        id="notif">
+
+        0
+
+    </div>
+
+    <div class="stat-label">
+
+        Notifikasi Baru
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- MENU -->
+
+<h3 class="section-title">
+
+    Menu Administrasi
+
+</h3>
+
+
+<div class="menu">
+
+
+<button
+class="menu-card"
+onclick="window.location.href='pengajuan.html'">
+
+    <div class="menu-icon">
+        📋
+    </div>
+
+    <div class="menu-title">
+        Pengajuan KUR
+    </div>
+
+    <div class="menu-desc">
+        Kelola dan verifikasi pengajuan
+    </div>
+
+</button>
+
+
+
+<button
+class="menu-card"
+onclick="window.location.href='saldo.html'">
+
+    <div class="menu-icon">
+        💰
+    </div>
+
+    <div class="menu-title">
+        Kelola Saldo
+    </div>
+
+    <div class="menu-desc">
+        Tambah atau kurangi saldo
+    </div>
+
+</button>
+
+
+
+<button
+class="menu-card"
+onclick="window.location.href='notifikasi.html'">
+
+    <div class="menu-icon">
+        🔔
+    </div>
+
+    <div class="menu-title">
+        Notifikasi
+    </div>
+
+    <div class="menu-desc">
+        Kirim pesan ke nasabah
+    </div>
+
+</button>
+
+
+
+<button
+class="menu-card"
+onclick="window.location.href='riwayat.html'">
+
+    <div class="menu-icon">
+        📊
+    </div>
+
+    <div class="menu-title">
+        Riwayat Aktivitas
+    </div>
+
+    <div class="menu-desc">
+        Lihat aktivitas sistem
+    </div>
+
+</button>
+
+
+</div>
+
+
+
+<!-- PENGAJUAN TERBARU -->
+
+<h3 class="section-title">
+
+    Pengajuan Terbaru
+
+</h3>
+
+
+<div class="card">
+
+    <div
+        id="pengajuanTerbaru">
+
+        Belum ada pengajuan.
+
+    </div>
+
+</div>
+
+
+
+<!-- QUICK INFO -->
+
+<div class="quick">
+
+    <h3>
+        💡 Informasi Admin
+    </h3>
+
+    <p>
+
+        Periksa pengajuan secara berkala.
+        Setiap perubahan status akan
+        otomatis mengirimkan notifikasi
+        kepada nasabah.
+
+    </p>
+
+</div>
+
+
+
+<!-- LOGOUT -->
+
+<button
+class="logout"
+onclick="logoutAdmin()">
+
+    🚪 Keluar dari Admin
+
+</button>
+
+
+
+<div class="footer">
+
+    KUR Digital Admin Panel<br>
+
+    © 2026 KUR Digital
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function formatRupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   DASHBOARD STATISTIK
+========================= */
+
+function updateDashboard(){
+
+    /* PENGAJUAN */
+
+    const pengajuan =
+        localStorage.getItem(
+            "pengajuan"
+        );
+
+
+    let jumlah =
+        pengajuan ? 1 : 0;
+
+
+    document.getElementById(
+        "jumlahPengajuan"
+    ).innerHTML =
+        jumlah;
+
+
+
+    /* MENUNGGU */
+
+    let menunggu = 0;
+
+
+    if(pengajuan){
+
+        const status =
+            localStorage.getItem(
+                "status"
+            )
+            ||
+            "Menunggu Verifikasi";
+
+
+        if(
+            status ===
+            "Menunggu Verifikasi"
+        ){
+
+            menunggu = 1;
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "menunggu"
+    ).innerHTML =
+        menunggu;
+
+
+
+    /* SALDO */
+
+    const saldo =
+        Number(
+            localStorage.getItem(
+                "saldoPinjaman"
+            )
+            ||
+            localStorage.getItem(
+                "saldo"
+            )
+            ||
+            0
+        );
+
+
+    document.getElementById(
+        "saldo"
+    ).innerHTML =
+        formatRupiah(saldo);
+
+
+
+    /* NOTIFIKASI */
+
+    let notifikasi = [];
+
+
+    try{
+
+        notifikasi =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            )
+            || [];
+
+    }catch(e){
+
+        notifikasi = [];
+
+    }
+
+
+    const jumlahNotif =
+        notifikasi.filter(
+            function(item){
+
+                return item.dibaca
+                !== true;
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "notif"
+    ).innerHTML =
+        jumlahNotif;
+
+
+
+    tampilkanPengajuan();
+
+}
+
+
+
+/* =========================
+   PENGAJUAN TERBARU
+========================= */
+
+function tampilkanPengajuan(){
+
+    const tempat =
+        document.getElementById(
+            "pengajuanTerbaru"
+        );
+
+
+    const data =
+        localStorage.getItem(
+            "pengajuan"
+        );
+
+
+    if(!data){
+
+        tempat.innerHTML = `
+
+            <div style="
+                text-align:center;
+                color:#777;
+                padding:15px;
+            ">
+
+                📋<br><br>
+
+                Belum ada pengajuan KUR.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let p;
+
+
+    try{
+
+        p =
+            JSON.parse(data);
+
+    }catch(e){
+
+        tempat.innerHTML =
+            "Data pengajuan tidak valid.";
+
+        return;
+
+    }
+
+
+    const status =
+        localStorage.getItem(
+            "status"
+        )
+        ||
+        p.status
+        ||
+        "Menunggu Verifikasi";
+
+
+    const progress =
+        Number(
+            localStorage.getItem(
+                "progress"
+            )
+            ||
+            p.progress
+            ||
+            20
+        );
+
+
+    tempat.innerHTML = `
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Nama Nasabah
+            </div>
+
+            <div class="detail-value">
+                ${p.nama || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Jumlah Pinjaman
+            </div>
+
+            <div class="detail-value">
+
+                ${formatRupiah(
+                    p.pinjaman
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Tenor
+            </div>
+
+            <div class="detail-value">
+                ${p.tenor || "-"}
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Status
+            </div>
+
+            <div class="detail-value">
+
+                <span class="status">
+
+                    ${status}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div style="
+            margin-top:15px;
+            font-size:13px;
+            color:#777;
+        ">
+
+            Progress ${progress}%
+
+        </div>
+
+
+        <div class="progress-bg">
+
+            <div
+                class="progress-bar"
+                style="width:${progress}%">
+
+            </div>
+
+        </div>
+
+
+        <button
+            onclick="window.location.href='pengajuan.html'"
+            style="
+                width:100%;
+                margin-top:15px;
+                padding:12px;
+                border:none;
+                border-radius:10px;
+                background:#0057B8;
+                color:white;
+                font-weight:bold;
+            ">
+
+            Lihat Detail Pengajuan →
+
+        </button>
+
+    `;
+
+}
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logoutAdmin(){
+
+    const yakin =
+        confirm(
+            "Apakah Anda yakin ingin keluar?"
+        );
+
+
+    if(!yakin){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "adminLogin"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =========================
+   CEK LOGIN
+========================= */
+
+if(
+    localStorage.getItem(
+        "adminLogin"
+    ) !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    updateDashboard();
+
+}
+
+
+/* =========================
+   AUTO REFRESH
+========================= */
+
+setInterval(
+    updateDashboard,
+    3000
+);
+
+</script>
+
+
+</body>
+
+</html>

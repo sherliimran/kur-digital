@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Bayar Angsuran - KUR Digital</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#222;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:24px 20px;
+    border-radius:0 0 28px 28px;
+}
+
+.header h1{
+    margin:0;
+    font-size:26px;
+}
+
+.header p{
+    margin:8px 0 0;
+    font-size:15px;
+}
+
+.container{
+    padding:18px 15px 30px;
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    margin-top:15px;
+    padding:20px;
+    border-radius:22px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
+
+.card h2{
+    margin-top:0;
+    color:#0057B8;
+}
+
+.info-demo{
+    background:#fff7d6;
+    color:#735d0b;
+    padding:15px;
+    border-radius:14px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.warning{
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.angsuran-box{
+    text-align:center;
+    background:#eef5ff;
+    padding:20px;
+    border-radius:18px;
+}
+
+.angsuran-ke{
+    color:#666;
+    font-size:15px;
+}
+
+.angsuran-ke strong{
+    display:block;
+    color:#0057B8;
+    font-size:28px;
+    margin-top:6px;
+}
+
+.jumlah{
+    color:#0057B8;
+    font-size:30px;
+    font-weight:bold;
+    margin-top:12px;
+}
+
+.detail{
+    margin-top:18px;
+}
+
+.detail-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:13px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.detail-row:last-child{
+    border-bottom:none;
+}
+
+.detail-label{
+    color:#777;
+}
+
+.detail-value{
+    font-weight:bold;
+    text-align:right;
+}
+
+.rekening{
+    background:#f8fafc;
+    padding:18px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.rekening .bank{
+    color:#777;
+    font-size:14px;
+}
+
+.rekening .nomor{
+    font-size:25px;
+    font-weight:bold;
+    margin:8px 0;
+    color:#111;
+    letter-spacing:1px;
+}
+
+.rekening .nama{
+    font-weight:bold;
+    font-size:18px;
+}
+
+.form-group{
+    margin-top:18px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+input[type="file"]{
+    width:100%;
+    padding:13px;
+    border:1px solid #ccc;
+    border-radius:12px;
+    background:white;
+    font-size:14px;
+}
+
+.preview{
+    display:none;
+    margin-top:15px;
+    text-align:center;
+}
+
+.preview img{
+    max-width:100%;
+    max-height:250px;
+    border-radius:14px;
+    border:1px solid #ddd;
+}
+
+.preview-text{
+    color:#666;
+    font-size:13px;
+    margin-top:7px;
+}
+
+.status{
+    text-align:center;
+    padding:14px;
+    border-radius:14px;
+    background:#fff3cd;
+    color:#856404;
+    font-weight:bold;
+}
+
+.status.success{
+    background:#d1fae5;
+    color:#065f46;
+}
+
+.status.ditolak{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+button{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:14px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.kirim{
+    background:#0057B8;
+    margin-top:20px;
+}
+
+.kirim:disabled{
+    background:#9ca3af;
+}
+
+.back{
+    background:#555;
+    margin-top:15px;
+}
+
+.info-kirim{
+    margin-top:12px;
+    color:#777;
+    font-size:13px;
+    line-height:1.5;
+    text-align:center;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:20px 5px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💳 Bayar Angsuran</h1>
+
+    <p>
+        Pembayaran Angsuran KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- INFORMASI DEMO -->
+
+<div class="card">
+
+    <div class="info-demo">
+
+        <div class="warning">
+            ⚠️ Mode DEMO
+        </div>
+
+        Halaman ini hanya mensimulasikan
+        proses pembayaran angsuran.
+        Rekening pembayaran di bawah
+        bukan rekening bank sungguhan.
+
+    </div>
+
+
+    <h2>
+        Pembayaran Angsuran
+    </h2>
+
+
+    <div class="angsuran-box">
+
+        <div class="angsuran-ke">
+            Pembayaran
+        </div>
+
+        <strong id="angsuranKe">
+            Angsuran ke-1
+        </strong>
+
+
+        <div class="jumlah"
+             id="jumlahAngsuran">
+
+            Rp 0
+
+        </div>
+
+    </div>
+
+
+    <div class="detail">
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Nama Nasabah
+            </div>
+
+            <div
+                class="detail-value"
+                id="namaNasabah">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Nomor Pengajuan
+            </div>
+
+            <div
+                class="detail-value"
+                id="nomorPengajuan">
+
+                KUR-20260001
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Jatuh Tempo
+            </div>
+
+            <div
+                class="detail-value"
+                id="jatuhTempo">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <div class="detail-label">
+                Sisa Pinjaman
+            </div>
+
+            <div
+                class="detail-value"
+                id="sisaPinjaman">
+
+                Rp 0
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- REKENING PEMBAYARAN -->
+
+<div class="card">
+
+    <h2>
+        Rekening Pembayaran
+    </h2>
+
+
+    <div class="info-demo">
+
+        ⚠️ Ini adalah rekening <b>DEMO</b>
+        untuk simulasi aplikasi.
+        Jangan melakukan transfer uang
+        sungguhan ke rekening ini.
+
+    </div>
+
+
+    <div class="rekening">
+
+        <div class="bank">
+            Bank
+        </div>
+
+        <div class="nama">
+            BRI
+        </div>
+
+
+        <hr>
+
+
+        <div class="bank">
+            Nomor Rekening
+        </div>
+
+        <div class="nomor">
+            0000 0000 0000
+        </div>
+
+
+        <hr>
+
+
+        <div class="bank">
+            Atas Nama
+        </div>
+
+        <div class="nama">
+            KUR Digital DEMO
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- UPLOAD BUKTI -->
+
+<div class="card">
+
+    <h2>
+        Bukti Pembayaran
+    </h2>
+
+
+    <p>
+        Setelah melakukan pembayaran
+        secara DEMO, pilih bukti pembayaran
+        untuk dikirim kepada Admin.
+    </p>
+
+
+    <div class="form-group">
+
+        <label for="bukti">
+            Upload Bukti Pembayaran
+        </label>
+
+
+        <input
+            type="file"
+            id="bukti"
+            accept="image/*"
+            onchange="previewBukti()">
+
+
+    </div>
+
+
+    <div
+        class="preview"
+        id="preview">
+
+        <img
+            id="previewImage"
+            alt="Preview bukti pembayaran">
+
+        <div class="preview-text">
+            Preview bukti pembayaran
+        </div>
+
+    </div>
+
+
+    <button
+        class="kirim"
+        id="btnKirim"
+        onclick="kirimPembayaran()">
+
+        📤 Kirim Bukti Pembayaran
+
+    </button>
+
+
+    <div class="info-kirim">
+
+        Pembayaran akan masuk ke halaman
+        <b>Pembayaran Masuk</b> Admin untuk
+        diverifikasi.
+
+    </div>
+
+</div>
+
+
+
+<!-- STATUS PEMBAYARAN -->
+
+<div class="card">
+
+    <h2>
+        Status Pembayaran
+    </h2>
+
+
+    <div
+        class="status"
+        id="statusPembayaran">
+
+        Belum ada pembayaran yang dikirim.
+
+    </div>
+
+</div>
+
+
+
+<button
+    class="back"
+    onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   FUNGSI RUPIAH
+========================= */
+
+function rupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   DATA PINJAMAN
+========================= */
+
+function ambilDataPinjaman(){
+
+    let data = null;
+
+
+    try{
+
+        const raw =
+            localStorage.getItem(
+                "pengajuan"
+            );
+
+
+        if(raw){
+
+            data =
+                JSON.parse(raw);
+
+        }
+
+    }catch(e){
+
+        data = null;
+
+    }
+
+
+    return data;
+
+}
+
+
+
+/* =========================
+   HITUNG ANGSURAN
+========================= */
+
+function hitungAngsuran(data){
+
+    if(!data){
+
+        return 0;
+
+    }
+
+
+    const pinjaman =
+        Number(
+            data.pinjaman || 0
+        );
+
+
+    const tenor =
+        Number(
+            data.tenor || 0
+        );
+
+
+    /* Jika sebelumnya sudah
+       mempunyai nominal angsuran */
+
+    if(
+        Number(data.angsuran || 0) > 0
+    ){
+
+        return Number(
+            data.angsuran
+        );
+
+    }
+
+
+    if(
+        pinjaman <= 0 ||
+        tenor <= 0
+    ){
+
+        return 0;
+
+    }
+
+
+    /*
+       Simulasi bunga 6% per tahun.
+       Ini hanya untuk DEMO.
+    */
+
+    const bunga =
+        pinjaman * 0.06 / 12;
+
+
+    const pokok =
+        pinjaman / tenor;
+
+
+    return Math.round(
+        pokok + bunga
+    );
+
+}
+
+
+
+/* =========================
+   FORMAT TANGGAL
+========================= */
+
+function formatTanggal(tanggal){
+
+    return new Date(
+        tanggal
+    ).toLocaleDateString(
+        "id-ID",
+        {
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+
+/* =========================
+   JATUH TEMPO
+========================= */
+
+function hitungJatuhTempo(){
+
+    const sekarang =
+        new Date();
+
+
+    /*
+       Jatuh tempo simulasi:
+       tanggal 7 setiap bulan.
+    */
+
+    let tahun =
+        sekarang.getFullYear();
+
+
+    let bulan =
+        sekarang.getMonth();
+
+
+    let tanggal =
+        7;
+
+
+    if(
+        sekarang.getDate() >= 7
+    ){
+
+        bulan++;
+
+        if(bulan > 11){
+
+            bulan = 0;
+            tahun++;
+
+        }
+
+    }
+
+
+    return new Date(
+        tahun,
+        bulan,
+        tanggal
+    );
+
+}
+
+
+
+/* =========================
+   TAMPILKAN DATA
+========================= */
+
+function tampilkanData(){
+
+    const data =
+        ambilDataPinjaman();
+
+
+    const nama =
+        localStorage.getItem(
+            "nama"
+        ) || "Nasabah";
+
+
+    document.getElementById(
+        "namaNasabah"
+    ).innerHTML =
+        nama;
+
+
+    if(!data){
+
+        document.getElementById(
+            "jumlahAngsuran"
+        ).innerHTML =
+            "Rp 0";
+
+
+        document.getElementById(
+            "sisaPinjaman"
+        ).innerHTML =
+            "Rp 0";
+
+
+        document.getElementById(
+            "statusPembayaran"
+        ).innerHTML =
+            "Belum ada data pinjaman.";
+
+
+        return;
+
+    }
+
+
+    const angsuran =
+        hitungAngsuran(data);
+
+
+    const pinjaman =
+        Number(
+            data.pinjaman || 0
+        );
+
+
+    const angsuranKe =
+        Number(
+            localStorage.getItem(
+                "angsuranKe"
+            ) || 1
+        );
+
+
+    /*
+       Hitung jumlah pembayaran
+       yang sudah diverifikasi.
+    */
+
+    const pembayaranLunas =
+        Number(
+            localStorage.getItem(
+                "totalAngsuranDibayar"
+            ) || 0
+        );
+
+
+    let sisa =
+        pinjaman -
+        pembayaranLunas;
+
+
+    if(sisa < 0){
+
+        sisa = 0;
+
+    }
+
+
+    document.getElementById(
+        "angsuranKe"
+    ).innerHTML =
+        "Angsuran ke-" +
+        angsuranKe;
+
+
+    document.getElementById(
+        "jumlahAngsuran"
+    ).innerHTML =
+        rupiah(angsuran);
+
+
+    document.getElementById(
+        "sisaPinjaman"
+    ).innerHTML =
+        rupiah(sisa);
+
+
+    document.getElementById(
+        "jatuhTempo"
+    ).innerHTML =
+        formatTanggal(
+            hitungJatuhTempo()
+        );
+
+
+    if(data.nomorPengajuan){
+
+        document.getElementById(
+            "nomorPengajuan"
+        ).innerHTML =
+            data.nomorPengajuan;
+
+    }
+
+
+    tampilkanStatus();
+
+}
+
+
+
+/* =========================
+   PREVIEW BUKTI
+========================= */
+
+function previewBukti(){
+
+    const input =
+        document.getElementById(
+            "bukti"
+        );
+
+
+    const preview =
+        document.getElementById(
+            "preview"
+        );
+
+
+    const image =
+        document.getElementById(
+            "previewImage"
+        );
+
+
+    if(
+        !input.files ||
+        !input.files[0]
+    ){
+
+        preview.style.display =
+            "none";
+
+        image.src = "";
+
+        return;
+
+    }
+
+
+    const file =
+        input.files[0];
+
+
+    if(
+        !file.type.startsWith(
+            "image/"
+        )
+    ){
+
+        alert(
+            "File harus berupa gambar."
+        );
+
+
+        input.value = "";
+
+        preview.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const reader =
+        new FileReader();
+
+
+    reader.onload =
+        function(e){
+
+            image.src =
+                e.target.result;
+
+            preview.style.display =
+                "block";
+
+        };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+
+/* =========================
+   KECILKAN FOTO
+========================= */
+
+function kecilkanFoto(file){
+
+    return new Promise(
+        function(resolve,reject){
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(e){
+
+                    const img =
+                        new Image();
+
+
+                    img.onload =
+                        function(){
+
+                            const max =
+                                900;
+
+
+                            let width =
+                                img.width;
+
+
+                            let height =
+                                img.height;
+
+
+                            if(
+                                width > max
+                            ){
+
+                                height =
+                                    height *
+                                    max /
+                                    width;
+
+                                width =
+                                    max;
+
+                            }
+
+
+                            if(
+                                height > max
+                            ){
+
+                                width =
+                                    width *
+                                    max /
+                                    height;
+
+                                height =
+                                    max;
+
+                            }
+
+
+                            const canvas =
+                                document.createElement(
+                                    "canvas"
+                                );
+
+
+                            canvas.width =
+                                width;
+
+
+                            canvas.height =
+                                height;
+
+
+                            const ctx =
+                                canvas.getContext(
+                                    "2d"
+                                );
+
+
+                            ctx.drawImage(
+                                img,
+                                0,
+                                0,
+                                width,
+                                height
+                            );
+
+
+                            resolve(
+                                canvas.toDataURL(
+                                    "image/jpeg",
+                                    0.7
+                                )
+                            );
+
+                        };
+
+
+                    img.onerror =
+                        reject;
+
+
+                    img.src =
+                        e.target.result;
+
+                };
+
+
+            reader.onerror =
+                reject;
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+
+
+/* =========================
+   KIRIM PEMBAYARAN
+========================= */
+
+async function kirimPembayaran(){
+
+    const input =
+        document.getElementById(
+            "bukti"
+        );
+
+
+    if(
+        !input.files ||
+        !input.files[0]
+    ){
+
+        alert(
+            "Silakan pilih bukti pembayaran terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+
+    const data =
+        ambilDataPinjaman();
+
+
+    if(!data){
+
+        alert(
+            "Data pinjaman belum tersedia."
+        );
+
+        return;
+
+    }
+
+
+    const btn =
+        document.getElementById(
+            "btnKirim"
+        );
+
+
+    btn.disabled =
+        true;
+
+
+    btn.innerHTML =
+        "⏳ Menyimpan pembayaran...";
+
+
+    try{
+
+        const bukti =
+            await kecilkanFoto(
+                input.files[0]
+            );
+
+
+        const angsuran =
+            hitungAngsuran(data);
+
+
+        const angsuranKe =
+            Number(
+                localStorage.getItem(
+                    "angsuranKe"
+                ) || 1
+            );
+
+
+        const nama =
+            localStorage.getItem(
+                "nama"
+            ) || "Nasabah";
+
+
+        const pembayaran = {
+
+            id:
+                Date.now(),
+
+            nama:
+                nama,
+
+            nomorPengajuan:
+                data.nomorPengajuan ||
+                "KUR-20260001",
+
+            angsuranKe:
+                angsuranKe,
+
+            jumlah:
+                angsuran,
+
+            tanggal:
+                new Date()
+                .toLocaleString(
+                    "id-ID"
+                ),
+
+            rekening:
+                "0000 0000 0000",
+
+            bank:
+                "BRI",
+
+            atasNama:
+                "KUR Digital DEMO",
+
+            bukti:
+                bukti,
+
+            status:
+                "Menunggu Verifikasi",
+
+            diverifikasi:
+                false
+
+        };
+
+
+        /*
+           Ambil pembayaran
+           yang sudah ada.
+        */
+
+        let daftar = [];
+
+
+        try{
+
+            daftar =
+                JSON.parse(
+                    localStorage.getItem(
+                        "pembayaran"
+                    )
+                ) || [];
+
+        }catch(e){
+
+            daftar = [];
+
+        }
+
+
+        /*
+           Cegah pembayaran ganda
+           untuk angsuran yang sama
+           selama masih menunggu.
+        */
+
+        const sudahAda =
+            daftar.some(
+                function(item){
+
+                    return (
+                        item.angsuranKe ===
+                        angsuranKe
+                        &&
+                        (
+                            item.status ===
+                            "Menunggu Verifikasi"
+                            ||
+                            item.status ===
+                            "Terverifikasi"
+                        )
+                    );
+
+                }
+            );
+
+
+        if(sudahAda){
+
+            alert(
+                "Angsuran ke-" +
+                angsuranKe +
+                " sudah memiliki pembayaran."
+            );
+
+
+            btn.disabled =
+                false;
+
+
+            btn.innerHTML =
+                "📤 Kirim Bukti Pembayaran";
+
+
+            return;
+
+        }
+
+
+        daftar.unshift(
+            pembayaran
+        );
+
+
+        localStorage.setItem(
+            "pembayaran",
+            JSON.stringify(
+                daftar
+            )
+        );
+
+
+        /*
+           Status umum pembayaran.
+        */
+
+        localStorage.setItem(
+            "statusPembayaran",
+            "Menunggu Verifikasi"
+        );
+
+
+        /*
+           Status pengajuan tetap
+           tersimpan terpisah.
+        */
+
+        localStorage.setItem(
+            "aktivitasTerakhir",
+            "Bukti pembayaran angsuran ke-" +
+            angsuranKe +
+            " berhasil dikirim."
+        );
+
+
+        tampilkanStatus();
+
+
+        input.value = "";
+
+
+        document.getElementById(
+            "preview"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "previewImage"
+        ).src = "";
+
+
+        alert(
+            "Bukti pembayaran berhasil dikirim.\n\n" +
+            "Status: Menunggu Verifikasi Admin."
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+
+        alert(
+            "Pembayaran gagal disimpan. Silakan coba lagi."
+        );
+
+    }
+
+
+    btn.disabled =
+        false;
+
+
+    btn.innerHTML =
+        "📤 Kirim Bukti Pembayaran";
+
+}
+
+
+
+/* =========================
+   TAMPILKAN STATUS
+========================= */
+
+function tampilkanStatus(){
+
+    const tempat =
+        document.getElementById(
+            "statusPembayaran"
+        );
+
+
+    let daftar = [];
+
+
+    try{
+
+        daftar =
+            JSON.parse(
+                localStorage.getItem(
+                    "pembayaran"
+                )
+            ) || [];
+
+    }catch(e){
+
+        daftar = [];
+
+    }
+
+
+    const angsuranKe =
+        Number(
+            localStorage.getItem(
+                "angsuranKe"
+            ) || 1
+        );
+
+
+    const data =
+        daftar.find(
+            function(item){
+
+                return (
+                    item.angsuranKe ===
+                    angsuranKe
+                );
+
+            }
+        );
+
+
+    if(!data){
+
+        tempat.className =
+            "status";
+
+
+        tempat.innerHTML =
+            "Belum ada pembayaran yang dikirim.";
+
+        return;
+
+    }
+
+
+    if(
+        data.status ===
+        "Terverifikasi"
+    ){
+
+        tempat.className =
+            "status success";
+
+
+        tempat.innerHTML =
+            "✅ Pembayaran angsuran ke-" +
+            angsuranKe +
+            " sudah diverifikasi Admin.";
+
+        return;
+
+    }
+
+
+    if(
+        data.status ===
+        "Ditolak"
+    ){
+
+        tempat.className =
+            "status ditolak";
+
+
+        tempat.innerHTML =
+            "❌ Pembayaran ditolak Admin.";
+
+        return;
+
+    }
+
+
+    tempat.className =
+        "status";
+
+
+    tempat.innerHTML =
+        "⏳ Menunggu Verifikasi Admin";
+
+}
+
+
+
+/* =========================
+   JALANKAN
+========================= */
+
+tampilkanData();
+
+</script>
+
+
+</body>
+
+</html>

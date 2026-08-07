@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Status Pengajuan - KUR Digital</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="img/logo.png" width="90">
+
+<h1>Status Pengajuan</h1>
+
+<p>Cek perkembangan pengajuan KUR Anda</p>
+
+<div class="card">
+
+<h2 id="statusJudul">Menunggu Verifikasi</h2>
+
+<p><b>Nomor Pengajuan</b></p>
+<p id="nomor">KUR-20260001</p>
+
+<hr>
+
+<p><b>Nama Pemohon</b></p>
+<p id="nama"></p>
+
+<hr>
+
+<p><b>Jumlah Pinjaman</b></p>
+<p id="pinjaman"></p>
+
+<hr>
+
+<p><b>Tenor</b></p>
+<p id="tenor"></p>
+
+<hr>
+
+<p><b>Status</b></p>
+
+<div class="progress">
+
+<div class="progress-bar" id="progressBar">
+
+20%
+
+</div>
+
+</div>
+
+<p id="statusText">
+Menunggu Verifikasi Dokumen
+</p>
+
+</div>
+
+<button onclick="window.location.href='dashboard.html'">
+
+Kembali ke Dashboard
+
+</button>
+
+</div>
+
+<script>
+
+function updateStatus(progress){
+
+    let status = "";
+
+    if(progress == 20){
+        status = "Menunggu Verifikasi";
+    }else if(progress == 40){
+        status = "Verifikasi Dokumen";
+    }else if(progress == 60){
+        status = "Survey Lapangan";
+    }else if(progress == 80){
+        status = "Persetujuan Kredit";
+    }else{
+        status = "Dana Dicairkan";
+    }
+
+    document.getElementById("statusJudul").innerHTML = status;
+    document.getElementById("statusText").innerHTML = status;
+    document.getElementById("progressBar").style.width = progress + "%";
+    document.getElementById("progressBar").innerHTML = progress + "%";
+}
+
+let data = JSON.parse(localStorage.getItem("pengajuan"));
+
+if(data){
+
+    document.getElementById("nama").innerHTML = data.nama;
+
+    document.getElementById("pinjaman").innerHTML =
+    "Rp " + Number(data.pinjaman).toLocaleString("id-ID");
+
+    document.getElementById("tenor").innerHTML =
+    data.tenor;
+
+}
+
+let progress = Number(localStorage.getItem("progress")) || 20;
+
+updateStatus(progress);
+
+setInterval(function(){
+
+    progress = Number(localStorage.getItem("progress")) || 20;
+
+    if(progress < 100){
+
+        progress += 20;
+
+        localStorage.setItem("progress", progress);
+
+        updateStatus(progress);
+
+    }
+
+},5000);
+
+</script>
+
+</body>
+</html>

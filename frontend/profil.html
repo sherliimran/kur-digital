@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profil - KUR Digital</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f4f6fb;
+}
+
+.header{
+background:#0057B8;
+color:white;
+padding:30px 20px;
+text-align:center;
+border-radius:0 0 25px 25px;
+}
+
+.foto{
+width:100px;
+height:100px;
+border-radius:50%;
+background:white;
+display:block;
+margin:15px auto;
+padding:8px;
+}
+
+.card{
+width:90%;
+margin:20px auto;
+background:white;
+border-radius:15px;
+padding:20px;
+box-shadow:0 4px 15px rgba(0,0,0,.1);
+}
+
+.item{
+margin-bottom:18px;
+}
+
+.label{
+font-size:13px;
+color:#777;
+}
+
+.value{
+font-size:18px;
+font-weight:bold;
+margin-top:5px;
+color:#222;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+}
+
+.edit{
+background:#0057B8;
+color:white;
+}
+
+.kembali{
+background:#e5e5e5;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+<img src="img/logo.png" class="foto">
+
+<h2>Profil Saya</h2>
+
+<p>KUR Digital</p>
+
+</div>
+
+<div class="card">
+
+<div class="item">
+
+<div class="label">Nama Lengkap</div>
+
+<div class="value" id="nama"></div>
+
+</div>
+
+<div class="item">
+
+<div class="label">Email</div>
+
+<div class="value" id="email"></div>
+
+</div>
+
+<div class="item">
+
+<div class="label">Nomor HP</div>
+
+<div class="value" id="hp"></div>
+
+</div>
+
+<button class="btn edit">
+Edit Profil
+</button>
+
+<button class="btn kembali"
+onclick="window.location.href='dashboard.html'">
+Kembali ke Dashboard
+</button>
+
+</div>
+
+<script>
+
+document.getElementById("nama").innerHTML =
+localStorage.getItem("nama") || "-";
+
+document.getElementById("email").innerHTML =
+localStorage.getItem("email") || "-";
+
+document.getElementById("hp").innerHTML =
+localStorage.getItem("hp") || "-";
+
+</script>
+
+</body>
+</html>

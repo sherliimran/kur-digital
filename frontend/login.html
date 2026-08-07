@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - KUR Digital</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<button onclick="resetData()" style="margin-top:10px;background:red;color:white;padding:10px;border:none;border-radius:8px;">
+Reset Data
+</button>
+
+<script>
+function resetData(){
+    localStorage.clear();
+    alert("Semua data berhasil dihapus.");
+}
+</script>
+<div class="container">
+
+<img src="img/logo.png" width="90">
+
+<h1>Login</h1>
+
+<input
+type="email"
+id="email"
+placeholder="Masukkan Email">
+
+<input
+type="password"
+id="password"
+placeholder="Masukkan Password">
+
+<br><br>
+
+<button onclick="login()">
+Masuk
+</button>
+
+<p>
+Belum punya akun?
+<a href="daftar.html">Daftar</a>
+</p>
+
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

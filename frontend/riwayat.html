@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Riwayat Angsuran - KUR Digital</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:24px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:24px;
+}
+
+.header p{
+    margin:7px 0 0;
+    font-size:14px;
+}
+
+.container{
+    padding:15px;
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:15px;
+}
+
+
+/* =========================
+   RINGKASAN
+========================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.summary-box{
+    background:#f8fafc;
+    padding:15px;
+    border-radius:13px;
+}
+
+.summary-title{
+    color:#777;
+    font-size:12px;
+}
+
+.summary-value{
+    margin-top:7px;
+    font-size:17px;
+    font-weight:bold;
+    color:#0057B8;
+}
+
+
+/* =========================
+   ITEM RIWAYAT
+========================= */
+
+.angsuran{
+    padding:16px 0;
+    border-bottom:1px solid #e5e7eb;
+}
+
+.angsuran:last-child{
+    border-bottom:none;
+}
+
+.angsuran-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.angsuran-title{
+    font-weight:bold;
+    font-size:16px;
+}
+
+.angsuran-date{
+    font-size:12px;
+    color:#777;
+    margin-top:5px;
+}
+
+.angsuran-jumlah{
+    font-size:18px;
+    font-weight:bold;
+    color:#0057B8;
+    white-space:nowrap;
+}
+
+.detail{
+    margin-top:10px;
+    padding:10px;
+    background:#f8fafc;
+    border-radius:10px;
+    font-size:13px;
+    color:#555;
+}
+
+.status{
+    display:inline-block;
+    margin-top:8px;
+    padding:5px 9px;
+    border-radius:15px;
+    background:#dcfce7;
+    color:#166534;
+    font-size:11px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   KOSONG
+========================= */
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:35px 10px;
+    line-height:1.6;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:13px;
+    background:#0057B8;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.back{
+    background:#555;
+    margin-top:5px;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.info{
+    background:#eef6ff;
+    color:#174a7c;
+    padding:13px;
+    border-radius:11px;
+    font-size:13px;
+    line-height:1.5;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+    <h1>
+        📄 Riwayat Angsuran
+    </h1>
+
+    <p>
+        KUR Digital
+    </p>
+
+</div>
+
+
+
+<div class="container">
+
+
+<!-- =========================
+     RINGKASAN
+========================= -->
+
+<div class="card">
+
+    <h3>
+        Ringkasan Pinjaman
+    </h3>
+
+
+    <div class="summary">
+
+
+        <div class="summary-box">
+
+            <div class="summary-title">
+                Total Pinjaman
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalPinjaman">
+
+                Rp 0
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-box">
+
+            <div class="summary-title">
+                Sudah Dibayar
+            </div>
+
+            <div
+                class="summary-value"
+                id="totalDibayar">
+
+                Rp 0
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-box">
+
+            <div class="summary-title">
+                Sisa Pinjaman
+            </div>
+
+            <div
+                class="summary-value"
+                id="sisaPinjaman">
+
+                Rp 0
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-box">
+
+            <div class="summary-title">
+                Jumlah Pembayaran
+            </div>
+
+            <div
+                class="summary-value"
+                id="jumlahPembayaran">
+
+                0 Kali
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     INFORMASI
+========================= -->
+
+<div class="card">
+
+    <div class="info">
+
+        💡 Riwayat pembayaran akan otomatis
+        diperbarui ketika Admin mencatat
+        pembayaran angsuran Anda.
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     RIWAYAT
+========================= -->
+
+<div class="card">
+
+    <h3>
+        Riwayat Pembayaran
+    </h3>
+
+
+    <div id="daftarAngsuran">
+
+        <div class="empty">
+
+            Memuat riwayat pembayaran...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     KEMBALI
+========================= -->
+
+<button
+class="back"
+onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function rupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   LOAD RIWAYAT
+========================= */
+
+function loadRiwayat(){
+
+
+    /* =====================
+       TOTAL PINJAMAN
+    ===================== */
+
+    let totalPinjaman = 0;
+
+
+    const pengajuan =
+        localStorage.getItem(
+            "pengajuan"
+        );
+
+
+    if(pengajuan){
+
+        try{
+
+            const data =
+                JSON.parse(
+                    pengajuan
+                );
+
+
+            totalPinjaman =
+                Number(
+                    data.pinjaman || 0
+                );
+
+        }catch(e){
+
+            totalPinjaman = 0;
+
+        }
+
+    }
+
+
+    /* Jika tidak ada pengajuan */
+
+    if(totalPinjaman === 0){
+
+        totalPinjaman =
+            Number(
+                localStorage.getItem(
+                    "pinjaman"
+                ) || 0
+            );
+
+    }
+
+
+
+    /* =====================
+       DATA PEMBAYARAN
+    ===================== */
+
+    let pembayaran = [];
+
+
+    try{
+
+        pembayaran =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatAngsuran"
+                )
+            ) || [];
+
+    }catch(e){
+
+        pembayaran = [];
+
+    }
+
+
+
+    /* =====================
+       HITUNG TOTAL
+    ===================== */
+
+    let totalDibayar = 0;
+
+
+    pembayaran.forEach(
+        function(item){
+
+            totalDibayar +=
+                Number(
+                    item.jumlah || 0
+                );
+
+        }
+    );
+
+
+
+    const sisaPinjaman =
+        Math.max(
+            totalPinjaman -
+            totalDibayar,
+            0
+        );
+
+
+
+    /* =====================
+       TAMPILKAN RINGKASAN
+    ===================== */
+
+    document.getElementById(
+        "totalPinjaman"
+    ).innerHTML =
+        rupiah(
+            totalPinjaman
+        );
+
+
+    document.getElementById(
+        "totalDibayar"
+    ).innerHTML =
+        rupiah(
+            totalDibayar
+        );
+
+
+    document.getElementById(
+        "sisaPinjaman"
+    ).innerHTML =
+        rupiah(
+            sisaPinjaman
+        );
+
+
+    document.getElementById(
+        "jumlahPembayaran"
+    ).innerHTML =
+        pembayaran.length +
+        " Kali";
+
+
+
+    /* =====================
+       DAFTAR PEMBAYARAN
+    ===================== */
+
+    const tempat =
+        document.getElementById(
+            "daftarAngsuran"
+        );
+
+
+    if(
+        pembayaran.length === 0
+    ){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                💳
+
+                <br><br>
+
+                Belum ada pembayaran angsuran.
+
+                <br>
+
+                Riwayat pembayaran akan
+                muncul setelah Admin
+                mencatat angsuran.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+
+    /* =====================
+       TAMPILKAN DATA
+    ===================== */
+
+    tempat.innerHTML =
+        pembayaran.map(
+            function(item,index){
+
+                const jumlah =
+                    Number(
+                        item.jumlah || 0
+                    );
+
+
+                const sisa =
+                    Number(
+                        item.sisa ||
+                        Math.max(
+                            totalPinjaman -
+                            pembayaran
+                            .slice(
+                                0,
+                                index + 1
+                            )
+                            .reduce(
+                                function(total,p){
+
+                                    return total +
+                                        Number(
+                                            p.jumlah || 0
+                                        );
+
+                                },
+                                0
+                            ),
+                            0
+                        )
+                    );
+
+
+                const nomor =
+                    item.nomor ||
+                    "ANG-" +
+                    String(
+                        index + 1
+                    )
+                    .padStart(
+                        4,
+                        "0"
+                    );
+
+
+                const tanggal =
+                    item.tanggal ||
+                    "-";
+
+
+                return `
+
+                    <div class="angsuran">
+
+
+                        <div class="angsuran-header">
+
+
+                            <div>
+
+                                <div class="angsuran-title">
+
+                                    ${nomor}
+
+                                </div>
+
+
+                                <div class="angsuran-date">
+
+                                    📅 ${tanggal}
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="angsuran-jumlah">
+
+                                ${rupiah(jumlah)}
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            Sisa pinjaman setelah
+                            pembayaran:
+
+                            <strong>
+                                ${rupiah(sisa)}
+                            </strong>
+
+                            <br>
+
+
+                            <span class="status">
+
+                                ✓ Pembayaran Berhasil
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+
+/* =========================
+   JALANKAN
+========================= */
+
+loadRiwayat();
+
+
+</script>
+
+
+</body>
+
+</html>

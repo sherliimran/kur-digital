@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Notifikasi - KUR Digital</title>
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:22px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:15px;
+}
+
+.notif{
+    border-bottom:1px solid #ddd;
+    padding:16px 0;
+}
+
+.notif:last-child{
+    border-bottom:none;
+}
+
+.notif-title{
+    color:#0057B8;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.notif-message{
+    margin-top:8px;
+    line-height:1.5;
+    color:#444;
+}
+
+.notif-date{
+    margin-top:8px;
+    font-size:12px;
+    color:#888;
+}
+
+.baru{
+    display:inline-block;
+    background:#d32f2f;
+    color:white;
+    padding:4px 8px;
+    border-radius:10px;
+    font-size:11px;
+    margin-left:5px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:35px 10px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#0057B8;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>🔔 Notifikasi</h1>
+
+    <p>
+        Informasi terbaru dari KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<div class="card">
+
+    <div id="daftarNotifikasi">
+
+        <div class="empty">
+
+            Memuat notifikasi...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+onclick="window.location.href='dashboard.html'">
+
+← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+<script>
+
+
+function tampilkanNotifikasi(){
+
+    const tempat =
+        document.getElementById(
+            "daftarNotifikasi"
+        );
+
+
+    let data = [];
+
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            ) || [];
+
+    }catch(e){
+
+        data = [];
+
+    }
+
+
+    if(data.length === 0){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                🔔
+
+                <br><br>
+
+                Belum ada notifikasi.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    tempat.innerHTML =
+        data.map(function(item){
+
+            const label =
+                item.dibaca
+                ? ""
+                : `<span class="baru">BARU</span>`;
+
+
+            return `
+
+                <div
+                    class="notif"
+                    onclick="tandaiDibaca(${item.id})">
+
+
+                    <div class="notif-title">
+
+                        ${item.judul}
+
+                        ${label}
+
+                    </div>
+
+
+                    <div class="notif-message">
+
+                        ${item.pesan}
+
+                    </div>
+
+
+                    <div class="notif-date">
+
+                        ${item.tanggal}
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function tandaiDibaca(id){
+
+    let data = [];
+
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            ) || [];
+
+    }catch(e){
+
+        data = [];
+
+    }
+
+
+    data =
+        data.map(function(item){
+
+            if(item.id === id){
+
+                item.dibaca = true;
+
+            }
+
+            return item;
+
+        });
+
+
+    localStorage.setItem(
+        "notifikasi",
+        JSON.stringify(data)
+    );
+
+
+    tampilkanNotifikasi();
+
+}
+
+
+tampilkanNotifikasi();
+
+
+</script>
+
+
+</body>
+
+</html>

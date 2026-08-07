@@ -1,0 +1,14 @@
+node_modules/
+**/node_modules/
+
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+.env
+.env.*
+!.env.example
+
+*.log
+
+kur-digital-web.zip

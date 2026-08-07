@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Kelola Saldo - Admin</title>
+
+<link rel="stylesheet"
+href="../css/admin.css">
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#1f2937;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:22px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+.container{
+    padding:20px;
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+
+.title{
+    margin-top:0;
+    color:#0057B8;
+}
+
+.label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
+    margin-bottom:16px;
+}
+
+.saldo-box{
+    text-align:center;
+    padding:15px;
+    background:#eef6ff;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.saldo-label{
+    color:#666;
+    font-size:14px;
+}
+
+.saldo{
+    color:#0057B8;
+    font-size:28px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    margin-top:8px;
+    cursor:pointer;
+}
+
+.tambah{
+    background:#15803d;
+}
+
+.kurang{
+    background:#dc2626;
+}
+
+.back{
+    background:#555;
+}
+
+.info{
+    background:#f8fafc;
+    padding:13px;
+    border-radius:10px;
+    color:#666;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.status{
+    text-align:center;
+    color:#555;
+    font-size:13px;
+    margin-top:10px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💰 Kelola Saldo</h1>
+
+    <p>
+        Panel Admin KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- SALDO SAAT INI -->
+
+<div class="card">
+
+    <div class="saldo-box">
+
+        <div class="saldo-label">
+
+            Saldo Pinjaman Saat Ini
+
+        </div>
+
+        <div
+            class="saldo"
+            id="saldoTampil">
+
+            Rp 0
+
+        </div>
+
+    </div>
+
+
+    <div class="info">
+
+        Admin dapat menambahkan atau
+        mengurangi saldo pinjaman nasabah.
+        Setiap perubahan akan otomatis
+        dicatat dalam Riwayat Aktivitas.
+
+    </div>
+
+</div>
+
+
+
+<!-- FORM SALDO -->
+
+<div class="card">
+
+    <h2 class="title">
+
+        Ubah Saldo
+
+    </h2>
+
+
+    <label
+        class="label"
+        for="jumlah">
+
+        Jumlah
+
+    </label>
+
+
+    <input
+        type="number"
+        id="jumlah"
+        placeholder="Contoh: 5000000"
+        min="1">
+
+
+    <button
+        class="tambah"
+        onclick="ubahSaldo('tambah')">
+
+        ➕ Tambah Saldo
+
+    </button>
+
+
+    <button
+        class="kurang"
+        onclick="ubahSaldo('kurang')">
+
+        ➖ Kurangi Saldo
+
+    </button>
+
+
+    <div
+        class="status"
+        id="statusAksi">
+
+    </div>
+
+</div>
+
+
+
+<button
+    class="back"
+    onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function formatRupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   AMBIL SALDO
+========================= */
+
+function ambilSaldo(){
+
+    return Number(
+        localStorage.getItem(
+            "saldoPinjaman"
+        )
+        ||
+        localStorage.getItem(
+            "saldo"
+        )
+        ||
+        0
+    );
+
+}
+
+
+
+/* =========================
+   TAMPILKAN SALDO
+========================= */
+
+function tampilkanSaldo(){
+
+    const saldo =
+        ambilSaldo();
+
+
+    document.getElementById(
+        "saldoTampil"
+    ).innerHTML =
+        formatRupiah(saldo);
+
+}
+
+
+
+/* =========================
+   CATAT AKTIVITAS
+========================= */
+
+function catatAktivitas(
+    judul,
+    detail
+){
+
+    let riwayat = [];
+
+
+    try{
+
+        riwayat =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatAktivitas"
+                )
+            )
+            || [];
+
+    }catch(e){
+
+        riwayat = [];
+
+    }
+
+
+    riwayat.unshift({
+
+        id:
+            Date.now(),
+
+        judul:
+            judul,
+
+        detail:
+            detail,
+
+        tanggal:
+            new Date()
+            .toLocaleString(
+                "id-ID"
+            )
+
+    });
+
+
+    localStorage.setItem(
+        "riwayatAktivitas",
+        JSON.stringify(
+            riwayat
+        )
+    );
+
+}
+
+
+
+/* =========================
+   UBAH SALDO
+========================= */
+
+function ubahSaldo(aksi){
+
+    const input =
+        document.getElementById(
+            "jumlah"
+        );
+
+
+    const jumlah =
+        Number(
+            input.value
+        );
+
+
+    if(
+        !jumlah ||
+        jumlah <= 0
+    ){
+
+        alert(
+            "Masukkan jumlah saldo yang valid."
+        );
+
+        return;
+
+    }
+
+
+    const saldoLama =
+        ambilSaldo();
+
+
+    let saldoBaru;
+
+
+    if(
+        aksi === "tambah"
+    ){
+
+        saldoBaru =
+            saldoLama + jumlah;
+
+    }else{
+
+        if(
+            jumlah > saldoLama
+        ){
+
+            alert(
+                "Saldo tidak mencukupi untuk dikurangi."
+            );
+
+            return;
+
+        }
+
+
+        saldoBaru =
+            saldoLama - jumlah;
+
+    }
+
+
+    /*
+       Simpan saldo utama
+    */
+
+    localStorage.setItem(
+        "saldoPinjaman",
+        saldoBaru
+    );
+
+
+    /*
+       Simpan juga ke key saldo
+       agar kompatibel dengan
+       dashboard versi sebelumnya.
+    */
+
+    localStorage.setItem(
+        "saldo",
+        saldoBaru
+    );
+
+
+    /*
+       Catat aktivitas
+    */
+
+    if(
+        aksi === "tambah"
+    ){
+
+        catatAktivitas(
+
+            "Saldo Ditambahkan",
+
+            "Admin menambahkan " +
+            formatRupiah(jumlah) +
+            ". Saldo sekarang " +
+            formatRupiah(saldoBaru) +
+            "."
+
+        );
+
+    }else{
+
+        catatAktivitas(
+
+            "Saldo Dikurangi",
+
+            "Admin mengurangi " +
+            formatRupiah(jumlah) +
+            ". Saldo sekarang " +
+            formatRupiah(saldoBaru) +
+            "."
+
+        );
+
+    }
+
+
+    /*
+       Bersihkan input
+    */
+
+    input.value = "";
+
+
+    /*
+       Update tampilan
+    */
+
+    tampilkanSaldo();
+
+
+    document.getElementById(
+        "statusAksi"
+    ).innerHTML =
+
+        aksi === "tambah"
+
+        ? "✓ Saldo berhasil ditambahkan."
+
+        : "✓ Saldo berhasil dikurangi.";
+
+
+    alert(
+
+        aksi === "tambah"
+
+        ? "Saldo berhasil ditambahkan."
+
+        : "Saldo berhasil dikurangi."
+
+    );
+
+}
+
+
+
+/* =========================
+   CEK LOGIN ADMIN
+========================= */
+
+if(
+    localStorage.getItem(
+        "adminLogin"
+    ) !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    tampilkanSaldo();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

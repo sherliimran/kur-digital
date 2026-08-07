@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Verifikasi Pembayaran - Admin</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#222;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:25px 20px;
+    border-radius:0 0 28px 28px;
+}
+
+.header h1{
+    margin:0;
+    font-size:28px;
+}
+
+.header p{
+    margin:8px 0 0;
+    font-size:16px;
+}
+
+.container{
+    max-width:700px;
+    margin:auto;
+    padding:20px;
+}
+
+.info{
+    background:#eaf5ff;
+    color:#174a7c;
+    padding:18px;
+    border-radius:15px;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 5px 18px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.card h2{
+    color:#0057B8;
+    margin-top:0;
+}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:white;
+    padding:18px;
+    border-radius:17px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+
+.stat-title{
+    color:#777;
+    font-size:14px;
+}
+
+.stat-value{
+    color:#0057B8;
+    font-size:28px;
+    font-weight:bold;
+    margin-top:7px;
+}
+
+.payment{
+    border:1px solid #ddd;
+    border-radius:18px;
+    padding:18px;
+    margin-top:15px;
+}
+
+.payment-name{
+    color:#0057B8;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.row:last-child{
+    border-bottom:none;
+}
+
+.row span:first-child{
+    color:#777;
+}
+
+.row span:last-child{
+    font-weight:bold;
+    text-align:right;
+}
+
+.status{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:20px;
+    background:#fff3cd;
+    color:#856404;
+    font-size:13px;
+}
+
+.status.approved{
+    background:#d1fae5;
+    color:#166534;
+}
+
+.status.rejected{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.bukti{
+    background:#f8fafc;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    word-break:break-word;
+}
+
+.bukti-title{
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:18px;
+}
+
+button{
+    border:none;
+    padding:14px;
+    border-radius:12px;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.setujui{
+    background:#16a34a;
+}
+
+.tolak{
+    background:#dc2626;
+}
+
+.refresh{
+    width:100%;
+    background:#0057B8;
+    margin-bottom:20px;
+}
+
+.back{
+    width:100%;
+    background:#555;
+    margin-top:5px;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:40px 15px;
+}
+
+.warning{
+    background:#fff7d6;
+    color:#705d16;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+    line-height:1.5;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+    <h1>💳 Verifikasi Pembayaran</h1>
+
+    <p>
+        Panel Admin KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<div class="info">
+
+    Pembayaran yang dikirim nasabah akan muncul
+    di halaman ini. Admin dapat memeriksa kemudian
+    menyetujui atau menolak pembayaran.
+
+</div>
+
+
+<div class="warning">
+
+    ⚠️ <b>Mode DEMO</b><br>
+
+    Sistem ini hanya mensimulasikan proses
+    verifikasi pembayaran dan tidak terhubung
+    dengan sistem perbankan sungguhan.
+
+</div>
+
+
+<div class="stat-grid">
+
+    <div class="stat">
+
+        <div class="stat-title">
+            Total Pembayaran
+        </div>
+
+        <div
+            class="stat-value"
+            id="totalPembayaran">
+
+            0
+
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-title">
+            Menunggu Verifikasi
+        </div>
+
+        <div
+            class="stat-value"
+            id="menungguPembayaran">
+
+            0
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+    class="refresh"
+    onclick="tampilkanPembayaran()">
+
+    🔄 Refresh Pembayaran
+
+</button>
+
+
+<div class="card">
+
+    <h2>
+        Pembayaran Masuk
+    </h2>
+
+    <div id="daftarPembayaran">
+
+        <div class="empty">
+
+            Memuat pembayaran...
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<button
+    class="back"
+    onclick="window.location.href='dashboard.html'">
+
+    ← Kembali ke Dashboard
+
+</button>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   AMBIL DATA PEMBAYARAN
+========================= */
+
+function ambilPembayaran(){
+
+    let data = null;
+
+    const keys = [
+        "pembayaranAngsuran",
+        "pembayaran",
+        "pembayaranMasuk"
+    ];
+
+
+    for(let i = 0; i < keys.length; i++){
+
+        try{
+
+            const hasil =
+                JSON.parse(
+                    localStorage.getItem(
+                        keys[i]
+                    )
+                );
+
+
+            if(Array.isArray(hasil)){
+
+                data = hasil;
+
+                break;
+
+            }
+
+
+            if(hasil && typeof hasil === "object"){
+
+                data = [hasil];
+
+                break;
+
+            }
+
+        }catch(e){}
+
+    }
+
+
+    return data || [];
+
+}
+
+
+
+/* =========================
+   SIMPAN DATA PEMBAYARAN
+========================= */
+
+function simpanPembayaran(data){
+
+    localStorage.setItem(
+        "pembayaranAngsuran",
+        JSON.stringify(data)
+    );
+
+    /*
+       Simpan juga ke key lama agar
+       tetap kompatibel dengan halaman
+       yang sudah dibuat sebelumnya.
+    */
+
+    localStorage.setItem(
+        "pembayaran",
+        JSON.stringify(data)
+    );
+
+}
+
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function rupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+
+/* =========================
+   CATAT AKTIVITAS ADMIN
+========================= */
+
+function catatAktivitas(
+    judul,
+    detail
+){
+
+    let data = [];
+
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "riwayatAktivitas"
+                )
+            ) || [];
+
+    }catch(e){
+
+        data = [];
+
+    }
+
+
+    data.unshift({
+
+        id:Date.now(),
+
+        judul:judul,
+
+        detail:detail,
+
+        tanggal:
+            new Date()
+            .toLocaleString("id-ID")
+
+    });
+
+
+    localStorage.setItem(
+        "riwayatAktivitas",
+        JSON.stringify(data)
+    );
+
+}
+
+
+
+/* =========================
+   TAMPILKAN PEMBAYARAN
+========================= */
+
+function tampilkanPembayaran(){
+
+    const tempat =
+        document.getElementById(
+            "daftarPembayaran"
+        );
+
+
+    const data =
+        ambilPembayaran();
+
+
+    document.getElementById(
+        "totalPembayaran"
+    ).innerHTML =
+        data.length;
+
+
+    const menunggu =
+        data.filter(function(item){
+
+            return (
+                item.status ===
+                "Menunggu Verifikasi Admin"
+                ||
+                item.status ===
+                "Menunggu Verifikasi"
+                ||
+                !item.status
+            );
+
+        }).length;
+
+
+    document.getElementById(
+        "menungguPembayaran"
+    ).innerHTML =
+        menunggu;
+
+
+    if(data.length === 0){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                💳
+
+                <br><br>
+
+                <b>Belum ada pembayaran</b>
+
+                <br>
+
+                Pembayaran yang dikirim nasabah
+                akan muncul di sini.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    tempat.innerHTML =
+        data.map(function(item,index){
+
+            const nama =
+                item.nama ||
+                item.namaUser ||
+                item.nasabah ||
+                "Nasabah";
+
+
+            const angsuran =
+                item.angsuran ||
+                item.pembayaran ||
+                item.jenis ||
+                "Angsuran ke-1";
+
+
+            const jumlah =
+                Number(
+                    item.jumlah ||
+                    item.nominal ||
+                    item.amount ||
+                    0
+                );
+
+
+            const tanggal =
+                item.tanggal ||
+                item.waktu ||
+                "-";
+
+
+            const bukti =
+                item.bukti ||
+                item.file ||
+                item.namaFile ||
+                "Tidak ada bukti";
+
+
+            const status =
+                item.status ||
+                "Menunggu Verifikasi Admin";
+
+
+            let kelasStatus = "";
+
+            if(
+                status ===
+                "Pembayaran Berhasil Diverifikasi"
+                ||
+                status === "Disetujui"
+            ){
+
+                kelasStatus =
+                    "approved";
+
+            }
+
+
+            if(
+                status === "Pembayaran Ditolak"
+                ||
+                status === "Ditolak"
+            ){
+
+                kelasStatus =
+                    "rejected";
+
+            }
+
+
+            const menunggu =
+                status ===
+                "Menunggu Verifikasi Admin"
+                ||
+                status ===
+                "Menunggu Verifikasi"
+                ||
+                !item.status;
+
+
+            return `
+
+                <div class="payment">
+
+                    <div class="payment-name">
+
+                        👤 ${nama}
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            Pembayaran
+                        </span>
+
+                        <span>
+                            ${angsuran}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            Jumlah
+                        </span>
+
+                        <span>
+                            ${rupiah(jumlah)}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            Tanggal
+                        </span>
+
+                        <span>
+                            ${tanggal}
+                        </span>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <span>
+
+                            <span
+                                class="status ${kelasStatus}">
+
+                                ${status}
+
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="bukti">
+
+                        <div class="bukti-title">
+
+                            📎 Bukti Pembayaran
+
+                        </div>
+
+                        ${bukti}
+
+                    </div>
+
+
+                    ${
+                        menunggu
+                        ?
+                        `
+
+                        <div class="actions">
+
+                            <button
+                                class="setujui"
+                                onclick="setujuiPembayaran(${index})">
+
+                                ✓ Setujui
+
+                            </button>
+
+
+                            <button
+                                class="tolak"
+                                onclick="tolakPembayaran(${index})">
+
+                                ✕ Tolak
+
+                            </button>
+
+                        </div>
+
+                        `
+                        :
+                        ""
+                    }
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+
+/* =========================
+   SETUJUI PEMBAYARAN
+========================= */
+
+function setujuiPembayaran(index){
+
+    const konfirmasi =
+        confirm(
+            "Apakah pembayaran ini benar-benar ingin disetujui?"
+        );
+
+
+    if(!konfirmasi){
+
+        return;
+
+    }
+
+
+    const data =
+        ambilPembayaran();
+
+
+    if(!data[index]){
+
+        alert(
+            "Data pembayaran tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    const item =
+        data[index];
+
+
+    const jumlah =
+        Number(
+            item.jumlah ||
+            item.nominal ||
+            item.amount ||
+            0
+        );
+
+
+    /*
+       Status pembayaran
+    */
+
+    item.status =
+        "Pembayaran Berhasil Diverifikasi";
+
+
+    item.diverifikasi =
+        true;
+
+
+    item.tanggalVerifikasi =
+        new Date()
+        .toLocaleString("id-ID");
+
+
+    /*
+       Sisa pinjaman
+    */
+
+    const saldoLama =
+        Number(
+            localStorage.getItem(
+                "saldo"
+            ) || 0
+        );
+
+
+    const saldoBaru =
+        Math.max(
+            0,
+            saldoLama - jumlah
+        );
+
+
+    localStorage.setItem(
+        "saldo",
+        saldoBaru
+    );
+
+
+    /*
+       Tentukan angsuran berikutnya
+    */
+
+    let nomorAngsuran =
+        parseInt(
+            String(
+                item.angsuran ||
+                item.pembayaran ||
+                "Angsuran ke-1"
+            ).replace(
+                /\D/g,
+                ""
+            )
+        );
+
+
+    if(
+        isNaN(nomorAngsuran)
+    ){
+
+        nomorAngsuran = 1;
+
+    }
+
+
+    localStorage.setItem(
+        "angsuranTerakhir",
+        nomorAngsuran
+    );
+
+
+    localStorage.setItem(
+        "angsuranBerikutnya",
+        nomorAngsuran + 1
+    );
+
+
+    /*
+       Status dashboard
+    */
+
+    localStorage.setItem(
+        "statusPembayaranTerakhir",
+        "Pembayaran Berhasil Diverifikasi"
+    );
+
+
+    localStorage.setItem(
+        "pesanPembayaran",
+        "Pembayaran " +
+        "Angsuran ke-" +
+        nomorAngsuran +
+        " telah berhasil diverifikasi oleh Admin."
+    );
+
+
+    /*
+       Simpan kembali
+    */
+
+    simpanPembayaran(data);
+
+
+    /*
+       Catat aktivitas
+    */
+
+    catatAktivitas(
+        "Pembayaran Disetujui",
+        "Pembayaran " +
+        (item.angsuran || "Angsuran ke-" + nomorAngsuran) +
+        " sebesar " +
+        rupiah(jumlah) +
+        " telah disetujui."
+    );
+
+
+    tampilkanPembayaran();
+
+
+    alert(
+        "Pembayaran berhasil disetujui.\n\n" +
+        "Sisa pinjaman sekarang: " +
+        rupiah(saldoBaru)
+    );
+
+}
+
+
+
+/* =========================
+   TOLAK PEMBAYARAN
+========================= */
+
+function tolakPembayaran(index){
+
+    const alasan =
+        prompt(
+            "Masukkan alasan penolakan pembayaran:"
+        );
+
+
+    if(
+        alasan === null
+        ||
+        alasan.trim() === ""
+    ){
+
+        return;
+
+    }
+
+
+    const data =
+        ambilPembayaran();
+
+
+    if(!data[index]){
+
+        alert(
+            "Data pembayaran tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    const item =
+        data[index];
+
+
+    item.status =
+        "Pembayaran Ditolak";
+
+
+    item.diverifikasi =
+        false;
+
+
+    item.alasanPenolakan =
+        alasan.trim();
+
+
+    item.tanggalVerifikasi =
+        new Date()
+        .toLocaleString("id-ID");
+
+
+    localStorage.setItem(
+        "statusPembayaranTerakhir",
+        "Pembayaran Ditolak"
+    );
+
+
+    localStorage.setItem(
+        "pesanPembayaran",
+        "Pembayaran ditolak oleh Admin. Alasan: " +
+        alasan.trim()
+    );
+
+
+    simpanPembayaran(data);
+
+
+    catatAktivitas(
+        "Pembayaran Ditolak",
+        "Pembayaran " +
+        (item.angsuran || "angsuran") +
+        " ditolak. Alasan: " +
+        alasan.trim()
+    );
+
+
+    tampilkanPembayaran();
+
+
+    alert(
+        "Pembayaran telah ditolak."
+    );
+
+}
+
+
+
+/* =========================
+   CEK LOGIN ADMIN
+========================= */
+
+if(
+    localStorage.getItem(
+        "adminLogin"
+    ) !== "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}else{
+
+    tampilkanPembayaran();
+
+}
+
+</script>
+
+
+</body>
+
+</html>

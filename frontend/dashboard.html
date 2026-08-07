@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard - KUR Digital</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f1f5f9;
+    color:#222;
+}
+
+.header{
+    background:#0057B8;
+    color:white;
+    padding:25px 20px;
+    border-radius:0 0 25px 25px;
+}
+
+.header h2{
+    margin:0;
+    font-size:24px;
+}
+
+.header h3{
+    margin:8px 0 5px;
+    font-size:20px;
+}
+
+.header p{
+    margin:0;
+    opacity:.9;
+}
+
+.container{
+    padding:0 15px 30px;
+    max-width:700px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    margin-top:15px;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.card h3{
+    margin-top:0;
+    color:#0057B8;
+}
+
+
+/* =========================
+   SALDO
+========================= */
+
+.saldo-label{
+    color:#777;
+    font-size:14px;
+}
+
+.saldo{
+    font-size:30px;
+    font-weight:bold;
+    color:#0057B8;
+    margin:10px 0;
+}
+
+.status-badge{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    background:#fff3cd;
+    color:#856404;
+    font-weight:bold;
+    font-size:13px;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress{
+    width:100%;
+    height:12px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:12px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:#0057B8;
+    transition:width .5s ease;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-top:8px;
+    font-size:13px;
+    color:#666;
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:15px;
+}
+
+.summary-box{
+    background:#f8fafc;
+    padding:14px;
+    border-radius:12px;
+}
+
+.summary-title{
+    color:#777;
+    font-size:12px;
+}
+
+.summary-value{
+    font-weight:bold;
+    margin-top:6px;
+    word-break:break-word;
+}
+
+
+/* =========================
+   PEMBAYARAN
+========================= */
+
+.payment-card{
+    background:#eef6ff;
+    border:1px solid #cfe3ff;
+}
+
+.payment-card h3{
+    margin-bottom:8px;
+}
+
+.payment-card p{
+    color:#555;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.payment-summary{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin:15px 0;
+}
+
+.payment-summary-box{
+    background:white;
+    padding:13px;
+    border-radius:12px;
+}
+
+.payment-summary-title{
+    color:#777;
+    font-size:12px;
+}
+
+.payment-summary-value{
+    color:#0057B8;
+    font-size:18px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.payment-button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#0057B8;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.history-button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#0057B8;
+    border:1px solid #0057B8;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+
+/* =========================
+   STATUS PEMBAYARAN
+========================= */
+
+.payment-status{
+    padding:12px;
+    border-radius:12px;
+    margin-top:12px;
+    background:#fff3cd;
+    color:#856404;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.payment-status.success{
+    background:#d1fae5;
+    color:#166534;
+}
+
+.payment-status.failed{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+
+/* =========================
+   NOTIFIKASI
+========================= */
+
+.notification{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#eef5ff;
+    border-left:5px solid #0057B8;
+    padding:14px;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.notification-text{
+    flex:1;
+}
+
+.notification-title{
+    font-weight:bold;
+}
+
+.notification-message{
+    font-size:13px;
+    margin-top:5px;
+    color:#555;
+}
+
+.badge{
+    min-width:24px;
+    height:24px;
+    padding:0 6px;
+    border-radius:50%;
+    background:#d32f2f;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    font-weight:bold;
+    margin-left:10px;
+}
+
+
+/* =========================
+   MENU
+========================= */
+
+.menu{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:15px;
+}
+
+.menu button{
+    padding:18px 10px;
+    border:none;
+    border-radius:15px;
+    background:#0057B8;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+    min-height:85px;
+}
+
+.menu button:active{
+    transform:scale(.97);
+}
+
+
+/* =========================
+   INFORMASI
+========================= */
+
+.info-item{
+    padding:9px 0;
+    border-bottom:1px solid #eee;
+}
+
+.info-item:last-child{
+    border-bottom:none;
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout{
+    margin-top:20px;
+}
+
+.logout button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#d32f2f;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    color:#777;
+    font-size:14px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:450px){
+
+    .payment-summary{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+    <h2>
+        Selamat Datang
+    </h2>
+
+    <h3 id="namaUser">
+        Nasabah
+    </h3>
+
+    <p>
+        KUR Digital
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- =========================
+     SALDO PINJAMAN
+========================= -->
+
+<div class="card">
+
+    <div class="saldo-label">
+        Sisa Pinjaman
+    </div>
+
+    <div
+        class="saldo"
+        id="saldoPinjaman">
+
+        Rp 0
+
+    </div>
+
+
+    <span
+        class="status-badge"
+        id="statusBadge">
+
+        Belum Mengajukan
+
+    </span>
+
+</div>
+
+
+<!-- =========================
+     STATUS PENGAJUAN
+========================= -->
+
+<div class="card">
+
+    <h3>
+        Status Pengajuan
+    </h3>
+
+    <p>
+        Progress pengajuan Anda
+    </p>
+
+
+    <div class="progress">
+
+        <div
+            class="progress-bar"
+            id="progressBar">
+
+        </div>
+
+    </div>
+
+
+    <div class="progress-info">
+
+        <span id="statusText">
+            Belum ada pengajuan
+        </span>
+
+        <span id="progressText">
+            0%
+        </span>
+
+    </div>
+
+
+    <div class="summary">
+
+
+        <div class="summary-box">
+
+            <div class="summary-title">
+                Nomor Pengajuan
+            </div>
+
+            <div
+                class="summary-value"
+                id="nomorPengajuan">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-box">
+
+            <div class="summary-title">
+                Jumlah Pinjaman
+            </div>
+
+            <div
+                class="summary-value"
+                id="jumlahPengajuan">
+
+                -
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PEMBAYARAN ANGSURAN
+========================= -->
+
+<div class="card payment-card">
+
+    <h3>
+        💳 Pembayaran Angsuran
+    </h3>
+
+    <p>
+        Pantau pembayaran angsuran Anda,
+        lihat jumlah yang harus dibayar,
+        dan kirim bukti pembayaran.
+    </p>
+
+
+    <div class="payment-summary">
+
+
+        <div class="payment-summary-box">
+
+            <div class="payment-summary-title">
+                Angsuran Berikutnya
+            </div>
+
+            <div
+                class="payment-summary-value"
+                id="dashboardAngsuran">
+
+                Ke-1
+
+            </div>
+
+        </div>
+
+
+        <div class="payment-summary-box">
+
+            <div class="payment-summary-title">
+                Jumlah
+            </div>
+
+            <div
+                class="payment-summary-value"
+                id="dashboardJumlahAngsuran">
+
+                Rp 0
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div
+        class="payment-status"
+        id="dashboardStatusPembayaran">
+
+        Belum ada pembayaran.
+
+    </div>
+
+
+    <button
+        class="payment-button"
+        onclick="bukaBayarAngsuran()">
+
+        💳 Bayar Angsuran
+
+    </button>
+
+
+    <button
+        class="history-button"
+        onclick="bukaRiwayatPembayaran()">
+
+        📋 Riwayat Pembayaran
+
+    </button>
+
+</div>
+
+
+<!-- =========================
+     NOTIFIKASI
+========================= -->
+
+<div class="card">
+
+    <div
+        class="notification"
+        onclick="window.location.href='notifikasi.html'">
+
+
+        <div class="notification-text">
+
+            <div class="notification-title">
+
+                🔔 Notifikasi
+
+            </div>
+
+            <div
+                class="notification-message"
+                id="notifPreview">
+
+                Tidak ada notifikasi baru.
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="badge"
+            id="notifBadge"
+            style="display:none;">
+
+            0
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     MENU LAYANAN
+========================= -->
+
+<div class="card">
+
+    <h3>
+        Layanan KUR Digital
+    </h3>
+
+
+    <div class="menu">
+
+
+        <button
+            onclick="window.location.href='pengajuan.html'">
+
+            📝<br>
+            Ajukan KUR
+
+        </button>
+
+
+        <button
+            onclick="window.location.href='status.html'">
+
+            📋<br>
+            Status
+
+        </button>
+
+
+        <button
+            onclick="window.location.href='riwayat.html'">
+
+            📄<br>
+            Riwayat
+
+        </button>
+
+
+        <button
+            onclick="window.location.href='profil.html'">
+
+            👤<br>
+            Profil
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     INFORMASI KUR
+========================= -->
+
+<div class="card">
+
+    <h3>
+        Informasi KUR
+    </h3>
+
+
+    <div class="info-item">
+        ✔ Bunga ringan mulai 6% per tahun
+    </div>
+
+
+    <div class="info-item">
+        ✔ Plafon hingga Rp500.000.000
+    </div>
+
+
+    <div class="info-item">
+        ✔ Tenor hingga 5 Tahun
+    </div>
+
+
+    <div class="info-item">
+        ✔ Proses mudah dan cepat
+    </div>
+
+</div>
+
+
+<!-- =========================
+     LOGOUT
+========================= -->
+
+<div class="logout">
+
+    <button
+        onclick="logout()">
+
+        Keluar
+
+    </button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   FORMAT RUPIAH
+========================= */
+
+function rupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+/* =========================
+   AMBIL DATA PEMBAYARAN
+========================= */
+
+function ambilPembayaran(){
+
+    let data = null;
+
+
+    const keys = [
+
+        "pembayaranAngsuran",
+
+        "pembayaran",
+
+        "pembayaranMasuk"
+
+    ];
+
+
+    for(
+        let i = 0;
+        i < keys.length;
+        i++
+    ){
+
+        try{
+
+            const hasil =
+                JSON.parse(
+                    localStorage.getItem(
+                        keys[i]
+                    )
+                );
+
+
+            if(
+                Array.isArray(hasil)
+            ){
+
+                data = hasil;
+
+                break;
+
+            }
+
+
+            if(
+                hasil &&
+                typeof hasil === "object"
+            ){
+
+                data = [hasil];
+
+                break;
+
+            }
+
+        }catch(e){}
+
+    }
+
+
+    return data || [];
+
+}
+
+
+/* =========================
+   AMBIL NOMOR ANGSURAN
+========================= */
+
+function ambilNomorAngsuran(item){
+
+    if(
+        item.angsuranKe
+    ){
+
+        return Number(
+            item.angsuranKe
+        );
+
+    }
+
+
+    const teks =
+        item.angsuran ||
+        item.pembayaran ||
+        "";
+
+
+    const hasil =
+        String(teks).match(
+            /\d+/
+        );
+
+
+    if(hasil){
+
+        return Number(
+            hasil[0]
+        );
+
+    }
+
+
+    return 1;
+
+}
+
+
+/* =========================
+   DATA STATUS PEMBAYARAN
+========================= */
+
+function loadPembayaranDashboard(){
+
+    const data =
+        ambilPembayaran();
+
+
+    let berikutnya =
+        Number(
+            localStorage.getItem(
+                "angsuranBerikutnya"
+            ) || 0
+        );
+
+
+    /*
+       Kalau angsuran berikutnya belum
+       tersimpan, hitung dari pembayaran
+       yang sudah diverifikasi.
+    */
+
+    if(
+        berikutnya <= 0
+    ){
+
+        let terbesar = 0;
+
+
+        data.forEach(
+            function(item){
+
+                const status =
+                    item.status || "";
+
+
+                if(
+
+                    status ===
+                    "Pembayaran Berhasil Diverifikasi"
+
+                    ||
+
+                    status ===
+                    "Disetujui"
+
+                    ||
+
+                    status ===
+                    "Terverifikasi"
+
+                ){
+
+                    const nomor =
+                        ambilNomorAngsuran(
+                            item
+                        );
+
+
+                    if(
+                        nomor > terbesar
+                    ){
+
+                        terbesar =
+                            nomor;
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        berikutnya =
+            terbesar + 1;
+
+
+        if(
+            terbesar === 0
+        ){
+
+            berikutnya = 1;
+
+        }
+
+    }
+
+
+    document.getElementById(
+        "dashboardAngsuran"
+    ).innerHTML =
+        "Ke-" +
+        berikutnya;
+
+
+    /*
+       Jumlah angsuran
+    */
+
+    let jumlah =
+        Number(
+            localStorage.getItem(
+                "jumlahAngsuran"
+            ) || 0
+        );
+
+
+    if(
+        jumlah <= 0
+    ){
+
+        jumlah = 2500000;
+
+    }
+
+
+    document.getElementById(
+        "dashboardJumlahAngsuran"
+    ).innerHTML =
+        rupiah(jumlah);
+
+
+    /*
+       Cari pembayaran terbaru
+    */
+
+    if(
+        data.length === 0
+    ){
+
+        setStatusPembayaran(
+            "Belum ada pembayaran.",
+            ""
+        );
+
+        return;
+
+    }
+
+
+    const terbaru =
+        data[0];
+
+
+    const status =
+        terbaru.status ||
+        "Menunggu Verifikasi Admin";
+
+
+    if(
+
+        status ===
+        "Pembayaran Berhasil Diverifikasi"
+
+        ||
+
+        status ===
+        "Disetujui"
+
+        ||
+
+        status ===
+        "Terverifikasi"
+
+    ){
+
+        const nomor =
+            ambilNomorAngsuran(
+                terbaru
+            );
+
+
+        setStatusPembayaran(
+
+            "✅ Angsuran ke-" +
+            nomor +
+            " telah diverifikasi Admin.",
+
+            "success"
+
+        );
+
+
+        return;
+
+    }
+
+
+    if(
+
+        status ===
+        "Pembayaran Ditolak"
+
+        ||
+
+        status ===
+        "Ditolak"
+
+    ){
+
+        setStatusPembayaran(
+
+            "❌ Pembayaran terakhir ditolak Admin.",
+
+            "failed"
+
+        );
+
+
+        return;
+
+    }
+
+
+    setStatusPembayaran(
+
+        "⏳ Pembayaran sedang menunggu verifikasi Admin.",
+
+        ""
+
+    );
+
+}
+
+
+/* =========================
+   STATUS PEMBAYARAN
+========================= */
+
+function setStatusPembayaran(
+    pesan,
+    kelas
+){
+
+    const element =
+        document.getElementById(
+            "dashboardStatusPembayaran"
+        );
+
+
+    element.innerHTML =
+        pesan;
+
+
+    element.className =
+        "payment-status";
+
+
+    if(kelas){
+
+        element.classList.add(
+            kelas
+        );
+
+    }
+
+}
+
+
+/* =========================
+   BUKA BAYAR
+========================= */
+
+function bukaBayarAngsuran(){
+
+    window.location.href =
+        "bayar-angsuran.html";
+
+}
+
+
+/* =========================
+   BUKA RIWAYAT PEMBAYARAN
+========================= */
+
+function bukaRiwayatPembayaran(){
+
+    window.location.href =
+        "riwayat-pembayaran.html";
+
+}
+
+
+/* =========================
+   LOAD DASHBOARD
+========================= */
+
+function loadDashboard(){
+
+    const nama =
+        localStorage.getItem(
+            "nama"
+        );
+
+
+    const saldo =
+        Number(
+            localStorage.getItem(
+                "saldo"
+            ) || 0
+        );
+
+
+    const status =
+        localStorage.getItem(
+            "status"
+        );
+
+
+    const progress =
+        Number(
+            localStorage.getItem(
+                "progress"
+            ) || 0
+        );
+
+
+    const pengajuan =
+        localStorage.getItem(
+            "pengajuan"
+        );
+
+
+    document.getElementById(
+        "namaUser"
+    ).innerHTML =
+        nama || "Nasabah";
+
+
+    document.getElementById(
+        "saldoPinjaman"
+    ).innerHTML =
+        rupiah(saldo);
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        progress + "%";
+
+
+    document.getElementById(
+        "progressText"
+    ).innerHTML =
+        progress + "%";
+
+
+    if(status){
+
+        document.getElementById(
+            "statusBadge"
+        ).innerHTML =
+            status;
+
+
+        document.getElementById(
+            "statusText"
+        ).innerHTML =
+            status;
+
+    }
+
+
+    if(pengajuan){
+
+        try{
+
+            const data =
+                JSON.parse(
+                    pengajuan
+                );
+
+
+            document.getElementById(
+                "nomorPengajuan"
+            ).innerHTML =
+                data.nomorPengajuan ||
+                "KUR-20260001";
+
+
+            document.getElementById(
+                "jumlahPengajuan"
+            ).innerHTML =
+                rupiah(
+                    data.pinjaman
+                );
+
+
+        }catch(e){
+
+            console.log(
+                "Data pengajuan tidak valid"
+            );
+
+        }
+
+    }
+
+
+    loadPembayaranDashboard();
+
+    loadNotifikasi();
+
+}
+
+
+/* =========================
+   NOTIFIKASI
+========================= */
+
+function loadNotifikasi(){
+
+    let data = [];
+
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            ) || [];
+
+    }catch(e){
+
+        data = [];
+
+    }
+
+
+    const belumDibaca =
+        data.filter(
+            function(item){
+
+                return item.dibaca !== true;
+
+            }
+        );
+
+
+    const badge =
+        document.getElementById(
+            "notifBadge"
+        );
+
+
+    const preview =
+        document.getElementById(
+            "notifPreview"
+        );
+
+
+    if(
+        belumDibaca.length > 0
+    ){
+
+        badge.style.display =
+            "flex";
+
+
+        badge.innerHTML =
+            belumDibaca.length;
+
+
+        preview.innerHTML =
+            belumDibaca[0].judul;
+
+    }else{
+
+        badge.style.display =
+            "none";
+
+
+        if(data.length > 0){
+
+            preview.innerHTML =
+                data[0].judul;
+
+        }else{
+
+            preview.innerHTML =
+                "Tidak ada notifikasi baru.";
+
+        }
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE OTOMATIS
+========================= */
+
+window.addEventListener(
+    "storage",
+    function(){
+
+        loadPembayaranDashboard();
+
+        loadNotifikasi();
+
+    }
+);
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+    if(
+        !confirm(
+            "Apakah Anda yakin ingin keluar?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        "login"
+    );
+
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* =========================
+   JALANKAN
+========================= */
+
+loadDashboard();
+
+</script>
+
+
+</body>
+
+</html>
