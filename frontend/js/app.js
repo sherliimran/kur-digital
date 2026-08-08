@@ -2298,55 +2298,37 @@ async function loadProfil(){
    NAVIGASI HALAMAN
    ========================================================= */
 
-function showPage(id){
-
-    /*
-       Untuk sistem halaman terpisah,
-       langsung arahkan berdasarkan nama.
-    */
+function showPage(id) {
 
     const pages = {
+        home: "dashboard.html",
+        dashboard: "dashboard.html",
 
-        home:
-            "dashboard.html",
+        ajukan: "pengajuan.html",
+        pengajuan: "pengajuan.html",
 
-        dashboard:
-            "dashboard.html",
+        status: "status.html",
 
-        ajukan:
-            "pengajuan.html",
+        bayar: "bayar.html",
 
-        pengajuan:
-            "pengajuan.html",
+        "riwayat-pembayaran": "riwayat-pembayaran.html",
 
-        status:
-            "status.html",
+        riwayat: "riwayat.html",
 
-        riwayat:
-            "riwayat.html",
+        notifikasi: "notifikasi.html",
 
-        pembayaran:
-            "bayar.html",
-
-        profil:
-            "profil.html",
-
-        notifikasi:
-            "notifikasi.html"
-
+        profil: "profil.html"
     };
 
-
-    if(
-        pages[id]
-    ){
-
-        window.location.href =
-            pages[id];
-
+    // Cek apakah halaman tersedia
+    if (!pages[id]) {
+        console.error("Halaman tidak ditemukan:", id);
         return;
-
     }
+
+    // Pindah ke halaman HTML
+    window.location.href = pages[id];
+}
 
 
     /*
