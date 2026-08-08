@@ -2302,17 +2302,23 @@ function showPage(id) {
 
     const pages = {
 
-        home: "dashboard.html",
+        home:
+            "dashboard.html",
 
-        dashboard: "dashboard.html",
+        dashboard:
+            "dashboard.html",
 
-        ajukan: "pengajuan.html",
+        ajukan:
+            "pengajuan.html",
 
-        pengajuan: "pengajuan.html",
+        pengajuan:
+            "pengajuan.html",
 
-        status: "status.html",
+        status:
+            "status.html",
 
-        bayar: "bayar.html",
+        bayar:
+            "bayar.html",
 
         "riwayat-pembayaran":
             "riwayat-pembayaran.html",
@@ -2329,10 +2335,6 @@ function showPage(id) {
     };
 
 
-    /*
-       Cek apakah halaman tersedia
-    */
-
     if (!pages[id]) {
 
         console.error(
@@ -2345,41 +2347,10 @@ function showPage(id) {
     }
 
 
-    /*
-       Pindah ke halaman
-    */
-
     window.location.href =
         pages[id];
 
 }
-
-    sections.forEach(
-        section => {
-
-            section.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    const target =
-        getElement(id);
-
-
-    if(target){
-
-        target.classList.add(
-            "active"
-        );
-
-    }
-
-}
-
-
 /* =========================================================
    SIMULASI ANGSURAN
    ========================================================= */
