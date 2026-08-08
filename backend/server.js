@@ -1071,42 +1071,4 @@ app.use(
 // JALANKAN SERVER
 // =========================================
 
-app.listen(
-    PORT,
-    "0.0.0.0",
-    () => {
-
-        console.log("");
-        console.log(
-            "===================================="
-        );
-
-        console.log(
-            "   KUR DIGITAL BACKEND"
-        );
-
-        console.log(
-            "===================================="
-        );
-
-        console.log(
-            "Server berjalan di port:",
-            PORT
-        );
-
-        console.log(
-            "Database:",
-            databasePath
-        );
-
-        console.log(
-            "API:",
-            `http://localhost:${PORT}/api/health`
-        );
-
-        console.log(
-            "===================================="
-        );
-
-    }
-);
+module.exports = app;
