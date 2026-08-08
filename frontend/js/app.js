@@ -2301,46 +2301,58 @@ async function loadProfil(){
 function showPage(id) {
 
     const pages = {
+
         home: "dashboard.html",
+
         dashboard: "dashboard.html",
 
         ajukan: "pengajuan.html",
+
         pengajuan: "pengajuan.html",
 
         status: "status.html",
 
         bayar: "bayar.html",
 
-        "riwayat-pembayaran": "riwayat-pembayaran.html",
+        "riwayat-pembayaran":
+            "riwayat-pembayaran.html",
 
-        riwayat: "riwayat.html",
+        riwayat:
+            "riwayat.html",
 
-        notifikasi: "notifikasi.html",
+        notifikasi:
+            "notifikasi.html",
 
-        profil: "profil.html"
+        profil:
+            "profil.html"
+
     };
-
-    // Cek apakah halaman tersedia
-    if (!pages[id]) {
-        console.error("Halaman tidak ditemukan:", id);
-        return;
-    }
-
-    // Pindah ke halaman HTML
-    window.location.href = pages[id];
-}
 
 
     /*
-       Untuk sistem SPA jika ada
-       elemen .page
+       Cek apakah halaman tersedia
     */
 
-    const sections =
-        document.querySelectorAll(
-            ".page"
+    if (!pages[id]) {
+
+        console.error(
+            "Halaman tidak ditemukan:",
+            id
         );
 
+        return;
+
+    }
+
+
+    /*
+       Pindah ke halaman
+    */
+
+    window.location.href =
+        pages[id];
+
+}
 
     sections.forEach(
         section => {
