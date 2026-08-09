@@ -3,8 +3,8 @@
 // Supabase Authentication
 // ========================================
 
-const SUPABASE_URL = "MASUKKAN_PROJECT_URL_DI_SINI";
-const SUPABASE_KEY = "MASUKKAN_PUBLISHABLE_KEY_DI_SINI";
+const SUPABASE_URL = "https://binojniwitsdhnhqmneq.supabase.co";
+const SUPABASE_KEY = "sb_publishable_yX4gQ30MAXnmrVAUIL1bZQ_f6E1hnNV";
 
 const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
