@@ -1,37 +1,80 @@
 // ========================================
-// KUR DIGITAL - ADMIN JAVASCRIPT
+// KUR DIGITAL - ADMIN LOGIN
+// Supabase Authentication
 // ========================================
 
+const SUPABASE_URL = "MASUKKAN_PROJECT_URL_DI_SINI";
+const SUPABASE_KEY = "MASUKKAN_PUBLISHABLE_KEY_DI_SINI";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+// ========================================
 // LOGIN ADMIN
-function loginAdmin() {
+// ========================================
 
-    const username =
-        document.getElementById("username").value.trim();
+async function loginAdmin() {
 
-    const password =
-        document.getElementById("password").value;
+    const username = document
+        .getElementById("username")
+        .value
+        .trim();
 
-    const error =
-        document.getElementById("error");
+    const password = document
+        .getElementById("password")
+        .value;
 
-    // Sembunyikan pesan error terlebih dahulu
+    const error = document.getElementById("error");
+
+    // Sembunyikan pesan error
     if (error) {
         error.style.display = "none";
     }
 
-    // Login sementara untuk tahap pengembangan
-    if (username === "admin" && password === "123456") {
+    // Periksa input
+    if (!username || !password) {
 
-        // Simpan status login
+        if (error) {
+            error.textContent = "Username dan password wajib diisi.";
+            error.style.display = "block";
+        }
+
+        return;
+    }
+
+    try {
+
+        // Login ke Supabase
+        const { data, error: loginError } =
+            await supabaseClient.auth.signInWithPassword({
+                email: username,
+                password: password
+            });
+
+        // Jika login gagal
+        if (loginError) {
+            throw loginError;
+        }
+
+        // Login berhasil
+        console.log("Login berhasil:", data.user);
+
+        // Simpan status login lokal
         localStorage.setItem("adminLogin", "true");
 
-        // Masuk ke dashboard admin
+        // Buka dashboard admin
         window.location.href = "dashboard-admin.html";
 
-    } else {
+    } catch (err) {
 
-        // Tampilkan pesan kesalahan
+        console.error("Login error:", err);
+
         if (error) {
+            error.textContent =
+                "Username/email atau password salah.";
             error.style.display = "block";
         }
     }
@@ -39,18 +82,25 @@ function loginAdmin() {
 
 
 // ========================================
-// CEK LOGIN ADMIN
+// CEK LOGIN SAAT DASHBOARD DIBUKA
 // ========================================
 
-function checkAdminLogin() {
+async function cekLoginAdmin() {
 
-    const adminLogin =
-        localStorage.getItem("adminLogin");
+    const { data } =
+        await supabaseClient.auth.getSession();
 
-    if (adminLogin !== "true") {
+    if (!data.session) {
 
-        window.location.href = "login.html";
+        window.location.href = "admin-login.html";
+
+        return;
     }
+
+    console.log(
+        "Admin sedang login:",
+        data.session.user.email
+    );
 }
 
 
@@ -58,9 +108,11 @@ function checkAdminLogin() {
 // LOGOUT ADMIN
 // ========================================
 
-function logoutAdmin() {
+async function logoutAdmin() {
+
+    await supabaseClient.auth.signOut();
 
     localStorage.removeItem("adminLogin");
 
-    window.location.href = "login.html";
+    window.location.href = "admin-login.html";
 }
