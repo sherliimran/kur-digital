@@ -66,7 +66,7 @@ async function loginAdmin() {
         localStorage.setItem("adminLogin", "true");
 
         // Buka dashboard admin
-        window.location.href = "dashboard-admin.html";
+        window.location.href = "dashboard.html";
 
     } catch (err) {
 
