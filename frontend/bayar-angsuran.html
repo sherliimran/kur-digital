@@ -395,15 +395,15 @@ button{
 
     <div class="info">
 
-        ⚠️ <b>Mode DEMO</b><br>
+        ⚠️ <b>Pembayaran Angsuran</b><br>
 
-        Halaman ini hanya mensimulasikan
-        proses pembayaran angsuran.
+        Silakan lakukan pembayaran angsuran sesuai
+informasi rekening yang ditampilkan.
 
         <br><br>
 
-        Jangan melakukan transfer uang
-        sungguhan ke rekening yang ditampilkan.
+        Pastikan informasi rekening dan nama penerima
+sudah benar sebelum melakukan pembayaran.
 
     </div>
 
@@ -508,18 +508,18 @@ button{
 
             </div>
 
-            <div
-                class="rekening-value"
-                id="atasNamaPembayaran">
+<div
+    class="rekening-value"
+    id="atasNamaPembayaran">
 
-                KUR Digital DEMO
+    KUR Digital
 
-            </div>
+</div>
 
         </div>
 
 
-        <div class="warning-demo">
+        <div class="warning-pembayaran">
 
             ⚠️ Pastikan nama bank, nomor rekening,
             dan nama penerima sudah benar sebelum
@@ -699,10 +699,10 @@ function loadRekeningPembayaran(){
             "BRI",
 
         rekening:
-            "0000 0000 0000",
+            "0000 0000 0674",
 
         atasNama:
-            "KUR Digital DEMO"
+            "KUR Digital"
 
     };
 
@@ -881,8 +881,7 @@ function loadHalaman(){
         jumlah <= 0
     ){
 
-        jumlah =
-            2500000;
+        jumlah = 0;
 
     }
 
@@ -1250,8 +1249,7 @@ function kirimPembayaran(){
         jumlah <= 0
     ){
 
-        jumlah =
-            2500000;
+        jumlah = 0;
 
     }
 
