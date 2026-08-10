@@ -821,11 +821,13 @@ function hitungAngsuranOtomatis(){
 }
 function loadHalaman(){
 
+    /* =========================
+       SALDO / JUMLAH PINJAMAN
+    ========================= */
+
     const saldo =
         Number(
-            localStorage.getItem(
-                "saldo"
-            ) || 0
+            localStorage.getItem("saldo") || 0
         );
 
 
@@ -833,6 +835,98 @@ function loadHalaman(){
         "sisaPinjaman"
     ).innerHTML =
         rupiah(saldo);
+
+
+
+    /* =========================
+       TANGGAL JATUH TEMPO
+    ========================= */
+
+    const tanggal =
+        new Date();
+
+    tanggal.setDate(
+        tanggal.getDate() + 30
+    );
+
+    document.getElementById(
+        "tanggalJatuhTempo"
+    ).innerHTML =
+        tanggal.toLocaleDateString(
+            "id-ID",
+            {
+                day:"2-digit",
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+
+
+    /* =========================
+       TENOR PINJAMAN
+       NASABAH = 36 BULAN
+    ========================= */
+
+    const tenor = 36;
+
+
+
+    /* =========================
+       ANGSURAN BERIKUTNYA
+    ========================= */
+
+    const berikutnya =
+        Number(
+            localStorage.getItem(
+                "angsuranBerikutnya"
+            ) || 1
+        );
+
+    document.getElementById(
+        "nomorAngsuran"
+    ).innerHTML =
+        "Angsuran ke-" +
+        berikutnya;
+
+
+
+    /* =========================
+       HITUNG ANGSURAN OTOMATIS
+       
+       Rp30.000.000 / 36
+       = Rp833.333,33
+    ========================= */
+
+    let jumlah = 0;
+
+    if(
+        saldo > 0 &&
+        tenor > 0
+    ){
+
+        jumlah =
+            saldo / tenor;
+
+    }
+
+
+    document.getElementById(
+        "jumlahAngsuran"
+    ).innerHTML =
+        rupiah(
+            Math.round(jumlah)
+        );
+
+
+
+    /* =========================
+       TAMPILKAN STATUS
+    ========================= */
+
+    tampilkanStatus();
+
+}
 
 
 
