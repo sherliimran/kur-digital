@@ -1,151 +1,1644 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Pengajuan KUR</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
 <style>
 
-body{
-margin:0;
-background:#f5f7fb;
-font-family:Arial,Helvetica,sans-serif;
+*{
+    box-sizing:border-box;
 }
+
+body{
+    margin:0;
+    background:#f5f7fb;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#222;
+}
+
+
+/* =========================
+   HEADER
+========================= */
 
 .header{
-background:#0057B8;
-color:white;
-padding:25px;
-text-align:center;
-border-radius:0 0 25px 25px;
+    background:#0057B8;
+    color:white;
+    padding:25px;
+    text-align:center;
+    border-radius:0 0 25px 25px;
 }
+
+.header h2{
+    margin:0;
+    font-size:24px;
+}
+
+.header p{
+    margin:8px 0 0;
+    opacity:.9;
+}
+
+
+/* =========================
+   FORM
+========================= */
 
 .form{
-width:90%;
-margin:20px auto;
-background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,.1);
+    width:90%;
+    max-width:650px;
+    margin:20px auto;
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
 
-input,select,textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-margin-bottom:15px;
-border:1px solid #ccc;
-border-radius:10px;
-box-sizing:border-box;
-font-size:15px;
+
+/* =========================
+   SECTION
+========================= */
+
+.section-title{
+    margin:20px 0 5px;
+    padding-bottom:10px;
+    border-bottom:2px solid #eef2f7;
+    color:#0057B8;
+    font-size:18px;
 }
+
+.section-title:first-child{
+    margin-top:0;
+}
+
+.section-info{
+    color:#777;
+    font-size:13px;
+    margin:0 0 12px;
+    line-height:1.5;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    box-sizing:border-box;
+    font-size:15px;
+    font-family:Arial,Helvetica,sans-serif;
+    background:white;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none;
+    border-color:#0057B8;
+    box-shadow:0 0 0 2px rgba(0,87,184,.08);
+}
+
+textarea{
+    min-height:90px;
+    resize:vertical;
+}
+
+
+/* =========================
+   LABEL
+========================= */
+
+label{
+    display:block;
+    margin-top:8px;
+    margin-bottom:5px;
+    font-size:14px;
+    font-weight:bold;
+    color:#333;
+}
+
+.file-label{
+    margin-top:12px;
+}
+
+
+/* =========================
+   REKENING CARD
+========================= */
+
+.rekening-card{
+    background:#eef6ff;
+    border:1px solid #cfe3ff;
+    padding:16px;
+    border-radius:15px;
+    margin:15px 0 20px;
+}
+
+.rekening-card-title{
+    color:#0057B8;
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.rekening-card-info{
+    color:#555;
+    font-size:13px;
+    line-height:1.5;
+    margin-bottom:12px;
+}
+
+
+/* =========================
+   REQUIRED
+========================= */
+
+.required{
+    color:#d32f2f;
+}
+
+
+/* =========================
+   CHECKBOX
+========================= */
+
+.agreement{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin:15px 0;
+    padding:12px;
+    background:#f8fafc;
+    border-radius:10px;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.agreement input{
+    width:auto;
+    margin:3px 0 0;
+    flex-shrink:0;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
 
 button{
-width:100%;
-padding:15px;
-border:none;
-border-radius:12px;
-background:#0057B8;
-color:white;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#0057B8;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+.back-button{
+    background:#555;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+    display:none;
+    padding:14px;
+    border-radius:12px;
+    margin-bottom:15px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.message.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.message.success{
+    background:#d1fae5;
+    color:#166534;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:500px){
+
+    .form{
+        width:94%;
+        padding:17px;
+    }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <div class="header">
 
-<h2>Pengajuan KUR</h2>
+    <h2>
+        Pengajuan KUR
+    </h2>
 
-<p>Lengkapi data berikut</p>
+    <p>
+        Lengkapi data berikut
+    </p>
 
 </div>
+
+
+
+<!-- =========================
+     FORM
+========================= -->
 
 <div class="form">
 
-<input type="text" id="nama" placeholder="Nama Lengkap">
 
-<input type="text" id="nik" placeholder="NIK">
+<div
+    id="pesanError"
+    class="message error">
+</div>
 
-<input type="text" id="hp" placeholder="Nomor HP">
 
-<textarea id="alamat" placeholder="Alamat Lengkap"></textarea>
+<div
+    id="pesanSukses"
+    class="message success">
+</div>
 
-<input type="text" id="usaha" placeholder="Nama Usaha">
 
-<select id="jenisUsaha">
 
-<option>Kuliner</option>
+<!-- =========================
+     DATA PRIBADI
+========================= -->
 
-<option>Perdagangan</option>
+<div class="section-title">
 
-<option>Pertanian</option>
-
-<option>Peternakan</option>
-
-<option>Jasa</option>
-
-</select>
-
-<input type="number" id="lamaUsaha" placeholder="Lama Usaha (Tahun)">
-
-<input type="number" id="penghasilan" placeholder="Penghasilan per Bulan">
-
-<input type="number" id="pinjaman" placeholder="Jumlah Pinjaman">
-
-<select id="tenor">
-
-<option>12 Bulan</option>
-
-<option>24 Bulan</option>
-
-<option>36 Bulan</option>
-
-<option>48 Bulan</option>
-
-<option>60 Bulan</option>
-
-</select>
-
-<label>Foto KTP</label>
-
-<input type="file" id="ktp">
-
-<label>Foto Selfie</label>
-
-<input type="file" id="selfie">
-
-<label>Foto Tempat Usaha</label>
-
-<input type="file" id="usahaFoto">
-
-<button onclick="kirimPengajuan()">
-
-Ajukan Sekarang
-
-</button>
-
-<button onclick="window.location.href='dashboard.html'">
-
-Kembali
-
-</button>
+    👤 Data Pribadi
 
 </div>
 
-<script src="js/app.js"></script>
+<p class="section-info">
+
+    Masukkan data pribadi sesuai dengan
+    identitas Anda.
+
+</p>
+
+
+<input
+    type="text"
+    id="nama"
+    placeholder="Nama Lengkap">
+
+
+<input
+    type="text"
+    id="nik"
+    placeholder="NIK"
+    inputmode="numeric">
+
+
+<input
+    type="tel"
+    id="hp"
+    placeholder="Nomor HP"
+    inputmode="tel">
+
+
+<textarea
+    id="alamat"
+    placeholder="Alamat Lengkap"></textarea>
+
+
+
+<!-- =========================
+     DATA REKENING NASABAH
+========================= -->
+
+<div class="section-title">
+
+    🏦 Data Rekening Nasabah
+
+</div>
+
+
+<div class="rekening-card">
+
+    <div class="rekening-card-title">
+
+        Rekening Atas Nama Nasabah
+
+    </div>
+
+
+    <div class="rekening-card-info">
+
+        Masukkan rekening bank milik Anda.
+        Data ini akan disimpan bersama pengajuan
+        dan nantinya dapat ditampilkan pada
+        halaman Profil Nasabah.
+
+    </div>
+
+
+    <label for="namaBank">
+
+        Nama Bank
+        <span class="required">*</span>
+
+    </label>
+
+    <input
+        type="text"
+        id="namaBank"
+        placeholder="Contoh: BRI">
+
+
+    <label for="nomorRekening">
+
+        Nomor Rekening
+        <span class="required">*</span>
+
+    </label>
+
+    <input
+        type="text"
+        id="nomorRekening"
+        placeholder="Contoh: 1234567890"
+        inputmode="numeric">
+
+
+    <label for="namaPemilikRekening">
+
+        Atas Nama Rekening
+        <span class="required">*</span>
+
+    </label>
+
+    <input
+        type="text"
+        id="namaPemilikRekening"
+        placeholder="Contoh: Budi Santoso">
+
+</div>
+
+
+
+<!-- =========================
+     DATA USAHA
+========================= -->
+
+<div class="section-title">
+
+    🏪 Data Usaha
+
+</div>
+
+<p class="section-info">
+
+    Masukkan informasi usaha yang sedang
+    Anda jalankan.
+
+</p>
+
+
+<input
+    type="text"
+    id="usaha"
+    placeholder="Nama Usaha">
+
+
+<select id="jenisUsaha">
+
+    <option value="">
+        Pilih Jenis Usaha
+    </option>
+
+    <option value="Kuliner">
+        Kuliner
+    </option>
+
+    <option value="Perdagangan">
+        Perdagangan
+    </option>
+
+    <option value="Pertanian">
+        Pertanian
+    </option>
+
+    <option value="Peternakan">
+        Peternakan
+    </option>
+
+    <option value="Jasa">
+        Jasa
+    </option>
+
+</select>
+
+
+<input
+    type="number"
+    id="lamaUsaha"
+    placeholder="Lama Usaha (Tahun)"
+    min="0">
+
+
+<input
+    type="number"
+    id="penghasilan"
+    placeholder="Penghasilan per Bulan"
+    min="0">
+
+
+
+<!-- =========================
+     DATA PINJAMAN
+========================= -->
+
+<div class="section-title">
+
+    💰 Data Pinjaman
+
+</div>
+
+
+<input
+    type="number"
+    id="pinjaman"
+    placeholder="Jumlah Pinjaman"
+    min="0">
+
+
+<select id="tenor">
+
+    <option value="">
+        Pilih Tenor
+    </option>
+
+    <option value="12 Bulan">
+        12 Bulan
+    </option>
+
+    <option value="24 Bulan">
+        24 Bulan
+    </option>
+
+    <option value="36 Bulan">
+        36 Bulan
+    </option>
+
+    <option value="48 Bulan">
+        48 Bulan
+    </option>
+
+    <option value="60 Bulan">
+        60 Bulan
+    </option>
+
+</select>
+
+
+
+<!-- =========================
+     DOKUMEN
+========================= -->
+
+<div class="section-title">
+
+    📎 Dokumen
+
+</div>
+
+
+<label
+    class="file-label"
+    for="ktp">
+
+    Foto KTP
+
+</label>
+
+<input
+    type="file"
+    id="ktp"
+    accept="image/*">
+
+
+<label
+    class="file-label"
+    for="selfie">
+
+    Foto Selfie
+
+</label>
+
+<input
+    type="file"
+    id="selfie"
+    accept="image/*">
+
+
+<label
+    class="file-label"
+    for="usahaFoto">
+
+    Foto Tempat Usaha
+
+</label>
+
+<input
+    type="file"
+    id="usahaFoto"
+    accept="image/*">
+
+
+
+<!-- =========================
+     PERSETUJUAN
+========================= -->
+
+<div class="agreement">
+
+    <input
+        type="checkbox"
+        id="persetujuan">
+
+    <label
+        for="persetujuan"
+        style="
+            margin:0;
+            font-weight:normal;
+        ">
+
+        Saya menyatakan bahwa data yang saya
+        masukkan adalah benar dan dapat digunakan
+        untuk proses pengajuan KUR Digital.
+
+    </label>
+
+</div>
+
+
+
+<!-- =========================
+     BUTTON
+========================= -->
+
+<button
+    onclick="kirimPengajuan()">
+
+    Ajukan Sekarang
+
+</button>
+
+
+<button
+    class="back-button"
+    onclick="window.location.href='dashboard.html'">
+
+    Kembali
+
+</button>
+
+
+</div>
+
+
+
+<!-- =========================
+     SCRIPT
+========================= -->
+
+<script>
+
+/* ==================================================
+   FORMAT RUPIAH
+================================================== */
+
+function formatRupiah(angka){
+
+    return "Rp " +
+        Number(angka || 0)
+        .toLocaleString("id-ID");
+
+}
+
+
+/* ==================================================
+   PESAN
+================================================== */
+
+function tampilkanError(pesan){
+
+    const box =
+        document.getElementById(
+            "pesanError"
+        );
+
+    const sukses =
+        document.getElementById(
+            "pesanSukses"
+        );
+
+    sukses.style.display =
+        "none";
+
+    box.innerHTML =
+        "⚠️ " + pesan;
+
+    box.style.display =
+        "block";
+
+    box.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+function tampilkanSukses(pesan){
+
+    const box =
+        document.getElementById(
+            "pesanSukses"
+        );
+
+    const error =
+        document.getElementById(
+            "pesanError"
+        );
+
+    error.style.display =
+        "none";
+
+    box.innerHTML =
+        "✓ " + pesan;
+
+    box.style.display =
+        "block";
+
+    box.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+/* ==================================================
+   AMBIL DATA LAMA
+================================================== */
+
+function ambilPengajuanLama(){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(
+                    "pengajuan"
+                )
+            );
+
+        if(
+            data &&
+            typeof data === "object"
+        ){
+
+            return data;
+
+        }
+
+    }catch(e){
+
+        console.error(
+            "Data pengajuan lama tidak valid:",
+            e
+        );
+
+    }
+
+    return null;
+
+}
+
+
+/* ==================================================
+   KIRIM PENGAJUAN
+================================================== */
+
+function kirimPengajuan(){
+
+    /*
+     * Ambil semua input
+     */
+
+    const nama =
+        document.getElementById(
+            "nama"
+        ).value.trim();
+
+
+    const nik =
+        document.getElementById(
+            "nik"
+        ).value.trim();
+
+
+    const hp =
+        document.getElementById(
+            "hp"
+        ).value.trim();
+
+
+    const alamat =
+        document.getElementById(
+            "alamat"
+        ).value.trim();
+
+
+    /* REKENING */
+
+    const namaBank =
+        document.getElementById(
+            "namaBank"
+        ).value.trim();
+
+
+    const nomorRekening =
+        document.getElementById(
+            "nomorRekening"
+        ).value.trim();
+
+
+    const namaPemilikRekening =
+        document.getElementById(
+            "namaPemilikRekening"
+        ).value.trim();
+
+
+    /* USAHA */
+
+    const usaha =
+        document.getElementById(
+            "usaha"
+        ).value.trim();
+
+
+    const jenisUsaha =
+        document.getElementById(
+            "jenisUsaha"
+        ).value;
+
+
+    const lamaUsaha =
+        document.getElementById(
+            "lamaUsaha"
+        ).value;
+
+
+    const penghasilan =
+        document.getElementById(
+            "penghasilan"
+        ).value;
+
+
+    /* PINJAMAN */
+
+    const pinjaman =
+        document.getElementById(
+            "pinjaman"
+        ).value;
+
+
+    const tenor =
+        document.getElementById(
+            "tenor"
+        ).value;
+
+
+    /* PERSETUJUAN */
+
+    const persetujuan =
+        document.getElementById(
+            "persetujuan"
+        ).checked;
+
+
+
+    /* ==================================================
+       VALIDASI DATA PRIBADI
+    ================================================== */
+
+    if(!nama){
+
+        tampilkanError(
+            "Nama lengkap wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(!nik){
+
+        tampilkanError(
+            "NIK wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(!hp){
+
+        tampilkanError(
+            "Nomor HP wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(!alamat){
+
+        tampilkanError(
+            "Alamat lengkap wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+
+    /* ==================================================
+       VALIDASI REKENING
+    ================================================== */
+
+    if(!namaBank){
+
+        tampilkanError(
+            "Nama bank wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(!nomorRekening){
+
+        tampilkanError(
+            "Nomor rekening wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !/^[0-9\s-]+$/.test(
+            nomorRekening
+        )
+    ){
+
+        tampilkanError(
+            "Nomor rekening hanya boleh berisi angka."
+        );
+
+        return;
+
+    }
+
+
+    if(!namaPemilikRekening){
+
+        tampilkanError(
+            "Nama pemilik rekening wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+
+    /* ==================================================
+       VALIDASI USAHA
+    ================================================== */
+
+    if(!usaha){
+
+        tampilkanError(
+            "Nama usaha wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(!jenisUsaha){
+
+        tampilkanError(
+            "Jenis usaha wajib dipilih."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !lamaUsaha ||
+        Number(lamaUsaha) < 0
+    ){
+
+        tampilkanError(
+            "Lama usaha wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !penghasilan ||
+        Number(penghasilan) <= 0
+    ){
+
+        tampilkanError(
+            "Penghasilan per bulan wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+
+    /* ==================================================
+       VALIDASI PINJAMAN
+    ================================================== */
+
+    if(
+        !pinjaman ||
+        Number(pinjaman) <= 0
+    ){
+
+        tampilkanError(
+            "Jumlah pinjaman wajib diisi."
+        );
+
+        return;
+
+    }
+
+
+    if(!tenor){
+
+        tampilkanError(
+            "Tenor pinjaman wajib dipilih."
+        );
+
+        return;
+
+    }
+
+
+
+    /* ==================================================
+       VALIDASI DOKUMEN
+    ================================================== */
+
+    const ktp =
+        document.getElementById(
+            "ktp"
+        );
+
+
+    const selfie =
+        document.getElementById(
+            "selfie"
+        );
+
+
+    const usahaFoto =
+        document.getElementById(
+            "usahaFoto"
+        );
+
+
+    if(
+        !ktp.files ||
+        ktp.files.length === 0
+    ){
+
+        tampilkanError(
+            "Foto KTP wajib diupload."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !selfie.files ||
+        selfie.files.length === 0
+    ){
+
+        tampilkanError(
+            "Foto selfie wajib diupload."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !usahaFoto.files ||
+        usahaFoto.files.length === 0
+    ){
+
+        tampilkanError(
+            "Foto tempat usaha wajib diupload."
+        );
+
+        return;
+
+    }
+
+
+
+    /* ==================================================
+       PERSETUJUAN
+    ================================================== */
+
+    if(!persetujuan){
+
+        tampilkanError(
+            "Silakan centang persetujuan terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+
+
+    /* ==================================================
+       AMBIL DATA PENGAJUAN LAMA
+    ================================================== */
+
+    const lama =
+        ambilPengajuanLama();
+
+
+
+    /* ==================================================
+       BUAT DATA PENGAJUAN
+    ================================================== */
+
+    const dataPengajuan = {
+
+        id:
+            lama &&
+            lama.id
+            ?
+            lama.id
+            :
+            Date.now(),
+
+        tanggalPengajuan:
+            lama &&
+            lama.tanggalPengajuan
+            ?
+            lama.tanggalPengajuan
+            :
+            new Date()
+            .toLocaleString(
+                "id-ID"
+            ),
+
+
+        /* DATA PRIBADI */
+
+        nama:
+            nama,
+
+        nik:
+            nik,
+
+        hp:
+            hp,
+
+        alamat:
+            alamat,
+
+
+        /* =========================
+           DATA REKENING NASABAH
+        ========================= */
+
+        namaBank:
+            namaBank,
+
+        nomorRekening:
+            nomorRekening,
+
+        namaPemilikRekening:
+            namaPemilikRekening,
+
+
+        /* DATA USAHA */
+
+        usaha:
+            usaha,
+
+        jenisUsaha:
+            jenisUsaha,
+
+        lamaUsaha:
+            Number(lamaUsaha),
+
+        penghasilan:
+            Number(penghasilan),
+
+
+        /* DATA PINJAMAN */
+
+        pinjaman:
+            Number(pinjaman),
+
+        tenor:
+            tenor,
+
+
+        /* DOKUMEN */
+
+        ktp:
+            ktp.files[0]
+            ?
+            ktp.files[0].name
+            :
+            "",
+
+        selfie:
+            selfie.files[0]
+            ?
+            selfie.files[0].name
+            :
+            "",
+
+        usahaFoto:
+            usahaFoto.files[0]
+            ?
+            usahaFoto.files[0].name
+            :
+            "",
+
+
+        /* STATUS */
+
+        status:
+            lama &&
+            lama.status
+            ?
+            lama.status
+            :
+            "Menunggu Verifikasi",
+
+        progress:
+            lama &&
+            lama.progress
+            ?
+            lama.progress
+            :
+            20
+
+    };
+
+
+
+    /* ==================================================
+       SIMPAN PENGAJUAN
+    ================================================== */
+
+    localStorage.setItem(
+        "pengajuan",
+        JSON.stringify(
+            dataPengajuan
+        )
+    );
+
+
+
+    /* ==================================================
+       SIMPAN DATA REKENING TERPISAH
+       UNTUK PROFIL NASABAH
+    ================================================== */
+
+    localStorage.setItem(
+        "rekeningNasabah",
+        JSON.stringify({
+
+            namaBank:
+                namaBank,
+
+            nomorRekening:
+                nomorRekening,
+
+            namaPemilikRekening:
+                namaPemilikRekening
+
+        })
+    );
+
+
+
+    /* ==================================================
+       SIMPAN DATA DASAR NASABAH
+    ================================================== */
+
+    localStorage.setItem(
+        "nama",
+        nama
+    );
+
+
+    localStorage.setItem(
+        "nik",
+        nik
+    );
+
+
+    localStorage.setItem(
+        "hp",
+        hp
+    );
+
+
+    localStorage.setItem(
+        "alamat",
+        alamat
+    );
+
+
+    localStorage.setItem(
+        "jumlahPinjaman",
+        String(pinjaman)
+    );
+
+
+    localStorage.setItem(
+        "tenor",
+        String(
+            parseInt(
+                tenor
+            ) || 0
+        )
+    );
+
+
+    localStorage.setItem(
+        "saldo",
+        String(pinjaman)
+    );
+
+
+    /* ==================================================
+       NOTIFIKASI
+    ================================================== */
+
+    let notifikasi = [];
+
+    try{
+
+        notifikasi =
+            JSON.parse(
+                localStorage.getItem(
+                    "notifikasi"
+                )
+            ) || [];
+
+    }catch(e){
+
+        notifikasi = [];
+
+    }
+
+
+    notifikasi.unshift({
+
+        id:
+            Date.now(),
+
+        judul:
+            "Pengajuan KUR Diterima",
+
+        pesan:
+            "Pengajuan KUR atas nama " +
+            nama +
+            " berhasil dikirim dan sedang menunggu verifikasi Admin.",
+
+        tanggal:
+            new Date()
+            .toLocaleString(
+                "id-ID"
+            ),
+
+        dibaca:
+            false
+
+    });
+
+
+    localStorage.setItem(
+        "notifikasi",
+        JSON.stringify(
+            notifikasi
+        )
+    );
+
+
+
+    /* ==================================================
+       STATUS
+    ================================================== */
+
+    localStorage.setItem(
+        "status",
+        "Menunggu Verifikasi"
+    );
+
+
+    localStorage.setItem(
+        "progress",
+        "20"
+    );
+
+
+
+    /* ==================================================
+       HASIL
+    ================================================== */
+
+    tampilkanSukses(
+        "Pengajuan berhasil dikirim. Data rekening Anda juga telah tersimpan dan nantinya dapat ditampilkan pada Profil Nasabah."
+    );
+
+
+    /*
+       Kosongkan input dokumen
+    */
+
+    ktp.value = "";
+
+    selfie.value = "";
+
+    usahaFoto.value = "";
+
+
+
+    /*
+       Beri sedikit waktu agar
+       pesan sukses terlihat
+    */
+
+    setTimeout(function(){
+
+        window.location.href =
+            "dashboard.html";
+
+    },1500);
+
+}
+
+
+/* ==================================================
+   LOAD DATA SEBELUMNYA
+================================================== */
+
+function loadDataSebelumnya(){
+
+    const data =
+        ambilPengajuanLama();
+
+
+    if(!data){
+
+        return;
+
+    }
+
+
+    /*
+       Data pribadi
+    */
+
+    if(data.nama){
+
+        document.getElementById(
+            "nama"
+        ).value =
+            data.nama;
+
+    }
+
+
+    if(data.nik){
+
+        document.getElementById(
+            "nik"
+        ).value =
+            data.nik;
+
+    }
+
+
+    if(data.hp){
+
+        document.getElementById(
+            "hp"
+        ).value =
+            data.hp;
+
+    }
+
+
+    if(data.alamat){
+
+        document.getElementById(
+            "alamat"
+        ).value =
+            data.alamat;
+
+    }
+
+
+    /*
+       Rekening
+    */
+
+    if(data.namaBank){
+
+        document.getElementById(
+            "namaBank"
+        ).value =
+            data.namaBank;
+
+    }
+
+
+    if(data.nomorRekening){
+
+        document.getElementById(
+            "nomorRekening"
+        ).value =
+            data.nomorRekening;
+
+    }
+
+
+    if(data.namaPemilikRekening){
+
+        document.getElementById(
+            "namaPemilikRekening"
+        ).value =
+            data.namaPemilikRekening;
+
+    }
+
+
+    /*
+       Data usaha
+    */
+
+    if(data.usaha){
+
+        document.getElementById(
+            "usaha"
+        ).value =
+            data.usaha;
+
+    }
+
+
+    if(data.jenisUsaha){
+
+        document.getElementById(
+            "jenisUsaha"
+        ).value =
+            data.jenisUsaha;
+
+    }
+
+
+    if(data.lamaUsaha !== undefined){
+
+        document.getElementById(
+            "lamaUsaha"
+        ).value =
+            data.lamaUsaha;
+
+    }
+
+
+    if(data.penghasilan !== undefined){
+
+        document.getElementById(
+            "penghasilan"
+        ).value =
+            data.penghasilan;
+
+    }
+
+
+    /*
+       Data pinjaman
+    */
+
+    if(data.pinjaman){
+
+        document.getElementById(
+            "pinjaman"
+        ).value =
+            data.pinjaman;
+
+    }
+
+
+    if(data.tenor){
+
+        document.getElementById(
+            "tenor"
+        ).value =
+            data.tenor;
+
+    }
+
+}
+
+
+/* ==================================================
+   JALANKAN
+================================================== */
+
+loadDataSebelumnya();
+
+</script>
+
 
 </body>
 
