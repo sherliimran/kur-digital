@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Profil - KUR Digital</title>
 
 <link rel="stylesheet" href="css/style.css">
@@ -10,139 +15,494 @@
 <style>
 
 body{
-margin:0;
-font-family:Arial,Helvetica,sans-serif;
-background:#f4f6fb;
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f6fb;
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
 .header{
-background:#0057B8;
-color:white;
-padding:30px 20px;
-text-align:center;
-border-radius:0 0 25px 25px;
+    background:#0057B8;
+    color:white;
+    padding:30px 20px;
+    text-align:center;
+    border-radius:0 0 25px 25px;
 }
 
 .foto{
-width:100px;
-height:100px;
-border-radius:50%;
-background:white;
-display:block;
-margin:15px auto;
-padding:8px;
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    background:white;
+    display:block;
+    margin:15px auto;
+    padding:8px;
+    object-fit:contain;
 }
+
+.header h2{
+    margin:8px 0;
+}
+
+.header p{
+    margin:0;
+    opacity:.9;
+}
+
+
+/* =========================
+   CARD
+========================= */
 
 .card{
-width:90%;
-margin:20px auto;
-background:white;
-border-radius:15px;
-padding:20px;
-box-shadow:0 4px 15px rgba(0,0,0,.1);
+    width:90%;
+    max-width:700px;
+    margin:20px auto;
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 4px 15px rgba(0,0,0,.1);
+    box-sizing:border-box;
 }
 
+
+/* =========================
+   JUDUL SECTION
+========================= */
+
+.section-title{
+    color:#0057B8;
+    font-size:18px;
+    font-weight:bold;
+    margin:5px 0 20px;
+    padding-bottom:10px;
+    border-bottom:2px solid #eef2f7;
+}
+
+
+/* =========================
+   ITEM
+========================= */
+
 .item{
-margin-bottom:18px;
+    margin-bottom:18px;
 }
 
 .label{
-font-size:13px;
-color:#777;
+    font-size:13px;
+    color:#777;
 }
 
 .value{
-font-size:18px;
-font-weight:bold;
-margin-top:5px;
-color:#222;
+    font-size:17px;
+    font-weight:bold;
+    margin-top:5px;
+    color:#222;
+    word-break:break-word;
 }
 
+
+/* =========================
+   REKENING
+========================= */
+
+.rekening-card{
+    background:#eef6ff;
+    border:1px solid #cfe3ff;
+}
+
+.rekening-card .section-title{
+    color:#0057B8;
+}
+
+.rekening-item{
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:12px;
+}
+
+.rekening-label{
+    font-size:13px;
+    color:#777;
+    margin-bottom:6px;
+}
+
+.rekening-value{
+    font-size:18px;
+    font-weight:bold;
+    color:#0057B8;
+    word-break:break-word;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.info{
+    background:#f8fafc;
+    padding:13px;
+    border-radius:12px;
+    color:#666;
+    font-size:13px;
+    line-height:1.5;
+    margin-top:15px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
 .btn{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-margin-top:12px;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:12px;
 }
 
 .edit{
-background:#0057B8;
-color:white;
+    background:#0057B8;
+    color:white;
 }
 
 .kembali{
-background:#e5e5e5;
+    background:#e5e5e5;
+    color:#333;
+}
+
+.btn:active{
+    transform:scale(.98);
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    color:#999;
+    font-size:14px;
 }
 
 </style>
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <div class="header">
 
-<img src="img/logo.png" class="foto">
+    <img
+        src="img/logo.png"
+        class="foto"
+        alt="KUR Digital">
 
-<h2>Profil Saya</h2>
+    <h2>
+        Profil Saya
+    </h2>
 
-<p>KUR Digital</p>
+    <p>
+        KUR Digital
+    </p>
 
 </div>
+
+
+
+<!-- =========================
+     DATA PRIBADI
+========================= -->
 
 <div class="card">
 
-<div class="item">
+    <div class="section-title">
 
-<div class="label">Nama Lengkap</div>
+        👤 Data Pribadi
 
-<div class="value" id="nama"></div>
+    </div>
+
+
+    <div class="item">
+
+        <div class="label">
+            Nama Lengkap
+        </div>
+
+        <div
+            class="value"
+            id="nama">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="item">
+
+        <div class="label">
+            Email
+        </div>
+
+        <div
+            class="value"
+            id="email">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="item">
+
+        <div class="label">
+            Nomor HP
+        </div>
+
+        <div
+            class="value"
+            id="hp">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="item">
+
+        <div class="label">
+            NIK
+        </div>
+
+        <div
+            class="value"
+            id="nik">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="item">
+
+        <div class="label">
+            Alamat
+        </div>
+
+        <div
+            class="value"
+            id="alamat">
+
+            -
+
+        </div>
+
+    </div>
 
 </div>
 
-<div class="item">
 
-<div class="label">Email</div>
 
-<div class="value" id="email"></div>
+<!-- =========================
+     DATA REKENING
+========================= -->
+
+<div class="card rekening-card">
+
+    <div class="section-title">
+
+        🏦 Data Rekening
+
+    </div>
+
+
+    <div class="rekening-item">
+
+        <div class="rekening-label">
+            Nama Bank
+        </div>
+
+        <div
+            class="rekening-value"
+            id="bank">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="rekening-item">
+
+        <div class="rekening-label">
+            Nomor Rekening
+        </div>
+
+        <div
+            class="rekening-value"
+            id="rekening">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="rekening-item">
+
+        <div class="rekening-label">
+            Atas Nama
+        </div>
+
+        <div
+            class="rekening-value"
+            id="atasNama">
+
+            -
+
+        </div>
+
+    </div>
+
+
+    <div class="info">
+
+        ℹ️ Rekening di atas merupakan rekening
+        yang Anda masukkan saat melakukan
+        pengajuan KUR.
+
+    </div>
 
 </div>
 
-<div class="item">
 
-<div class="label">Nomor HP</div>
 
-<div class="value" id="hp"></div>
+<!-- =========================
+     TOMBOL
+========================= -->
+
+<div class="card">
+
+    <button
+        class="btn edit"
+        onclick="editProfil()">
+
+        ✏️ Edit Profil
+
+    </button>
+
+
+    <button
+        class="btn kembali"
+        onclick="window.location.href='dashboard.html'">
+
+        ← Kembali ke Dashboard
+
+    </button>
 
 </div>
 
-<button class="btn edit">
-Edit Profil
-</button>
 
-<button class="btn kembali"
-onclick="window.location.href='dashboard.html'">
-Kembali ke Dashboard
-</button>
-
-</div>
 
 <script>
 
-document.getElementById("nama").innerHTML =
-localStorage.getItem("nama") || "-";
 
-document.getElementById("email").innerHTML =
-localStorage.getItem("email") || "-";
+/* ==================================================
+   AMBIL DATA PROFIL
+================================================== */
 
-document.getElementById("hp").innerHTML =
-localStorage.getItem("hp") || "-";
+function loadProfil(){
+
+    /* =========================
+       DATA PRIBADI
+    ========================= */
+
+    document.getElementById("nama").innerHTML =
+        localStorage.getItem("nama") || "-";
+
+
+    document.getElementById("email").innerHTML =
+        localStorage.getItem("email") || "-";
+
+
+    document.getElementById("hp").innerHTML =
+        localStorage.getItem("hp") || "-";
+
+
+    document.getElementById("nik").innerHTML =
+        localStorage.getItem("nik") || "-";
+
+
+    document.getElementById("alamat").innerHTML =
+        localStorage.getItem("alamat") || "-";
+
+
+    /* =========================
+       DATA REKENING
+    ========================= */
+
+    document.getElementById("bank").innerHTML =
+        localStorage.getItem("bank") || "-";
+
+
+    document.getElementById("rekening").innerHTML =
+        localStorage.getItem("rekening") || "-";
+
+
+    document.getElementById("atasNama").innerHTML =
+        localStorage.getItem("atasNama") || "-";
+
+}
+
+
+/* ==================================================
+   EDIT PROFIL
+================================================== */
+
+function editProfil(){
+
+    alert(
+        "Fitur Edit Profil akan dibuat pada tahap berikutnya."
+    );
+
+}
+
+
+/* ==================================================
+   JALANKAN
+================================================== */
+
+loadProfil();
+
 
 </script>
 
+
 </body>
+
 </html>
