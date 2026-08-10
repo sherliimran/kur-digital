@@ -685,23 +685,28 @@ function hitungAngsuranOtomatis(){
 
 
 /* ==================================================
-   LOAD REKENING PEMBAYARAN
+   LOAD REKENING PEMBAYARAN DARI ADMIN
 ================================================== */
 
 function loadRekeningPembayaran(){
 
     const defaultData = {
 
-        bank:"BRI",
+        namaBank:
+            "BRI",
 
-        rekening:"0000 0000 0674",
+        nomorRekening:
+            "0000 0000 0674",
 
-        atasNama:"KUR Digital"
+        namaPemilik:
+            "KUR Digital"
 
     };
 
 
-    let data = defaultData;
+    let data = {
+        ...defaultData
+    };
 
 
     try{
@@ -719,19 +724,28 @@ function loadRekeningPembayaran(){
             typeof tersimpan === "object"
         ){
 
+            /*
+             * HARUS SAMA dengan
+             * field yang disimpan Admin:
+             *
+             * namaBank
+             * nomorRekening
+             * namaPemilik
+             */
+
             data = {
 
-                bank:
-                    tersimpan.bank ||
-                    defaultData.bank,
+                namaBank:
+                    tersimpan.namaBank ||
+                    defaultData.namaBank,
 
-                rekening:
-                    tersimpan.rekening ||
-                    defaultData.rekening,
+                nomorRekening:
+                    tersimpan.nomorRekening ||
+                    defaultData.nomorRekening,
 
-                atasNama:
-                    tersimpan.atasNama ||
-                    defaultData.atasNama
+                namaPemilik:
+                    tersimpan.namaPemilik ||
+                    defaultData.namaPemilik
 
             };
 
@@ -739,10 +753,21 @@ function loadRekeningPembayaran(){
 
     }catch(e){
 
-        data = defaultData;
+        console.error(
+            "Gagal membaca pengaturan pembayaran:",
+            e
+        );
+
+        data = {
+            ...defaultData
+        };
 
     }
 
+
+    /*
+     * Tampilkan ke halaman
+     */
 
     const bank =
         document.getElementById(
@@ -763,21 +788,35 @@ function loadRekeningPembayaran(){
 
 
     if(bank){
-        bank.innerHTML = data.bank;
+
+        bank.textContent =
+            data.namaBank;
+
     }
 
 
     if(rekening){
-        rekening.innerHTML = data.rekening;
+
+        rekening.textContent =
+            data.nomorRekening;
+
     }
 
 
     if(atasNama){
-        atasNama.innerHTML = data.atasNama;
+
+        atasNama.textContent =
+            data.namaPemilik;
+
     }
 
-}
 
+    console.log(
+        "Rekening pembayaran aktif:",
+        data
+    );
+
+}
 
 /* ==================================================
    LOAD HALAMAN
