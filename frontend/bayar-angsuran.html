@@ -239,7 +239,7 @@ button{
     word-break:break-word;
 }
 
-.warning-demo{
+.warning-pembayaran{
     margin-top:15px;
     background:#fff7d6;
     color:#705d16;
@@ -284,24 +284,16 @@ button{
 <div class="card loan-info">
 
     <div class="loan-date">
-
         Jatuh Tempo
-
     </div>
 
     <p id="tanggalJatuhTempo">
-
         -
-
     </p>
 
-
     <div class="sisa">
-
         Sisa Pinjaman
-
     </div>
-
 
     <div
         class="sisa-value"
@@ -312,7 +304,6 @@ button{
     </div>
 
 </div>
-
 
 
 <!-- =========================
@@ -334,7 +325,6 @@ button{
 </div>
 
 
-
 <!-- =========================
      STATUS DITOLAK
 ========================= -->
@@ -354,7 +344,6 @@ button{
 </div>
 
 
-
 <!-- =========================
      PEMBAYARAN TERAKHIR
 ========================= -->
@@ -365,19 +354,15 @@ button{
         Pembayaran Terakhir
     </h2>
 
-    <div
-        id="pembayaranTerakhir">
+    <div id="pembayaranTerakhir">
 
         <div class="empty">
-
             Belum ada pembayaran.
-
         </div>
 
     </div>
 
 </div>
-
 
 
 <!-- =========================
@@ -398,12 +383,12 @@ button{
         ⚠️ <b>Pembayaran Angsuran</b><br>
 
         Silakan lakukan pembayaran angsuran sesuai
-informasi rekening yang ditampilkan.
+        informasi rekening yang ditampilkan.
 
         <br><br>
 
         Pastikan informasi rekening dan nama penerima
-sudah benar sebelum melakukan pembayaran.
+        sudah benar sebelum melakukan pembayaran.
 
     </div>
 
@@ -414,7 +399,6 @@ sudah benar sebelum melakukan pembayaran.
 
     <div class="payment-info">
 
-
         <div class="payment-row">
 
             <span>
@@ -422,9 +406,7 @@ sudah benar sebelum melakukan pembayaran.
             </span>
 
             <span id="nomorAngsuran">
-
                 Angsuran ke-1
-
             </span>
 
         </div>
@@ -446,9 +428,7 @@ sudah benar sebelum melakukan pembayaran.
 
         </div>
 
-
     </div>
-
 
 
     <!-- =========================
@@ -465,9 +445,7 @@ sudah benar sebelum melakukan pembayaran.
         <div class="rekening-info">
 
             <div class="rekening-label">
-
                 Bank
-
             </div>
 
             <div
@@ -484,16 +462,14 @@ sudah benar sebelum melakukan pembayaran.
         <div class="rekening-info">
 
             <div class="rekening-label">
-
                 Nomor Rekening
-
             </div>
 
             <div
                 class="rekening-value"
                 id="rekeningPembayaran">
 
-                0000 0000 0000
+                0000 0000 0674
 
             </div>
 
@@ -503,18 +479,16 @@ sudah benar sebelum melakukan pembayaran.
         <div class="rekening-info">
 
             <div class="rekening-label">
-
                 Atas Nama
-
             </div>
 
-<div
-    class="rekening-value"
-    id="atasNamaPembayaran">
+            <div
+                class="rekening-value"
+                id="atasNamaPembayaran">
 
-    KUR Digital
+                KUR Digital
 
-</div>
+            </div>
 
         </div>
 
@@ -530,7 +504,6 @@ sudah benar sebelum melakukan pembayaran.
     </div>
 
 
-
     <br>
 
 
@@ -539,9 +512,7 @@ sudah benar sebelum melakukan pembayaran.
     ========================= -->
 
     <label for="bukti">
-
         📎 Upload Bukti Pembayaran
-
     </label>
 
 
@@ -562,7 +533,6 @@ sudah benar sebelum melakukan pembayaran.
 </div>
 
 
-
 <!-- =========================
      KEMBALI
 ========================= -->
@@ -579,13 +549,12 @@ sudah benar sebelum melakukan pembayaran.
 </div>
 
 
-
 <script>
 
 
-/* =========================
+/* =====================================================
    FORMAT RUPIAH
-========================= */
+===================================================== */
 
 function rupiah(angka){
 
@@ -596,26 +565,19 @@ function rupiah(angka){
 }
 
 
-
-/* =========================
-   DATA PEMBAYARAN
-========================= */
+/* =====================================================
+   AMBIL DATA PEMBAYARAN
+===================================================== */
 
 function ambilPembayaran(){
 
     let data = null;
 
-
     const keys = [
-
         "pembayaranAngsuran",
-
         "pembayaran",
-
         "pembayaranMasuk"
-
     ];
-
 
     for(
         let i = 0;
@@ -627,22 +589,15 @@ function ambilPembayaran(){
 
             const hasil =
                 JSON.parse(
-                    localStorage.getItem(
-                        keys[i]
-                    )
+                    localStorage.getItem(keys[i])
                 );
 
-
-            if(
-                Array.isArray(hasil)
-            ){
+            if(Array.isArray(hasil)){
 
                 data = hasil;
-
                 break;
 
             }
-
 
             if(
                 hasil &&
@@ -650,7 +605,6 @@ function ambilPembayaran(){
             ){
 
                 data = [hasil];
-
                 break;
 
             }
@@ -659,16 +613,14 @@ function ambilPembayaran(){
 
     }
 
-
     return data || [];
 
 }
 
 
-
-/* =========================
-   SIMPAN PEMBAYARAN
-========================= */
+/* =====================================================
+   SIMPAN DATA PEMBAYARAN
+===================================================== */
 
 function simpanPembayaran(data){
 
@@ -676,7 +628,6 @@ function simpanPembayaran(data){
         "pembayaranAngsuran",
         JSON.stringify(data)
     );
-
 
     localStorage.setItem(
         "pembayaran",
@@ -686,10 +637,112 @@ function simpanPembayaran(data){
 }
 
 
+/* =====================================================
+   AMBIL JUMLAH PINJAMAN
+===================================================== */
 
-/* =========================
+function ambilJumlahPinjaman(){
+
+    /*
+       Prioritas:
+       1. saldo
+       2. jumlahPinjaman
+
+       Pada akun kamu saat ini:
+       saldo = Rp30.000.000
+    */
+
+    let saldo =
+        Number(
+            localStorage.getItem("saldo") || 0
+        );
+
+    if(saldo <= 0){
+
+        saldo =
+            Number(
+                localStorage.getItem(
+                    "jumlahPinjaman"
+                ) || 0
+            );
+
+    }
+
+    return saldo;
+
+}
+
+
+/* =====================================================
+   AMBIL TENOR
+===================================================== */
+
+function ambilTenor(){
+
+    let tenor =
+        Number(
+            localStorage.getItem("tenor") || 0
+        );
+
+    /*
+       Jika tenor belum tersimpan,
+       gunakan tenor persetujuan nasabah
+       yaitu 36 bulan.
+    */
+
+    if(tenor <= 0){
+
+        tenor =
+            Number(
+                localStorage.getItem(
+                    "tenorPinjaman"
+                ) || 0
+            );
+
+    }
+
+    if(tenor <= 0){
+
+        tenor = 36;
+
+    }
+
+    return tenor;
+
+}
+
+
+/* =====================================================
+   HITUNG ANGSURAN OTOMATIS
+===================================================== */
+
+function hitungAngsuranOtomatis(){
+
+    const jumlahPinjaman =
+        ambilJumlahPinjaman();
+
+    const tenor =
+        ambilTenor();
+
+
+    if(
+        jumlahPinjaman > 0 &&
+        tenor > 0
+    ){
+
+        return jumlahPinjaman / tenor;
+
+    }
+
+
+    return 0;
+
+}
+
+
+/* =====================================================
    REKENING PEMBAYARAN
-========================= */
+===================================================== */
 
 function loadRekeningPembayaran(){
 
@@ -771,64 +824,37 @@ function loadRekeningPembayaran(){
 
 
     if(bank){
-
         bank.innerHTML =
             data.bank;
-
     }
 
 
     if(rekening){
-
         rekening.innerHTML =
             data.rekening;
-
     }
 
 
     if(atasNama){
-
         atasNama.innerHTML =
             data.atasNama;
-
     }
 
 }
 
 
-
-/* =========================
+/* =====================================================
    LOAD HALAMAN
-========================= */
-function hitungAngsuranOtomatis(){
+===================================================== */
 
-    const jumlahPinjaman = Number(
-        localStorage.getItem("jumlahPinjaman") || 0
-    );
-
-    const tenor = Number(
-        localStorage.getItem("tenor") || 0
-    );
-
-    if(
-        jumlahPinjaman > 0 &&
-        tenor > 0
-    ){
-        return jumlahPinjaman / tenor;
-    }
-
-    return 0;
-}
 function loadHalaman(){
 
-    /* =========================
-       SALDO / JUMLAH PINJAMAN
-    ========================= */
+    /* -----------------------------------------------
+       JUMLAH PINJAMAN
+    ------------------------------------------------ */
 
     const saldo =
-        Number(
-            localStorage.getItem("saldo") || 0
-        );
+        ambilJumlahPinjaman();
 
 
     document.getElementById(
@@ -837,17 +863,18 @@ function loadHalaman(){
         rupiah(saldo);
 
 
-
-    /* =========================
+    /* -----------------------------------------------
        TANGGAL JATUH TEMPO
-    ========================= */
+    ------------------------------------------------ */
 
     const tanggal =
         new Date();
 
+
     tanggal.setDate(
         tanggal.getDate() + 30
     );
+
 
     document.getElementById(
         "tanggalJatuhTempo"
@@ -862,19 +889,9 @@ function loadHalaman(){
         );
 
 
-
-    /* =========================
-       TENOR PINJAMAN
-       NASABAH = 36 BULAN
-    ========================= */
-
-    const tenor = 36;
-
-
-
-    /* =========================
-       ANGSURAN BERIKUTNYA
-    ========================= */
+    /* -----------------------------------------------
+       NOMOR ANGSURAN
+    ------------------------------------------------ */
 
     const berikutnya =
         Number(
@@ -883,6 +900,7 @@ function loadHalaman(){
             ) || 1
         );
 
+
     document.getElementById(
         "nomorAngsuran"
     ).innerHTML =
@@ -890,25 +908,15 @@ function loadHalaman(){
         berikutnya;
 
 
-
-    /* =========================
-       HITUNG ANGSURAN OTOMATIS
+    /* -----------------------------------------------
+       HITUNG JUMLAH ANGSURAN
        
        Rp30.000.000 / 36
-       = Rp833.333,33
-    ========================= */
+       = Rp833.333
+    ------------------------------------------------ */
 
-    let jumlah = 0;
-
-    if(
-        saldo > 0 &&
-        tenor > 0
-    ){
-
-        jumlah =
-            saldo / tenor;
-
-    }
+    const jumlah =
+        hitungAngsuranOtomatis();
 
 
     document.getElementById(
@@ -919,104 +927,18 @@ function loadHalaman(){
         );
 
 
-
-    /* =========================
-       TAMPILKAN STATUS
-    ========================= */
-
-    tampilkanStatus();
-
-}
-
-
-
-    /* =========================
-       TANGGAL JATUH TEMPO
-    ========================= */
-
-    const tanggal =
-        new Date();
-
-
-    tanggal.setDate(
-        tanggal.getDate() + 30
-    );
-
-
-    document.getElementById(
-        "tanggalJatuhTempo"
-    ).innerHTML =
-        tanggal.toLocaleDateString(
-            "id-ID",
-            {
-                day:"2-digit",
-                month:"long",
-                year:"numeric"
-            }
-        );
-
-
-
-    /* =========================
-       ANGSURAN BERIKUTNYA
-    ========================= */
-
-    const berikutnya =
-        Number(
-            localStorage.getItem(
-                "angsuranBerikutnya"
-            ) || 1
-        );
-
-
-    document.getElementById(
-        "nomorAngsuran"
-    ).innerHTML =
-        "Angsuran ke-" +
-        berikutnya;
-
-
-/* =========================
-   JUMLAH ANGSURAN OTOMATIS
-========================= */
-
-const jumlahPinjaman =
-    Number(
-        localStorage.getItem("saldo") || 0
-    );
-
-const tenor =
-    Number(
-        localStorage.getItem("tenor") || 36
-    );
-
-let jumlah = 0;
-
-if(
-    jumlahPinjaman > 0 &&
-    tenor > 0
-){
-
-    jumlah =
-        jumlahPinjaman / tenor;
-
-}
-
-document.getElementById(
-    "jumlahAngsuran"
-).innerHTML =
-    rupiah(jumlah);
-
+    /* -----------------------------------------------
+       TAMPILKAN STATUS PEMBAYARAN
+    ------------------------------------------------ */
 
     tampilkanStatus();
 
 }
 
 
-
-/* =========================
-   TAMPILKAN STATUS
-========================= */
+/* =====================================================
+   TAMPILKAN STATUS PEMBAYARAN
+===================================================== */
 
 function tampilkanStatus(){
 
@@ -1030,9 +952,7 @@ function tampilkanStatus(){
         );
 
 
-    if(
-        data.length === 0
-    ){
+    if(data.length === 0){
 
         tempat.innerHTML = `
 
@@ -1047,16 +967,14 @@ function tampilkanStatus(){
 
         tampilkanPesanStatus();
 
-
         return;
 
     }
 
 
-
     /*
-       Pembayaran terbaru
-       berada di posisi pertama
+       Pembayaran terbaru berada
+       di posisi pertama.
     */
 
     const item =
@@ -1080,7 +998,6 @@ function tampilkanStatus(){
     let kelas = "";
 
 
-
     if(
         status ===
         "Pembayaran Berhasil Diverifikasi"
@@ -1093,7 +1010,6 @@ function tampilkanStatus(){
             "success";
 
     }
-
 
 
     if(
@@ -1110,11 +1026,9 @@ function tampilkanStatus(){
     }
 
 
-
     tempat.innerHTML = `
 
         <div class="payment-info">
-
 
             <div class="payment-row">
 
@@ -1206,11 +1120,9 @@ function tampilkanStatus(){
                 ""
             }
 
-
         </div>
 
     `;
-
 
 
     tampilkanPesanStatus();
@@ -1218,10 +1130,9 @@ function tampilkanStatus(){
 }
 
 
-
-/* =========================
+/* =====================================================
    PESAN STATUS
-========================= */
+===================================================== */
 
 function tampilkanPesanStatus(){
 
@@ -1259,7 +1170,6 @@ function tampilkanPesanStatus(){
     );
 
 
-
     if(
         statusTerakhir ===
         "Pembayaran Berhasil Diverifikasi"
@@ -1277,7 +1187,6 @@ function tampilkanPesanStatus(){
             "Pembayaran Anda telah diverifikasi oleh Admin.";
 
     }
-
 
 
     if(
@@ -1301,10 +1210,9 @@ function tampilkanPesanStatus(){
 }
 
 
-
-/* =========================
+/* =====================================================
    KIRIM PEMBAYARAN
-========================= */
+===================================================== */
 
 function kirimPembayaran(){
 
@@ -1323,16 +1231,13 @@ function kirimPembayaran(){
             "Silakan pilih bukti pembayaran terlebih dahulu."
         );
 
-
         return;
 
     }
 
 
-
     const file =
         fileInput.files[0];
-
 
 
     const nama =
@@ -1340,7 +1245,6 @@ function kirimPembayaran(){
             "nama"
         ) ||
         "Nasabah";
-
 
 
     const berikutnya =
@@ -1351,40 +1255,18 @@ function kirimPembayaran(){
         );
 
 
+    /*
+       JUMLAH ANGSURAN DI SINI JUGA
+       OTOMATIS DARI PINJAMAN / TENOR
+    */
 
-const jumlahPinjaman =
-    Number(
-        localStorage.getItem("saldo") || 0
-    );
-
-const tenor =
-    Number(
-        localStorage.getItem("tenor") || 36
-    );
-
-let jumlah = 0;
-
-if(
-    jumlahPinjaman > 0 &&
-    tenor > 0
-){
-
-    jumlah =
-        jumlahPinjaman / tenor;
-
-}
-
+    const jumlah =
+        hitungAngsuranOtomatis();
 
 
     let data =
         ambilPembayaran();
 
-
-
-    /*
-       Pembayaran baru
-       ditempatkan paling atas
-    */
 
     const pembayaran = {
 
@@ -1399,7 +1281,7 @@ if(
             berikutnya,
 
         jumlah:
-            jumlah,
+            Math.round(jumlah),
 
         tanggal:
             new Date()
@@ -1422,22 +1304,20 @@ if(
     };
 
 
+    /*
+       Pembayaran baru
+       ditempatkan paling atas.
+    */
 
     data.unshift(
         pembayaran
     );
 
 
-
     simpanPembayaran(
         data
     );
 
-
-
-    /*
-       Status pembayaran
-    */
 
     localStorage.setItem(
         "statusPembayaranTerakhir",
@@ -1451,17 +1331,10 @@ if(
     );
 
 
-
-    /*
-       Reset upload
-    */
-
     fileInput.value = "";
 
 
-
     tampilkanStatus();
-
 
 
     alert(
@@ -1472,10 +1345,9 @@ if(
 }
 
 
-
-/* =========================
-   JALANKAN
-========================= */
+/* =====================================================
+   JALANKAN HALAMAN
+===================================================== */
 
 loadHalaman();
 
