@@ -41,7 +41,7 @@ body{
 }
 
 .container{
-    max-width:800px;
+    max-width:850px;
     margin:auto;
     padding:20px;
 }
@@ -143,6 +143,10 @@ body{
 
 .red{
     background:#dc2626;
+}
+
+.darkblue{
+    background:#174a7c;
 }
 
 
@@ -343,7 +347,6 @@ body{
 </div>
 
 
-
 <div class="container">
 
 
@@ -427,7 +430,7 @@ body{
 
 
 <!-- =========================
-     MENU UTAMA
+     MENU ADMIN
 ========================= -->
 
 <div class="card">
@@ -440,9 +443,11 @@ body{
     <div class="menu">
 
 
+        <!-- PENGAJUAN -->
+
         <button
             class="blue"
-            onclick="window.location.href='pengajuan-admin.html'">
+            onclick="window.location.href='pengajuan.html'">
 
             📝<br>
             Kelola Pengajuan
@@ -450,13 +455,12 @@ body{
         </button>
 
 
-        <!-- =========================
-             VERIFIKASI PEMBAYARAN
-        ========================= -->
+
+        <!-- VERIFIKASI PEMBAYARAN -->
 
         <button
             class="green"
-            onclick="window.location.href='verifikasi-pembayaran-admin-final.html'">
+            onclick="window.location.href='verifikasi-pembayaran.html'">
 
             💳<br>
             Verifikasi Pembayaran
@@ -464,19 +468,25 @@ body{
         </button>
 
 
+
+        <!-- PENGATURAN REKENING -->
+
         <button
             class="orange"
             onclick="window.location.href='pengaturan-pembayaran.html'">
 
-            ⚙️<br>
-            Pengaturan Pembayaran
+            🏦<br>
+            Rekening Pembayaran
 
         </button>
 
 
+
+        <!-- RIWAYAT -->
+
         <button
             class="purple"
-            onclick="window.location.href='riwayat-aktivitas.html'">
+            onclick="window.location.href='riwayat.html'">
 
             📋<br>
             Riwayat Aktivitas
@@ -484,15 +494,86 @@ body{
         </button>
 
 
+
+        <!-- NOTIFIKASI -->
+
         <button
             class="gray"
-            onclick="window.location.href='notifikasi-admin.html'">
+            onclick="window.location.href='notifikasi.html'">
 
             🔔<br>
             Notifikasi Admin
 
         </button>
 
+
+
+        <!-- ANGSURAN -->
+
+        <button
+            class="darkblue"
+            onclick="window.location.href='angsuran.html'">
+
+            📅<br>
+            Kelola Angsuran
+
+        </button>
+
+
+
+        <!-- NASABAH -->
+
+        <button
+            class="blue"
+            onclick="window.location.href='nasabah.html'">
+
+            👤<br>
+            Data Nasabah
+
+        </button>
+
+
+
+        <!-- PEMBAYARAN -->
+
+        <button
+            class="green"
+            onclick="window.location.href='pembayaran.html'">
+
+            💰<br>
+            Data Pembayaran
+
+        </button>
+
+
+
+        <!-- SALDO -->
+
+        <button
+            class="purple"
+            onclick="window.location.href='saldo.html'">
+
+            💵<br>
+            Kelola Saldo
+
+        </button>
+
+
+
+        <!-- LAPORAN -->
+
+        <button
+            class="orange"
+            onclick="window.location.href='laporan.html'">
+
+            📊<br>
+            Laporan
+
+        </button>
+
+
+
+        <!-- KELUAR -->
 
         <button
             class="red"
@@ -511,7 +592,7 @@ body{
 
 
 <!-- =========================
-     REKENING AKTIF
+     REKENING PEMBAYARAN AKTIF
 ========================= -->
 
 <div class="card">
@@ -568,7 +649,10 @@ body{
 
     <button
         class="blue"
-        style="width:100%;margin-top:15px;"
+        style="
+            width:100%;
+            margin-top:15px;
+        "
         onclick="window.location.href='pengaturan-pembayaran.html'">
 
         ⚙️ Ubah Rekening Pembayaran
@@ -596,10 +680,23 @@ body{
         <div class="payment-row">
 
             <span>
-                Pembayaran Terakhir
+                Nasabah Terakhir
             </span>
 
             <span id="pembayaranTerakhir">
+                -
+            </span>
+
+        </div>
+
+
+        <div class="payment-row">
+
+            <span>
+                Pembayaran
+            </span>
+
+            <span id="angsuranTerakhir">
                 -
             </span>
 
@@ -628,6 +725,19 @@ body{
 
 
     </div>
+
+
+    <button
+        class="green"
+        style="
+            width:100%;
+            margin-top:15px;
+        "
+        onclick="window.location.href='verifikasi-pembayaran.html'">
+
+        🔎 Buka Verifikasi Pembayaran
+
+    </button>
 
 </div>
 
@@ -681,12 +791,25 @@ body{
 
     </div>
 
+
+    <button
+        class="gray"
+        style="
+            width:100%;
+            margin-top:15px;
+        "
+        onclick="window.location.href='notifikasi.html'">
+
+        🔔 Lihat Semua Notifikasi
+
+    </button>
+
 </div>
 
 
 
 <!-- =========================
-     AKTIVITAS ADMIN
+     AKTIVITAS TERBARU
 ========================= -->
 
 <div class="card">
@@ -705,6 +828,19 @@ body{
         </div>
 
     </div>
+
+
+    <button
+        class="purple"
+        style="
+            width:100%;
+            margin-top:15px;
+        "
+        onclick="window.location.href='riwayat.html'">
+
+        📋 Lihat Riwayat
+
+    </button>
 
 </div>
 
@@ -731,6 +867,23 @@ body{
 
 
 /* =========================
+   CEK LOGIN ADMIN
+========================= */
+
+if(
+    localStorage.getItem("adminLogin")
+    !==
+    "true"
+){
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+
+/* =========================
    FORMAT RUPIAH
 ========================= */
 
@@ -745,7 +898,7 @@ function rupiah(angka){
 
 
 /* =========================
-   AMBIL ARRAY LOCAL STORAGE
+   AMBIL ARRAY
 ========================= */
 
 function ambilArray(key){
@@ -757,15 +910,26 @@ function ambilArray(key){
                 localStorage.getItem(key)
             );
 
-        return Array.isArray(data)
-            ? data
-            : [];
+        if(
+            Array.isArray(data)
+        ){
 
-    }catch(e){
+            return data;
 
-        return [];
+        }
 
-    }
+        if(
+            data &&
+            typeof data === "object"
+        ){
+
+            return [data];
+
+        }
+
+    }catch(e){}
+
+    return [];
 
 }
 
@@ -788,6 +952,9 @@ function ambilPembayaran(){
     ];
 
 
+    let hasil = [];
+
+
     for(
         let i = 0;
         i < keys.length;
@@ -798,23 +965,28 @@ function ambilPembayaran(){
             ambilArray(keys[i]);
 
 
-        if(data.length > 0){
+        if(
+            data.length > 0
+        ){
 
-            return data;
+            hasil =
+                data;
+
+            break;
 
         }
 
     }
 
 
-    return [];
+    return hasil;
 
 }
 
 
 
 /* =========================
-   LOAD STATISTIK
+   STATISTIK
 ========================= */
 
 function loadStatistik(){
@@ -835,28 +1007,40 @@ function loadStatistik(){
         pengajuan.length;
 
 
-    const pengajuanMenunggu =
-        pengajuan.filter(function(item){
 
-            const status =
-                String(
-                    item.status || ""
-                ).toLowerCase();
+    const menungguPengajuan =
+        pengajuan.filter(
+            function(item){
+
+                const status =
+                    String(
+                        item.status || ""
+                    ).toLowerCase();
 
 
-            return (
-                status.includes("menunggu") ||
-                status.includes("diproses") ||
-                status === ""
-            );
+                return (
 
-        }).length;
+                    status === "" ||
+
+                    status.includes(
+                        "menunggu"
+                    ) ||
+
+                    status.includes(
+                        "diproses"
+                    )
+
+                );
+
+            }
+        ).length;
 
 
     document.getElementById(
         "pengajuanMenunggu"
     ).innerHTML =
-        pengajuanMenunggu;
+        menungguPengajuan;
+
 
 
     document.getElementById(
@@ -865,24 +1049,35 @@ function loadStatistik(){
         pembayaran.length;
 
 
+
     const menunggu =
-        pembayaran.filter(function(item){
+        pembayaran.filter(
+            function(item){
 
-            const status =
-                item.status || "";
+                const status =
+                    String(
+                        item.status || ""
+                    );
 
 
-            return (
-                status ===
-                "Menunggu Verifikasi Admin"
-                ||
-                status ===
-                "Menunggu Verifikasi"
-                ||
-                !status
-            );
+                return (
 
-        }).length;
+                    status ===
+                    "Menunggu Verifikasi Admin"
+
+                    ||
+
+                    status ===
+                    "Menunggu Verifikasi"
+
+                    ||
+
+                    status === ""
+
+                );
+
+            }
+        ).length;
 
 
     document.getElementById(
@@ -895,7 +1090,7 @@ function loadStatistik(){
 
 
 /* =========================
-   LOAD REKENING
+   REKENING AKTIF
 ========================= */
 
 function loadRekening(){
@@ -919,10 +1114,6 @@ function loadRekening(){
     }
 
 
-    /*
-       Jika belum ada pengaturan,
-       gunakan nilai kosong.
-    */
 
     if(
         !data ||
@@ -931,42 +1122,44 @@ function loadRekening(){
 
         data = {
 
-            namaBank:
-                "-",
+            bank:
+                "BRI",
 
-            nomorRekening:
-                "-",
+            rekening:
+                "0000 0000 0674",
 
-            namaPemilik:
-                "-"
+            atasNama:
+                "KUR Digital"
 
         };
 
     }
 
 
+
     /*
-       Mendukung dua kemungkinan
-       nama field dari halaman
-       pengaturan pembayaran.
+       Mendukung dua format
+       sekaligus agar kompatibel
+       dengan halaman pengaturan.
     */
 
     const bank =
-        data.namaBank ||
         data.bank ||
+        data.namaBank ||
         "-";
 
 
     const rekening =
-        data.nomorRekening ||
         data.rekening ||
+        data.nomorRekening ||
         "-";
 
 
-    const pemilik =
-        data.namaPemilik ||
+    const atasNama =
         data.atasNama ||
+        data.namaPemilik ||
         "-";
+
 
 
     document.getElementById(
@@ -984,14 +1177,14 @@ function loadRekening(){
     document.getElementById(
         "pemilikAktif"
     ).innerHTML =
-        pemilik;
+        atasNama;
 
 }
 
 
 
 /* =========================
-   LOAD STATUS PEMBAYARAN
+   STATUS PEMBAYARAN
 ========================= */
 
 function loadStatusPembayaran(){
@@ -1000,18 +1193,43 @@ function loadStatusPembayaran(){
         ambilPembayaran();
 
 
-    if(data.length === 0){
-
+    const nama =
         document.getElementById(
             "pembayaranTerakhir"
-        ).innerHTML =
-            "Belum ada pembayaran.";
+        );
 
 
+    const angsuran =
+        document.getElementById(
+            "angsuranTerakhir"
+        );
+
+
+    const badge =
         document.getElementById(
             "statusPembayaran"
-        ).innerHTML =
+        );
+
+
+
+    if(
+        data.length === 0
+    ){
+
+        nama.innerHTML =
+            "Belum ada pembayaran";
+
+
+        angsuran.innerHTML =
+            "-";
+
+
+        badge.innerHTML =
             "Belum Ada";
+
+
+        badge.className =
+            "badge";
 
 
         return;
@@ -1019,26 +1237,34 @@ function loadStatusPembayaran(){
     }
 
 
+
     const item =
         data[0];
 
 
-    document.getElementById(
-        "pembayaranTerakhir"
-    ).innerHTML =
+
+    nama.innerHTML =
         item.nama ||
         "Nasabah";
+
+
+
+    angsuran.innerHTML =
+        item.angsuran ||
+        item.pembayaran ||
+        (
+            "Angsuran ke-" +
+            (
+                item.pembayaranKe ||
+                1
+            )
+        );
+
 
 
     const status =
         item.status ||
         "Menunggu Verifikasi Admin";
-
-
-    const badge =
-        document.getElementById(
-            "statusPembayaran"
-        );
 
 
     badge.innerHTML =
@@ -1049,15 +1275,22 @@ function loadStatusPembayaran(){
         "badge";
 
 
+
     if(
+
         status ===
         "Pembayaran Berhasil Diverifikasi"
+
         ||
-        status ===
-        "Disetujui"
-        ||
+
         status ===
         "Diverifikasi"
+
+        ||
+
+        status ===
+        "Disetujui"
+
     ){
 
         badge.classList.add(
@@ -1067,12 +1300,17 @@ function loadStatusPembayaran(){
     }
 
 
+
     if(
+
         status ===
         "Pembayaran Ditolak"
+
         ||
+
         status ===
         "Ditolak"
+
     ){
 
         badge.classList.add(
@@ -1086,7 +1324,7 @@ function loadStatusPembayaran(){
 
 
 /* =========================
-   LOAD NOTIFIKASI
+   NOTIFIKASI
 ========================= */
 
 function loadNotifikasi(){
@@ -1109,18 +1347,49 @@ function loadNotifikasi(){
     }
 
 
-    const belumDibaca =
-        data.filter(function(item){
-
-            return item.dibaca !== true;
-
-        });
-
 
     const badge =
         document.getElementById(
             "notifBadge"
         );
+
+
+    if(
+        data.length === 0
+    ){
+
+        badge.style.display =
+            "none";
+
+
+        document.getElementById(
+            "notifTitle"
+        ).innerHTML =
+            "Tidak ada notifikasi baru.";
+
+
+        document.getElementById(
+            "notifMessage"
+        ).innerHTML =
+            "Semua aktivitas telah diproses.";
+
+        return;
+
+    }
+
+
+
+    const belumDibaca =
+        data.filter(
+            function(item){
+
+                return (
+                    item.dibaca !== true
+                );
+
+            }
+        );
+
 
 
     if(
@@ -1155,25 +1424,19 @@ function loadNotifikasi(){
             "none";
 
 
-        if(
-            data.length > 0
-        ){
-
-            document.getElementById(
-                "notifTitle"
-            ).innerHTML =
-                data[0].judul ||
-                "Tidak ada notifikasi baru.";
+        document.getElementById(
+            "notifTitle"
+        ).innerHTML =
+            data[0].judul ||
+            "Tidak ada notifikasi baru.";
 
 
-            document.getElementById(
-                "notifMessage"
-            ).innerHTML =
-                data[0].pesan ||
-                data[0].message ||
-                "Semua aktivitas telah diproses.";
-
-        }
+        document.getElementById(
+            "notifMessage"
+        ).innerHTML =
+            data[0].pesan ||
+            data[0].message ||
+            "Semua aktivitas telah diproses.";
 
     }
 
@@ -1182,7 +1445,7 @@ function loadNotifikasi(){
 
 
 /* =========================
-   LOAD AKTIVITAS
+   AKTIVITAS
 ========================= */
 
 function loadAktivitas(){
@@ -1218,47 +1481,54 @@ function loadAktivitas(){
     }
 
 
+
     const tampil =
-        data.slice(0,5);
+        data.slice(
+            0,
+            5
+        );
+
 
 
     tempat.innerHTML =
-        tampil.map(function(item){
+        tampil.map(
+            function(item){
 
-            return `
+                return `
 
-                <div class="activity">
+                    <div class="activity">
 
-                    <div class="activity-title">
+                        <div class="activity-title">
 
-                        ${item.judul || "Aktivitas"}
+                            ${item.judul || "Aktivitas"}
+
+                        </div>
+
+                        <div class="activity-detail">
+
+                            ${item.detail || "-"}
+
+                        </div>
+
+                        <div class="activity-date">
+
+                            ${item.tanggal || "-"}
+
+                        </div>
 
                     </div>
 
-                    <div class="activity-detail">
+                `;
 
-                        ${item.detail || "-"}
-
-                    </div>
-
-                    <div class="activity-date">
-
-                        ${item.tanggal || "-"}
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
+            }
+        ).join("");
 
 }
 
 
 
 /* =========================
-   LOGOUT ADMIN
+   LOGOUT
 ========================= */
 
 function logoutAdmin(){
@@ -1269,9 +1539,7 @@ function logoutAdmin(){
         );
 
 
-    if(
-        !yakin
-    ){
+    if(!yakin){
 
         return;
 
@@ -1321,6 +1589,7 @@ setInterval(
     loadDashboardAdmin,
     5000
 );
+
 
 </script>
 
