@@ -1258,21 +1258,27 @@ function kirimPembayaran(){
 
 
 
-    let jumlah =
-        Number(
-            localStorage.getItem(
-                "jumlahAngsuran"
-            ) || 0
-        );
+const jumlahPinjaman =
+    Number(
+        localStorage.getItem("saldo") || 0
+    );
 
+const tenor =
+    Number(
+        localStorage.getItem("tenor") || 36
+    );
 
-    if(
-        jumlah <= 0
-    ){
+let jumlah = 0;
 
-        jumlah = 0;
+if(
+    jumlahPinjaman > 0 &&
+    tenor > 0
+){
 
-    }
+    jumlah =
+        jumlahPinjaman / tenor;
+
+}
 
 
 
