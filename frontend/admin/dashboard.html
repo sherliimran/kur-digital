@@ -26,9 +26,6 @@ body{
     color:#1f2937;
 }
 
-
-/* HEADER */
-
 .header{
     background:#0057B8;
     color:white;
@@ -59,17 +56,11 @@ body{
     font-size:12px;
 }
 
-
-/* CONTAINER */
-
 .container{
     padding:18px;
     max-width:700px;
     margin:auto;
 }
-
-
-/* WELCOME */
 
 .welcome{
     margin-top:-5px;
@@ -90,9 +81,6 @@ body{
     margin:7px 0 0;
     color:#666;
 }
-
-
-/* STATISTICS */
 
 .stats{
     display:grid;
@@ -125,16 +113,10 @@ body{
     margin-top:4px;
 }
 
-
-/* SECTION */
-
 .section-title{
     font-size:18px;
     margin:20px 2px 12px;
 }
-
-
-/* MENU */
 
 .menu{
     display:grid;
@@ -151,6 +133,7 @@ body{
     box-shadow:0 5px 15px rgba(0,0,0,.07);
     cursor:pointer;
     transition:.2s;
+    position:relative;
 }
 
 .menu-card:active{
@@ -173,8 +156,22 @@ body{
     margin-top:5px;
 }
 
-
-/* PENGAJUAN TERBARU */
+.menu-badge{
+    position:absolute;
+    top:8px;
+    right:8px;
+    min-width:22px;
+    height:22px;
+    padding:3px 6px;
+    border-radius:50%;
+    background:#dc2626;
+    color:white;
+    font-size:11px;
+    font-weight:bold;
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
 
 .card{
     background:white;
@@ -207,9 +204,6 @@ body{
     font-size:14px;
 }
 
-
-/* STATUS */
-
 .status{
     display:inline-block;
     padding:6px 10px;
@@ -219,8 +213,43 @@ body{
     font-size:12px;
 }
 
+.status-success{
+    background:#d1fae5;
+    color:#166534;
+}
 
-/* PROGRESS */
+.status-danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.payment-box{
+    background:#f8fafc;
+    border-radius:14px;
+    padding:15px;
+}
+
+.payment-row{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid #ddd;
+}
+
+.payment-row:last-child{
+    border-bottom:none;
+}
+
+.payment-label{
+    color:#777;
+    font-size:13px;
+}
+
+.payment-value{
+    font-weight:bold;
+    text-align:right;
+}
 
 .progress-bg{
     height:12px;
@@ -232,13 +261,9 @@ body{
 
 .progress-bar{
     height:100%;
-    width:0%;
     background:#0057B8;
     transition:.3s;
 }
-
-
-/* QUICK ACTION */
 
 .quick{
     background:#eef6ff;
@@ -259,9 +284,6 @@ body{
     color:#555;
 }
 
-
-/* LOGOUT */
-
 .logout{
     width:100%;
     margin-top:20px;
@@ -275,9 +297,6 @@ body{
     cursor:pointer;
 }
 
-
-/* FOOTER */
-
 .footer{
     text-align:center;
     color:#999;
@@ -285,18 +304,22 @@ body{
     padding:25px 10px;
 }
 
+.empty{
+    text-align:center;
+    color:#777;
+    padding:15px;
+}
 
-/* BADGE */
+@media(max-width:500px){
 
-.badge{
-    display:inline-block;
-    min-width:20px;
-    padding:3px 6px;
-    border-radius:12px;
-    background:#dc2626;
-    color:white;
-    font-size:10px;
-    margin-left:5px;
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .menu{
+        grid-template-columns:1fr 1fr;
+    }
+
 }
 
 </style>
@@ -307,7 +330,9 @@ body{
 <body>
 
 
-<!-- HEADER -->
+<!-- =========================
+     HEADER
+========================= -->
 
 <div class="header">
 
@@ -315,17 +340,18 @@ body{
 
         <div>
 
-            <h1>Dashboard Admin</h1>
+            <h1>
+                Dashboard Admin
+            </h1>
 
-            <p>KUR Digital</p>
+            <p>
+                KUR Digital
+            </p>
 
         </div>
 
-
         <div class="admin-badge">
-
             ADMIN
-
         </div>
 
     </div>
@@ -337,7 +363,9 @@ body{
 <div class="container">
 
 
-<!-- WELCOME -->
+<!-- =========================
+     WELCOME
+========================= -->
 
 <div class="welcome">
 
@@ -346,214 +374,295 @@ body{
     </h2>
 
     <p>
-        Kelola pengajuan dan layanan
-        nasabah dari satu tempat.
+        Kelola pengajuan, pembayaran,
+        dan layanan nasabah dari satu tempat.
     </p>
 
 </div>
 
 
 
-<!-- STATISTIK -->
+<!-- =========================
+     STATISTIK
+========================= -->
 
 <div class="stats">
 
 
-<div class="stat">
+    <div class="stat">
 
-    <div class="stat-icon">
-        📋
-    </div>
+        <div class="stat-icon">
+            📋
+        </div>
 
-    <div
-        class="stat-number"
-        id="jumlahPengajuan">
+        <div
+            class="stat-number"
+            id="jumlahPengajuan">
 
-        0
+            0
 
-    </div>
+        </div>
 
-    <div class="stat-label">
-
-        Pengajuan
-
-    </div>
-
-</div>
-
-
-
-<div class="stat">
-
-    <div class="stat-icon">
-        ⏳
-    </div>
-
-    <div
-        class="stat-number"
-        id="menunggu">
-
-        0
+        <div class="stat-label">
+            Pengajuan
+        </div>
 
     </div>
 
-    <div class="stat-label">
 
-        Menunggu
+    <div class="stat">
 
-    </div>
+        <div class="stat-icon">
+            ⏳
+        </div>
 
-</div>
+        <div
+            class="stat-number"
+            id="menunggu">
 
+            0
 
+        </div>
 
-<div class="stat">
-
-    <div class="stat-icon">
-        💰
-    </div>
-
-    <div
-        class="stat-number"
-        id="saldo">
-
-        Rp 0
+        <div class="stat-label">
+            Pengajuan Menunggu
+        </div>
 
     </div>
 
-    <div class="stat-label">
 
-        Saldo Pinjaman
+    <div class="stat">
 
-    </div>
+        <div class="stat-icon">
+            💳
+        </div>
 
-</div>
+        <div
+            class="stat-number"
+            id="totalPembayaran">
 
+            0
 
+        </div>
 
-<div class="stat">
-
-    <div class="stat-icon">
-        🔔
-    </div>
-
-    <div
-        class="stat-number"
-        id="notif">
-
-        0
+        <div class="stat-label">
+            Total Pembayaran
+        </div>
 
     </div>
 
-    <div class="stat-label">
 
-        Notifikasi Baru
+    <div class="stat">
+
+        <div class="stat-icon">
+            🔔
+        </div>
+
+        <div
+            class="stat-number"
+            id="menungguPembayaran">
+
+            0
+
+        </div>
+
+        <div class="stat-label">
+            Pembayaran Menunggu
+        </div>
 
     </div>
-
-</div>
 
 
 </div>
 
 
 
-<!-- MENU -->
+<!-- =========================
+     MENU ADMIN
+========================= -->
 
 <h3 class="section-title">
-
     Menu Administrasi
-
 </h3>
 
 
 <div class="menu">
 
 
-<button
-class="menu-card"
-onclick="window.location.href='pengajuan.html'">
+    <!-- PENGAJUAN -->
 
-    <div class="menu-icon">
-        📋
-    </div>
+    <button
+        class="menu-card"
+        onclick="window.location.href='pengajuan.html'">
 
-    <div class="menu-title">
-        Pengajuan KUR
-    </div>
+        <div class="menu-icon">
+            📋
+        </div>
 
-    <div class="menu-desc">
-        Kelola dan verifikasi pengajuan
-    </div>
+        <div class="menu-title">
+            Pengajuan KUR
+        </div>
 
-</button>
+        <div class="menu-desc">
+            Kelola dan verifikasi pengajuan
+        </div>
 
-
-
-<button
-class="menu-card"
-onclick="window.location.href='saldo.html'">
-
-    <div class="menu-icon">
-        💰
-    </div>
-
-    <div class="menu-title">
-        Kelola Saldo
-    </div>
-
-    <div class="menu-desc">
-        Tambah atau kurangi saldo
-    </div>
-
-</button>
+    </button>
 
 
 
-<button
-class="menu-card"
-onclick="window.location.href='notifikasi.html'">
+    <!-- SALDO -->
 
-    <div class="menu-icon">
-        🔔
-    </div>
+    <button
+        class="menu-card"
+        onclick="window.location.href='saldo.html'">
 
-    <div class="menu-title">
-        Notifikasi
-    </div>
+        <div class="menu-icon">
+            💰
+        </div>
 
-    <div class="menu-desc">
-        Kirim pesan ke nasabah
-    </div>
+        <div class="menu-title">
+            Kelola Saldo
+        </div>
 
-</button>
+        <div class="menu-desc">
+            Kelola saldo pinjaman nasabah
+        </div>
+
+    </button>
 
 
 
-<button
-class="menu-card"
-onclick="window.location.href='riwayat.html'">
+    <!-- VERIFIKASI PEMBAYARAN -->
 
-    <div class="menu-icon">
-        📊
-    </div>
+    <button
+        class="menu-card"
+        onclick="window.location.href='verifikasi-pembayaran.html'">
 
-    <div class="menu-title">
-        Riwayat Aktivitas
-    </div>
+        <span
+            class="menu-badge"
+            id="badgePembayaran">
 
-    <div class="menu-desc">
-        Lihat aktivitas sistem
-    </div>
+            0
 
-</button>
+        </span>
+
+        <div class="menu-icon">
+            💳
+        </div>
+
+        <div class="menu-title">
+            Verifikasi Pembayaran
+        </div>
+
+        <div class="menu-desc">
+            Periksa dan verifikasi bukti pembayaran
+        </div>
+
+    </button>
+
+
+
+    <!-- NOTIFIKASI -->
+
+    <button
+        class="menu-card"
+        onclick="window.location.href='notifikasi.html'">
+
+        <div class="menu-icon">
+            🔔
+        </div>
+
+        <div class="menu-title">
+            Notifikasi
+        </div>
+
+        <div class="menu-desc">
+            Kirim pesan kepada nasabah
+        </div>
+
+    </button>
+
+
+
+    <!-- RIWAYAT -->
+
+    <button
+        class="menu-card"
+        onclick="window.location.href='riwayat.html'">
+
+        <div class="menu-icon">
+            📊
+        </div>
+
+        <div class="menu-title">
+            Riwayat Aktivitas
+        </div>
+
+        <div class="menu-desc">
+            Lihat aktivitas sistem
+        </div>
+
+    </button>
+
+
+
+    <!-- PENGATURAN PEMBAYARAN -->
+
+    <button
+        class="menu-card"
+        onclick="window.location.href='pengaturan-pembayaran.html'">
+
+        <div class="menu-icon">
+            ⚙️
+        </div>
+
+        <div class="menu-title">
+            Pengaturan Pembayaran
+        </div>
+
+        <div class="menu-desc">
+            Atur rekening pembayaran
+        </div>
+
+    </button>
 
 
 </div>
 
 
 
-<!-- PENGAJUAN TERBARU -->
+<!-- =========================
+     STATUS PEMBAYARAN
+========================= -->
+
+<h3 class="section-title">
+
+    Status Pembayaran
+
+</h3>
+
+
+<div class="card">
+
+    <div
+        id="statusPembayaranBox">
+
+        <div class="empty">
+
+            Belum ada pembayaran.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     PENGAJUAN TERBARU
+========================= -->
 
 <h3 class="section-title">
 
@@ -575,7 +684,9 @@ onclick="window.location.href='riwayat.html'">
 
 
 
-<!-- QUICK INFO -->
+<!-- =========================
+     QUICK INFO
+========================= -->
 
 <div class="quick">
 
@@ -585,10 +696,10 @@ onclick="window.location.href='riwayat.html'">
 
     <p>
 
-        Periksa pengajuan secara berkala.
-        Setiap perubahan status akan
-        otomatis mengirimkan notifikasi
-        kepada nasabah.
+        Periksa pengajuan dan pembayaran
+        secara berkala. Data akan diperbarui
+        otomatis ketika nasabah melakukan
+        aktivitas baru.
 
     </p>
 
@@ -596,11 +707,13 @@ onclick="window.location.href='riwayat.html'">
 
 
 
-<!-- LOGOUT -->
+<!-- =========================
+     LOGOUT
+========================= -->
 
 <button
-class="logout"
-onclick="logoutAdmin()">
+    class="logout"
+    onclick="logoutAdmin()">
 
     🚪 Keluar dari Admin
 
@@ -639,51 +752,133 @@ function formatRupiah(angka){
 
 
 /* =========================
-   DASHBOARD STATISTIK
+   AMBIL ARRAY
+========================= */
+
+function ambilArray(key){
+
+    try{
+
+        const data =
+            JSON.parse(
+                localStorage.getItem(key)
+            );
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }catch(e){
+
+        return [];
+
+    }
+
+}
+
+
+
+/* =========================
+   AMBIL DATA PEMBAYARAN
+========================= */
+
+function ambilPembayaran(){
+
+    const keys = [
+
+        "pembayaranAngsuran",
+
+        "pembayaran",
+
+        "pembayaranMasuk"
+
+    ];
+
+
+    for(
+        let i=0;
+        i<keys.length;
+        i++
+    ){
+
+        const data =
+            ambilArray(keys[i]);
+
+
+        if(data.length > 0){
+
+            return data;
+
+        }
+
+    }
+
+
+    return [];
+
+}
+
+
+
+/* =========================
+   UPDATE STATISTIK
 ========================= */
 
 function updateDashboard(){
 
-    /* PENGAJUAN */
+    /* =====================
+       PENGAJUAN
+    ===================== */
 
-    const pengajuan =
-        localStorage.getItem(
-            "pengajuan"
-        );
+    let pengajuanData = null;
 
 
-    let jumlah =
-        pengajuan ? 1 : 0;
+    try{
+
+        pengajuanData =
+            JSON.parse(
+                localStorage.getItem(
+                    "pengajuan"
+                )
+            );
+
+    }catch(e){
+
+        pengajuanData = null;
+
+    }
+
+
+    const jumlahPengajuan =
+        pengajuanData ? 1 : 0;
 
 
     document.getElementById(
         "jumlahPengajuan"
     ).innerHTML =
-        jumlah;
+        jumlahPengajuan;
 
 
 
-    /* MENUNGGU */
-
-    let menunggu = 0;
+    let jumlahMenunggu = 0;
 
 
-    if(pengajuan){
+    if(pengajuanData){
 
         const status =
-            localStorage.getItem(
-                "status"
-            )
+            localStorage.getItem("status")
+            ||
+            pengajuanData.status
             ||
             "Menunggu Verifikasi";
 
 
         if(
-            status ===
-            "Menunggu Verifikasi"
+            status.toLowerCase()
+            .includes("menunggu")
         ){
 
-            menunggu = 1;
+            jumlahMenunggu = 1;
 
         }
 
@@ -693,74 +888,285 @@ function updateDashboard(){
     document.getElementById(
         "menunggu"
     ).innerHTML =
-        menunggu;
+        jumlahMenunggu;
 
 
 
-    /* SALDO */
+    /* =====================
+       PEMBAYARAN
+    ===================== */
 
-    const saldo =
-        Number(
-            localStorage.getItem(
-                "saldoPinjaman"
-            )
-            ||
-            localStorage.getItem(
-                "saldo"
-            )
-            ||
-            0
-        );
+    const pembayaran =
+        ambilPembayaran();
 
 
     document.getElementById(
-        "saldo"
+        "totalPembayaran"
     ).innerHTML =
-        formatRupiah(saldo);
+        pembayaran.length;
 
 
-
-    /* NOTIFIKASI */
-
-    let notifikasi = [];
-
-
-    try{
-
-        notifikasi =
-            JSON.parse(
-                localStorage.getItem(
-                    "notifikasi"
-                )
-            )
-            || [];
-
-    }catch(e){
-
-        notifikasi = [];
-
-    }
-
-
-    const jumlahNotif =
-        notifikasi.filter(
+    const menungguPembayaran =
+        pembayaran.filter(
             function(item){
 
-                return item.dibaca
-                !== true;
+                const status =
+                    String(
+                        item.status || ""
+                    ).toLowerCase();
+
+
+                return (
+                    status ===
+                    "menunggu verifikasi admin"
+                    ||
+                    status ===
+                    "menunggu verifikasi"
+                    ||
+                    status === ""
+                );
 
             }
         ).length;
 
 
     document.getElementById(
-        "notif"
+        "menungguPembayaran"
     ).innerHTML =
-        jumlahNotif;
+        menungguPembayaran;
 
 
+
+    /* BADGE MENU */
+
+    const badge =
+        document.getElementById(
+            "badgePembayaran"
+        );
+
+
+    if(
+        menungguPembayaran > 0
+    ){
+
+        badge.style.display =
+            "flex";
+
+        badge.innerHTML =
+            menungguPembayaran;
+
+    }else{
+
+        badge.style.display =
+            "none";
+
+    }
+
+
+
+    tampilkanStatusPembayaran();
 
     tampilkanPengajuan();
+
+}
+
+
+
+/* =========================
+   STATUS PEMBAYARAN
+========================= */
+
+function tampilkanStatusPembayaran(){
+
+    const tempat =
+        document.getElementById(
+            "statusPembayaranBox"
+        );
+
+
+    const data =
+        ambilPembayaran();
+
+
+    if(data.length === 0){
+
+        tempat.innerHTML = `
+
+            <div class="empty">
+
+                💳<br><br>
+
+                Belum ada pembayaran
+                yang dikirim nasabah.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const item =
+        data[0];
+
+
+    const jumlah =
+        Number(
+            item.jumlah ||
+            item.nominal ||
+            item.amount ||
+            0
+        );
+
+
+    const status =
+        item.status ||
+        "Menunggu Verifikasi Admin";
+
+
+    let statusClass = "";
+
+
+    if(
+        status ===
+        "Diverifikasi"
+        ||
+        status ===
+        "Pembayaran Berhasil Diverifikasi"
+        ||
+        status ===
+        "Disetujui"
+    ){
+
+        statusClass =
+            "status-success";
+
+    }
+
+
+    if(
+        status ===
+        "Ditolak"
+        ||
+        status ===
+        "Pembayaran Ditolak"
+    ){
+
+        statusClass =
+            "status-danger";
+
+    }
+
+
+    tempat.innerHTML = `
+
+        <div class="payment-box">
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Nama Nasabah
+                </span>
+
+                <span class="payment-value">
+                    ${item.nama || "Nasabah"}
+                </span>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Angsuran
+                </span>
+
+                <span class="payment-value">
+
+                    ${
+                        item.angsuran ||
+                        item.pembayaran ||
+                        "Angsuran ke-1"
+                    }
+
+                </span>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Jumlah
+                </span>
+
+                <span class="payment-value">
+
+                    ${formatRupiah(jumlah)}
+
+                </span>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Tanggal
+                </span>
+
+                <span class="payment-value">
+
+                    ${item.tanggal || "-"}
+
+                </span>
+
+            </div>
+
+
+            <div class="payment-row">
+
+                <span class="payment-label">
+                    Status
+                </span>
+
+                <span class="payment-value">
+
+                    <span class="status ${statusClass}">
+
+                        ${status}
+
+                    </span>
+
+                </span>
+
+            </div>
+
+
+            <button
+                onclick="window.location.href='verifikasi-pembayaran.html'"
+                style="
+                    width:100%;
+                    margin-top:15px;
+                    padding:13px;
+                    border:none;
+                    border-radius:11px;
+                    background:#0057B8;
+                    color:white;
+                    font-size:15px;
+                    font-weight:bold;
+                    cursor:pointer;
+                ">
+
+                💳 Buka Verifikasi Pembayaran →
+
+            </button>
+
+        </div>
+
+    `;
 
 }
 
@@ -788,11 +1194,7 @@ function tampilkanPengajuan(){
 
         tempat.innerHTML = `
 
-            <div style="
-                text-align:center;
-                color:#777;
-                padding:15px;
-            ">
+            <div class="empty">
 
                 📋<br><br>
 
@@ -871,7 +1273,9 @@ function tampilkanPengajuan(){
             <div class="detail-value">
 
                 ${formatRupiah(
-                    p.pinjaman
+                    p.pinjaman ||
+                    p.jumlahPinjaman ||
+                    0
                 )}
 
             </div>
@@ -886,7 +1290,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="detail-value">
-                ${p.tenor || "-"}
+
+                ${p.tenor || 36} Bulan
+
             </div>
 
         </div>
@@ -944,6 +1350,7 @@ function tampilkanPengajuan(){
                 background:#0057B8;
                 color:white;
                 font-weight:bold;
+                cursor:pointer;
             ">
 
             Lihat Detail Pengajuan →
@@ -981,7 +1388,7 @@ function logoutAdmin(){
 
 
     window.location.href =
-        "login.html";
+        "admin-login.html";
 
 }
 
@@ -998,13 +1405,14 @@ if(
 ){
 
     window.location.href =
-        "login.html";
+        "admin-login.html";
 
 }else{
 
     updateDashboard();
 
 }
+
 
 
 /* =========================
@@ -1015,6 +1423,7 @@ setInterval(
     updateDashboard,
     3000
 );
+
 
 </script>
 
