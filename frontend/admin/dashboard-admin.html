@@ -450,9 +450,13 @@ body{
         </button>
 
 
+        <!-- =========================
+             VERIFIKASI PEMBAYARAN
+        ========================= -->
+
         <button
             class="green"
-            onclick="window.location.href='verifikasi-pembayaran.html'">
+            onclick="window.location.href='verifikasi-pembayaran-admin-final.html'">
 
             💳<br>
             Verifikasi Pembayaran
@@ -915,6 +919,11 @@ function loadRekening(){
     }
 
 
+    /*
+       Jika belum ada pengaturan,
+       gunakan nilai kosong.
+    */
+
     if(
         !data ||
         typeof data !== "object"
@@ -923,35 +932,59 @@ function loadRekening(){
         data = {
 
             namaBank:
-                "BRI",
+                "-",
 
             nomorRekening:
-                "0000 0000 0000",
+                "-",
 
             namaPemilik:
-                "KUR Digital DEMO"
+                "-"
 
         };
 
     }
 
 
+    /*
+       Mendukung dua kemungkinan
+       nama field dari halaman
+       pengaturan pembayaran.
+    */
+
+    const bank =
+        data.namaBank ||
+        data.bank ||
+        "-";
+
+
+    const rekening =
+        data.nomorRekening ||
+        data.rekening ||
+        "-";
+
+
+    const pemilik =
+        data.namaPemilik ||
+        data.atasNama ||
+        "-";
+
+
     document.getElementById(
         "bankAktif"
     ).innerHTML =
-        data.namaBank || "-";
+        bank;
 
 
     document.getElementById(
         "rekeningAktif"
     ).innerHTML =
-        data.nomorRekening || "-";
+        rekening;
 
 
     document.getElementById(
         "pemilikAktif"
     ).innerHTML =
-        data.namaPemilik || "-";
+        pemilik;
 
 }
 
@@ -973,6 +1006,12 @@ function loadStatusPembayaran(){
             "pembayaranTerakhir"
         ).innerHTML =
             "Belum ada pembayaran.";
+
+
+        document.getElementById(
+            "statusPembayaran"
+        ).innerHTML =
+            "Belum Ada";
 
 
         return;
@@ -1016,6 +1055,9 @@ function loadStatusPembayaran(){
         ||
         status ===
         "Disetujui"
+        ||
+        status ===
+        "Diverifikasi"
     ){
 
         badge.classList.add(
@@ -1049,26 +1091,17 @@ function loadStatusPembayaran(){
 
 function loadNotifikasi(){
 
-    const data =
+    let data =
         ambilArray(
             "notifikasiAdmin"
         );
 
 
-    /*
-       Jika sistem lama memakai
-       key notifikasi, tetap dibaca.
-    */
-
-    let semua =
-        data;
-
-
     if(
-        semua.length === 0
+        data.length === 0
     ){
 
-        semua =
+        data =
             ambilArray(
                 "notifikasi"
             );
@@ -1077,7 +1110,7 @@ function loadNotifikasi(){
 
 
     const belumDibaca =
-        semua.filter(function(item){
+        data.filter(function(item){
 
             return item.dibaca !== true;
 
@@ -1096,6 +1129,7 @@ function loadNotifikasi(){
 
         badge.style.display =
             "flex";
+
 
         badge.innerHTML =
             belumDibaca.length;
@@ -1121,20 +1155,22 @@ function loadNotifikasi(){
             "none";
 
 
-        if(semua.length > 0){
+        if(
+            data.length > 0
+        ){
 
             document.getElementById(
                 "notifTitle"
             ).innerHTML =
-                semua[0].judul ||
+                data[0].judul ||
                 "Tidak ada notifikasi baru.";
 
 
             document.getElementById(
                 "notifMessage"
             ).innerHTML =
-                semua[0].pesan ||
-                semua[0].message ||
+                data[0].pesan ||
+                data[0].message ||
                 "Semua aktivitas telah diproses.";
 
         }
@@ -1163,7 +1199,9 @@ function loadAktivitas(){
         );
 
 
-    if(data.length === 0){
+    if(
+        data.length === 0
+    ){
 
         tempat.innerHTML = `
 
@@ -1231,7 +1269,9 @@ function logoutAdmin(){
         );
 
 
-    if(!yakin){
+    if(
+        !yakin
+    ){
 
         return;
 
@@ -1251,7 +1291,7 @@ function logoutAdmin(){
 
 
 /* =========================
-   AUTO REFRESH
+   LOAD DASHBOARD
 ========================= */
 
 function loadDashboardAdmin(){
@@ -1272,17 +1312,15 @@ function loadDashboardAdmin(){
 loadDashboardAdmin();
 
 
-/*
-   Refresh otomatis setiap 5 detik.
-   Berguna ketika nasabah mengirim
-   pembayaran dari halaman lain.
-*/
+
+/* =========================
+   AUTO REFRESH
+========================= */
 
 setInterval(
     loadDashboardAdmin,
     5000
 );
-
 
 </script>
 
