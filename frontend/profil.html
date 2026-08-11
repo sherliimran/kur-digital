@@ -431,58 +431,106 @@ body{
 
 <script>
 
-
-/* ==================================================
-   AMBIL DATA PROFIL
-================================================== */
-
 function loadProfil(){
 
-    /* =========================
+    /* =========================================
        DATA PRIBADI
-    ========================= */
+    ========================================= */
 
-    document.getElementById("nama").innerHTML =
+    document.getElementById("nama").textContent =
         localStorage.getItem("nama") || "-";
 
-
-    document.getElementById("email").innerHTML =
+    document.getElementById("email").textContent =
         localStorage.getItem("email") || "-";
 
-
-    document.getElementById("hp").innerHTML =
+    document.getElementById("hp").textContent =
         localStorage.getItem("hp") || "-";
 
-
-    document.getElementById("nik").innerHTML =
+    document.getElementById("nik").textContent =
         localStorage.getItem("nik") || "-";
 
-
-    document.getElementById("alamat").innerHTML =
+    document.getElementById("alamat").textContent =
         localStorage.getItem("alamat") || "-";
 
 
-    /* =========================
+    /* =========================================
        DATA REKENING
-    ========================= */
+       Ambil dari rekeningNasabah
+    ========================================= */
 
-    document.getElementById("bank").innerHTML =
-        localStorage.getItem("bank") || "-";
+    let rekeningData = null;
+
+    try {
+
+        rekeningData =
+            JSON.parse(
+                localStorage.getItem("rekeningNasabah")
+            );
+
+    } catch(error) {
+
+        console.error(
+            "Data rekening tidak valid:",
+            error
+        );
+
+        rekeningData = null;
+
+    }
 
 
-    document.getElementById("rekening").innerHTML =
-        localStorage.getItem("rekening") || "-";
+    /* =========================================
+       NAMA BANK
+    ========================================= */
+
+    const bank =
+        rekeningData &&
+        rekeningData.namaBank
+            ? rekeningData.namaBank
+            : localStorage.getItem("bank") || "-";
 
 
-    document.getElementById("atasNama").innerHTML =
-        localStorage.getItem("atasNama") || "-";
+    /* =========================================
+       NOMOR REKENING
+    ========================================= */
+
+    const rekening =
+        rekeningData &&
+        rekeningData.nomorRekening
+            ? rekeningData.nomorRekening
+            : localStorage.getItem("rekening") || "-";
+
+
+    /* =========================================
+       NAMA PEMILIK
+    ========================================= */
+
+    const atasNama =
+        rekeningData &&
+        rekeningData.namaPemilikRekening
+            ? rekeningData.namaPemilikRekening
+            : localStorage.getItem("atasNama") || "-";
+
+
+    /* =========================================
+       TAMPILKAN
+    ========================================= */
+
+    document.getElementById("bank").textContent =
+        bank;
+
+    document.getElementById("rekening").textContent =
+        rekening;
+
+    document.getElementById("atasNama").textContent =
+        atasNama;
 
 }
 
 
-/* ==================================================
+/* =========================================
    EDIT PROFIL
-================================================== */
+========================================= */
 
 function editProfil(){
 
@@ -493,15 +541,13 @@ function editProfil(){
 }
 
 
-/* ==================================================
+/* =========================================
    JALANKAN
-================================================== */
+========================================= */
 
 loadProfil();
 
-
 </script>
-
 
 </body>
 
