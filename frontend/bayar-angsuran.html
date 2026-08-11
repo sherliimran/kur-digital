@@ -89,6 +89,15 @@ body{
     margin-bottom:18px;
 }
 
+.no-loan{
+    background:#fff7d6;
+    color:#705d16;
+    padding:18px;
+    border-radius:14px;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
 .payment-info{
     background:#f8fafc;
     padding:18px;
@@ -171,6 +180,11 @@ button{
 
 .kirim{
     background:#0057B8;
+}
+
+.kirim:disabled{
+    background:#aaa;
+    cursor:not-allowed;
 }
 
 .back{
@@ -288,6 +302,28 @@ button{
         Rp 0
 
     </div>
+
+</div>
+
+
+<!-- PESAN BELUM ADA PINJAMAN -->
+
+<div
+    id="belumAdaPinjaman"
+    class="no-loan hidden">
+
+    ⚠️ <b>Belum Ada Pengajuan Pinjaman</b>
+
+    <br><br>
+
+    Anda belum memiliki pinjaman aktif.
+    Silakan lakukan pengajuan pinjaman terlebih dahulu
+    melalui menu <b>Pengajuan KUR</b>.
+
+    <br><br>
+
+    Setelah pengajuan disetujui dan pinjaman aktif,
+    menu pembayaran angsuran akan tersedia.
 
 </div>
 
@@ -417,7 +453,7 @@ button{
                 class="rekening-value"
                 id="bankPembayaran">
 
-                BRI
+                -
 
             </div>
 
@@ -434,7 +470,7 @@ button{
                 class="rekening-value"
                 id="rekeningPembayaran">
 
-                0000 0000 0674
+                -
 
             </div>
 
@@ -451,7 +487,7 @@ button{
                 class="rekening-value"
                 id="atasNamaPembayaran">
 
-                KUR Digital
+                -
 
             </div>
 
@@ -486,6 +522,7 @@ button{
 
     <button
         class="kirim"
+        id="tombolKirim"
         onclick="kirimPembayaran()">
 
         📤 Kirim Pembayaran
@@ -592,72 +629,216 @@ function simpanPembayaran(data){
 
 
 /* ==================================================
+   AMBIL DATA PENGAJUAN
+================================================== */
+
+function ambilDataPengajuan(){
+
+    const keys = [
+
+        "pengajuanKUR",
+        "dataPengajuan",
+        "pengajuan",
+        "dataPengajuanKUR"
+
+    ];
+
+
+    for(let i = 0; i < keys.length; i++){
+
+        try{
+
+            const data =
+                JSON.parse(
+                    localStorage.getItem(keys[i])
+                );
+
+
+            if(
+                data &&
+                typeof data === "object" &&
+                !Array.isArray(data)
+            ){
+
+                return data;
+
+            }
+
+
+            if(
+                Array.isArray(data) &&
+                data.length > 0
+            ){
+
+                return data[0];
+
+            }
+
+        }catch(e){}
+
+    }
+
+
+    return null;
+
+}
+
+
+/* ==================================================
+   CEK APAKAH SUDAH ADA PINJAMAN
+================================================== */
+
+function cekPinjamanAktif(){
+
+    const data =
+        ambilDataPengajuan();
+
+
+    if(!data){
+
+        return false;
+
+    }
+
+
+    /*
+       Ambil status pengajuan
+    */
+
+    const status =
+        String(
+            data.status ||
+            data.statusPengajuan ||
+            ""
+        ).toLowerCase();
+
+
+    /*
+       Jika status jelas ditolak,
+       belum menjadi pinjaman aktif.
+    */
+
+    if(
+        status.includes("tolak") ||
+        status.includes("ditolak")
+    ){
+
+        return false;
+
+    }
+
+
+    /*
+       Cari jumlah pinjaman
+    */
+
+    const jumlah =
+        Number(
+            data.pinjaman ||
+            data.jumlahPinjaman ||
+            data.jumlah ||
+            data.nominal ||
+            0
+        );
+
+
+    /*
+       Jika ada jumlah pinjaman,
+       berarti sudah ada data pengajuan.
+
+       Untuk simulasi ini pembayaran
+       dapat ditampilkan setelah data
+       pengajuan tersedia.
+    */
+
+    if(
+        Number.isFinite(jumlah) &&
+        jumlah > 0
+    ){
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* ==================================================
    HITUNG ANGSURAN OTOMATIS
 ================================================== */
 
 function hitungAngsuranOtomatis(){
 
-    /*
-       Ambil jumlah pinjaman.
+    const data =
+        ambilDataPengajuan();
 
-       Prioritas:
-       1. jumlahPinjaman
-       2. saldo
-       3. Rp30.000.000 sebagai nilai awal
-    */
 
-    let jumlahPinjaman =
+    if(!data){
+
+        return 0;
+
+    }
+
+
+    const jumlahPinjaman =
         Number(
-            localStorage.getItem(
-                "jumlahPinjaman"
-            )
+            data.pinjaman ||
+            data.jumlahPinjaman ||
+            data.jumlah ||
+            data.nominal ||
+            0
         );
 
-
-    if(
-        !Number.isFinite(jumlahPinjaman) ||
-        jumlahPinjaman <= 0
-    ){
-
-        jumlahPinjaman =
-            Number(
-                localStorage.getItem(
-                    "saldo"
-                )
-            );
-
-    }
-
-
-    /*
-       Jika belum ada data,
-       gunakan pinjaman nasabah:
-       Rp30.000.000
-    */
-
-    if(
-        !Number.isFinite(jumlahPinjaman) ||
-        jumlahPinjaman <= 0
-    ){
-
-        jumlahPinjaman = 30000000;
-
-    }
-
-
-    /*
-       Ambil tenor.
-
-       Jika tidak ada atau tidak valid,
-       gunakan 36 bulan.
-    */
 
     let tenor =
         Number(
-            localStorage.getItem(
-                "tenor"
-            )
+            data.tenor
         );
+
+
+    /*
+       Tenor bisa tersimpan seperti:
+       "36 Bulan"
+    */
+
+    if(
+        !Number.isFinite(tenor) ||
+        tenor <= 0
+    ){
+
+        const teksTenor =
+            String(
+                data.tenor || ""
+            );
+
+
+        const cocok =
+            teksTenor.match(/\d+/);
+
+
+        if(cocok){
+
+            tenor =
+                Number(
+                    cocok[0]
+                );
+
+        }
+
+    }
+
+
+    if(
+        !Number.isFinite(jumlahPinjaman) ||
+        jumlahPinjaman <= 0
+    ){
+
+        return 0;
+
+    }
 
 
     if(
@@ -665,30 +846,28 @@ function hitungAngsuranOtomatis(){
         tenor <= 0
     ){
 
-        tenor = 36;
+        return 0;
 
     }
 
 
-    /*
-       Rumus:
-       jumlah pinjaman ÷ tenor
-    */
-
-    const hasil =
-        jumlahPinjaman / tenor;
-
-
-    return Math.round(hasil);
+    return Math.round(
+        jumlahPinjaman / tenor
+    );
 
 }
 
 
 /* ==================================================
-   LOAD REKENING PEMBAYARAN DARI ADMIN
+   LOAD REKENING PEMBAYARAN
 ================================================== */
 
 function loadRekeningPembayaran(){
+
+    /*
+       Format ini SAMA dengan yang
+       disimpan oleh halaman Admin.
+    */
 
     const defaultData = {
 
@@ -696,17 +875,18 @@ function loadRekeningPembayaran(){
             "BRI",
 
         nomorRekening:
-            "0000 0000 0674",
+            "0000 0000 0000",
 
         namaPemilik:
-            "KUR Digital"
+            "KUR Digital DEMO"
 
     };
 
 
-    let data = {
-        ...defaultData
-    };
+    let data =
+        {
+            ...defaultData
+        };
 
 
     try{
@@ -723,15 +903,6 @@ function loadRekeningPembayaran(){
             tersimpan &&
             typeof tersimpan === "object"
         ){
-
-            /*
-             * HARUS SAMA dengan
-             * field yang disimpan Admin:
-             *
-             * namaBank
-             * nomorRekening
-             * namaPemilik
-             */
 
             data = {
 
@@ -753,21 +924,13 @@ function loadRekeningPembayaran(){
 
     }catch(e){
 
-        console.error(
-            "Gagal membaca pengaturan pembayaran:",
-            e
-        );
-
-        data = {
-            ...defaultData
-        };
+        data =
+            {
+                ...defaultData
+            };
 
     }
 
-
-    /*
-     * Tampilkan ke halaman
-     */
 
     const bank =
         document.getElementById(
@@ -810,13 +973,8 @@ function loadRekeningPembayaran(){
 
     }
 
-
-    console.log(
-        "Rekening pembayaran aktif:",
-        data
-    );
-
 }
+
 
 /* ==================================================
    LOAD HALAMAN
@@ -825,64 +983,133 @@ function loadRekeningPembayaran(){
 function loadHalaman(){
 
 
-    /* ------------------------------------------
-       JUMLAH PINJAMAN
-    ------------------------------------------ */
+    const punyaPinjaman =
+        cekPinjamanAktif();
 
-    let saldo =
-        Number(
-            localStorage.getItem(
-                "saldo"
-            )
+
+    const form =
+        document.getElementById(
+            "formPembayaran"
+        );
+
+
+    const belumAda =
+        document.getElementById(
+            "belumAdaPinjaman"
         );
 
 
     /*
-       Jika saldo tidak ada,
-       coba jumlahPinjaman.
+       JIKA BELUM ADA PINJAMAN
     */
 
-    if(
-        !Number.isFinite(saldo) ||
-        saldo <= 0
-    ){
+    if(!punyaPinjaman){
 
-        saldo =
-            Number(
-                localStorage.getItem(
-                    "jumlahPinjaman"
-                )
-            );
+        /*
+           Tampilkan pesan
+        */
+
+        belumAda.classList.remove(
+            "hidden"
+        );
+
+
+        /*
+           Sembunyikan form pembayaran
+        */
+
+        form.classList.add(
+            "hidden"
+        );
+
+
+        /*
+           Pastikan angka 0
+        */
+
+        document.getElementById(
+            "sisaPinjaman"
+        ).innerHTML =
+            "Rp 0";
+
+
+        document.getElementById(
+            "jumlahAngsuran"
+        ).innerHTML =
+            "Rp 0";
+
+
+        document.getElementById(
+            "nomorAngsuran"
+        ).innerHTML =
+            "-";
+
+
+        /*
+           Jangan gunakan saldo
+           atau jumlahPinjaman global.
+        */
+
+        tampilkanStatus();
+
+        return;
 
     }
 
 
     /*
-       Nilai awal nasabah:
-       Rp30.000.000
+       JIKA SUDAH ADA PINJAMAN
     */
 
-    if(
-        !Number.isFinite(saldo) ||
-        saldo <= 0
-    ){
+    belumAda.classList.add(
+        "hidden"
+    );
 
-        saldo = 30000000;
 
-    }
+    form.classList.remove(
+        "hidden"
+    );
 
+
+    /*
+       Ambil data pengajuan
+    */
+
+    const data =
+        ambilDataPengajuan();
+
+
+    const jumlahPinjaman =
+        Number(
+            data.pinjaman ||
+            data.jumlahPinjaman ||
+            data.jumlah ||
+            data.nominal ||
+            0
+        );
+
+
+    /*
+       Tampilkan sisa pinjaman
+    */
 
     document.getElementById(
         "sisaPinjaman"
     ).innerHTML =
-        rupiah(saldo);
+        rupiah(
+            jumlahPinjaman
+        );
 
 
-    /* ------------------------------------------
+    /*
        TANGGAL JATUH TEMPO
-    ------------------------------------------ */
 
-    const tanggal = new Date();
+       Untuk sementara 30 hari dari sekarang.
+    */
+
+    const tanggal =
+        new Date();
+
 
     tanggal.setDate(
         tanggal.getDate() + 30
@@ -902,9 +1129,9 @@ function loadHalaman(){
         );
 
 
-    /* ------------------------------------------
+    /*
        NOMOR ANGSURAN
-    ------------------------------------------ */
+    */
 
     const berikutnya =
         Number(
@@ -921,9 +1148,9 @@ function loadHalaman(){
         berikutnya;
 
 
-    /* ------------------------------------------
-       HITUNG JUMLAH ANGSURAN
-    ------------------------------------------ */
+    /*
+       JUMLAH ANGSURAN
+    */
 
     const jumlah =
         hitungAngsuranOtomatis();
@@ -935,9 +1162,9 @@ function loadHalaman(){
         rupiah(jumlah);
 
 
-    /* ------------------------------------------
+    /*
        TAMPILKAN STATUS
-    ------------------------------------------ */
+    */
 
     tampilkanStatus();
 
@@ -977,7 +1204,8 @@ function tampilkanStatus(){
     }
 
 
-    const item = data[0];
+    const item =
+        data[0];
 
 
     const jumlah =
@@ -1005,7 +1233,8 @@ function tampilkanStatus(){
         "Disetujui"
     ){
 
-        kelas = "success";
+        kelas =
+            "success";
 
     }
 
@@ -1018,7 +1247,8 @@ function tampilkanStatus(){
         "Ditolak"
     ){
 
-        kelas = "failed";
+        kelas =
+            "failed";
 
     }
 
@@ -1157,9 +1387,14 @@ function tampilkanPesanStatus(){
         );
 
 
-    boxSuccess.classList.add("hidden");
+    boxSuccess.classList.add(
+        "hidden"
+    );
 
-    boxDitolak.classList.add("hidden");
+
+    boxDitolak.classList.add(
+        "hidden"
+    );
 
 
     if(
@@ -1208,6 +1443,22 @@ function tampilkanPesanStatus(){
 
 function kirimPembayaran(){
 
+    /*
+       Pastikan benar-benar sudah punya
+       pinjaman sebelum pembayaran.
+    */
+
+    if(!cekPinjamanAktif()){
+
+        alert(
+            "Anda belum memiliki pinjaman aktif."
+        );
+
+        return;
+
+    }
+
+
     const fileInput =
         document.getElementById(
             "bukti"
@@ -1247,13 +1498,19 @@ function kirimPembayaran(){
         ) || 1;
 
 
-    /*
-       Gunakan hasil hitungan
-       yang sama dengan tampilan.
-    */
-
     const jumlah =
         hitungAngsuranOtomatis();
+
+
+    if(jumlah <= 0){
+
+        alert(
+            "Data jumlah angsuran belum tersedia."
+        );
+
+        return;
+
+    }
 
 
     let data =
@@ -1318,7 +1575,8 @@ function kirimPembayaran(){
     );
 
 
-    fileInput.value = "";
+    fileInput.value =
+        "";
 
 
     tampilkanStatus();
@@ -1333,12 +1591,12 @@ function kirimPembayaran(){
 
 
 /* ==================================================
-   JALANKAN HALAMAN
+   JALANKAN
 ================================================== */
 
-loadHalaman();
-
 loadRekeningPembayaran();
+
+loadHalaman();
 
 
 </script>
