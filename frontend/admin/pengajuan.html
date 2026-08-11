@@ -6,19 +6,24 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
 <title>Pengajuan KUR - Admin</title>
 
 <link rel="stylesheet"
-href="../css/admin.css">
+      href="../css/admin.css">
 
 <style>
+
+*{
+    box-sizing:border-box;
+}
 
 body{
     margin:0;
     font-family:Arial,Helvetica,sans-serif;
     background:#f1f5f9;
+    color:#1f2937;
 }
 
 .header{
@@ -28,6 +33,11 @@ body{
     border-radius:0 0 25px 25px;
 }
 
+.header-inner{
+    max-width:900px;
+    margin:auto;
+}
+
 .header h1{
     margin:0;
     font-size:25px;
@@ -35,10 +45,13 @@ body{
 
 .header p{
     margin:7px 0 0;
+    opacity:.9;
 }
 
 .container{
-    padding:20px;
+    max-width:900px;
+    margin:auto;
+    padding:20px 14px 50px;
 }
 
 .card{
@@ -54,9 +67,128 @@ body{
     margin-top:0;
 }
 
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:15px;
+}
+
+.toolbar button{
+    border:0;
+    border-radius:10px;
+    padding:11px 15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn-refresh{
+    background:#0057B8;
+    color:white;
+}
+
+.btn-dashboard{
+    background:#555;
+    color:white;
+}
+
+
+/* =========================
+   JUMLAH DATA
+========================= */
+
+.jumlah{
+    background:#eef6ff;
+    border:1px solid #bfdbfe;
+    color:#174a7c;
+    border-radius:12px;
+    padding:13px;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+
+/* =========================
+   LIST PENGAJUAN
+========================= */
+
+.list-item{
+    border:1px solid #e2e8f0;
+    border-radius:14px;
+    padding:15px;
+    margin-bottom:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.list-item:hover{
+    border-color:#0057B8;
+    box-shadow:0 3px 10px rgba(0,87,184,.1);
+}
+
+.list-item.active{
+    border:2px solid #0057B8;
+    background:#f8fbff;
+}
+
+.list-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.list-name{
+    font-size:17px;
+    font-weight:bold;
+    color:#111827;
+}
+
+.list-number{
+    color:#0057B8;
+    font-size:12px;
+    margin-top:5px;
+    font-weight:bold;
+}
+
+.list-date{
+    font-size:11px;
+    color:#777;
+    margin-top:5px;
+}
+
+.status{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:20px;
+    background:#fff3cd;
+    color:#856404;
+    font-size:12px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+
+/* =========================
+   DETAIL
+========================= */
+
+.detail{
+    display:none;
+}
+
+.detail.show{
+    display:block;
+}
+
 .row{
     padding:13px 0;
-    border-bottom:1px solid #ddd;
+    border-bottom:1px solid #e5e7eb;
 }
 
 .label{
@@ -66,27 +198,30 @@ body{
 }
 
 .value{
-    font-size:17px;
+    font-size:16px;
     font-weight:bold;
     word-break:break-word;
 }
 
-.status{
-    display:inline-block;
-    padding:8px 12px;
-    border-radius:20px;
-    background:#fff3cd;
-    color:#856404;
+.section-mini{
+    color:#0057B8;
     font-weight:bold;
+    font-size:16px;
+    margin:20px 0 5px;
 }
 
+
+/* =========================
+   PROGRESS
+========================= */
+
 .progress-box{
-    margin-top:15px;
+    margin-top:20px;
 }
 
 .progress-bg{
     width:100%;
-    height:18px;
+    height:20px;
     background:#e5e7eb;
     border-radius:20px;
     overflow:hidden;
@@ -98,15 +233,20 @@ body{
     background:#0057B8;
     color:white;
     text-align:center;
-    line-height:18px;
+    line-height:20px;
     font-size:11px;
     transition:.3s;
 }
 
-.empty{
-    text-align:center;
-    color:#777;
-    padding:30px 10px;
+
+/* =========================
+   ACTIONS
+========================= */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 .actions button{
@@ -115,9 +255,9 @@ body{
     border:none;
     border-radius:12px;
     color:white;
-    font-size:16px;
+    font-size:14px;
     font-weight:bold;
-    margin-top:10px;
+    cursor:pointer;
 }
 
 .btn20{
@@ -144,13 +284,10 @@ body{
     background:#dc2626;
 }
 
-.back{
-    background:#555;
-}
 
-.reset{
-    background:#222;
-}
+/* =========================
+   INFO / PESAN
+========================= */
 
 .info{
     background:#eef6ff;
@@ -161,6 +298,66 @@ body{
     line-height:1.5;
 }
 
+.message{
+    display:none;
+    padding:13px;
+    border-radius:10px;
+    margin-bottom:15px;
+    line-height:1.5;
+    font-size:13px;
+}
+
+.message.error{
+    display:block;
+    background:#fee2e2;
+    color:#991b1b;
+    border:1px solid #fecaca;
+}
+
+.message.success{
+    display:block;
+    background:#dcfce7;
+    color:#166534;
+    border:1px solid #bbf7d0;
+}
+
+.empty{
+    text-align:center;
+    color:#777;
+    padding:30px 10px;
+}
+
+.loading{
+    text-align:center;
+    color:#0057B8;
+    padding:25px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:600px){
+
+    .container{
+        padding:14px 12px 40px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .list-top{
+        flex-direction:column;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
 </style>
 
 </head>
@@ -169,261 +366,815 @@ body{
 <body>
 
 
-<div class="header">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-    <h1>Pengajuan KUR</h1>
+<header class="header">
 
-    <p>
-        Panel Admin KUR Digital
-    </p>
+    <div class="header-inner">
+
+        <h1>
+            Pengajuan KUR
+        </h1>
+
+        <p>
+            Panel Admin KUR Digital
+        </p>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     TOOLBAR
+===================================================== -->
+
+<div class="toolbar">
+
+    <button
+        class="btn-refresh"
+        onclick="muatSemuaPengajuan()">
+
+        🔄 Refresh Pengajuan
+
+    </button>
+
+
+    <button
+        class="btn-dashboard"
+        onclick="window.location.href='dashboard.html'">
+
+        ← Dashboard
+
+    </button>
 
 </div>
 
 
-<div class="container">
+<!-- =====================================================
+     PESAN
+===================================================== -->
 
+<div
+    id="pesan"
+    class="message">
+</div>
+
+
+<!-- =====================================================
+     DAFTAR PENGAJUAN
+===================================================== -->
 
 <div class="card">
 
-<h2 class="title">
-Detail Pengajuan
-</h2>
+    <h2 class="title">
+        Semua Pengajuan
+    </h2>
 
 
-<div id="pengajuanData">
+    <div
+        id="jumlahPengajuan"
+        class="jumlah">
 
-    <div class="empty">
-        Memuat data pengajuan...
+        Memuat data...
+
+    </div>
+
+
+    <div id="daftarPengajuan">
+
+        <div class="loading">
+            Memuat pengajuan dari Supabase...
+        </div>
+
     </div>
 
 </div>
 
 
-</div>
-
-
-<div class="card">
-
-<h2 class="title">
-Progress Pengajuan
-</h2>
-
-
-<div class="progress-box">
-
-<div class="progress-bg">
+<!-- =====================================================
+     DETAIL PENGAJUAN
+===================================================== -->
 
 <div
-class="progress-bar"
-id="progressBar">
+    id="detailCard"
+    class="card detail">
 
-0%
-
-</div>
-
-</div>
-
-</div>
+    <h2 class="title">
+        Detail Pengajuan
+    </h2>
 
 
-<div class="info" id="statusInfo">
-
-Memuat status...
-
-</div>
+    <div id="detailPengajuan">
+    </div>
 
 
-</div>
+    <!-- PROGRESS -->
+
+    <div class="section-mini">
+        Progress Pengajuan
+    </div>
 
 
-<div class="card">
+    <div class="progress-box">
 
-<h2 class="title">
-Update Status
-</h2>
+        <div class="progress-bg">
 
+            <div
+                class="progress-bar"
+                id="progressBar">
 
-<div class="actions">
+                0%
 
+            </div>
 
-<button
-class="btn20"
-onclick="ubahStatus(20,'Menunggu Verifikasi')">
+        </div>
 
-20% — Menunggu Verifikasi
-
-</button>
+    </div>
 
 
-<button
-class="btn40"
-onclick="ubahStatus(40,'Verifikasi Dokumen')">
+    <div
+        class="info"
+        id="statusInfo">
 
-40% — Verifikasi Dokumen
-
-</button>
-
-
-<button
-class="btn60"
-onclick="ubahStatus(60,'Survey Lapangan')">
-
-60% — Survey Lapangan
-
-</button>
-
-
-<button
-class="btn80"
-onclick="ubahStatus(80,'Persetujuan Kredit')">
-
-80% — Persetujuan Kredit
-
-</button>
-
-
-<button
-class="btn100"
-onclick="ubahStatus(100,'Dana Dicairkan')">
-
-100% — Dana Dicairkan
-
-</button>
-
-
-<button
-class="btnTolak"
-onclick="ubahStatus(0,'Pengajuan Ditolak')">
-
-✕ Tolak Pengajuan
-
-</button>
-
-
-</div>
+    </div>
 
 </div>
 
 
-<div class="actions">
+<!-- =====================================================
+     UPDATE STATUS
+===================================================== -->
+
+<div
+    id="statusCard"
+    class="card detail">
+
+    <h2 class="title">
+        Update Status
+    </h2>
 
 
-<button
-class="back"
-onclick="window.location.href='dashboard.html'">
+    <div class="info">
 
-← Kembali ke Dashboard
+        Pilih salah satu status untuk pengajuan
+        yang sedang dipilih.
 
-</button>
+    </div>
 
 
-<button
-class="reset"
-onclick="resetPengajuan()">
+    <br>
 
-Reset Pengajuan
 
-</button>
+    <div class="actions">
 
+
+        <button
+            class="btn20"
+            onclick="ubahStatus(20,'Menunggu Verifikasi')">
+
+            20% — Menunggu Verifikasi
+
+        </button>
+
+
+        <button
+            class="btn40"
+            onclick="ubahStatus(40,'Verifikasi Dokumen')">
+
+            40% — Verifikasi Dokumen
+
+        </button>
+
+
+        <button
+            class="btn60"
+            onclick="ubahStatus(60,'Survey Lapangan')">
+
+            60% — Survey Lapangan
+
+        </button>
+
+
+        <button
+            class="btn80"
+            onclick="ubahStatus(80,'Persetujuan Kredit')">
+
+            80% — Persetujuan Kredit
+
+        </button>
+
+
+        <button
+            class="btn100"
+            onclick="ubahStatus(100,'Dana Dicairkan')">
+
+            100% — Dana Dicairkan
+
+        </button>
+
+
+        <button
+            class="btnTolak"
+            onclick="ubahStatus(0,'Pengajuan Ditolak')">
+
+            ✕ Tolak Pengajuan
+
+        </button>
+
+
+    </div>
 
 </div>
 
 
-</div>
+</main>
 
 
 <script>
 
-
-/* =================================
-   TAMPILKAN DATA PENGAJUAN
-================================= */
-
-function tampilkanPengajuan(){
-
-    const data =
-        localStorage.getItem("pengajuan");
+/* =========================================================
+   KUR DIGITAL
+   ADMIN PENGAJUAN
+   SUPABASE VERSION
+========================================================= */
 
 
-    const tempat =
-        document.getElementById(
-            "pengajuanData"
+/* =========================================================
+   1. SUPABASE
+========================================================= */
+
+const SUPABASE_URL =
+    "https://binojniwitsdhnhqmneq.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_yX4gQ30MAXnmrVAUIL1bZQ_f6E1hnNV";
+
+
+const SUPABASE_TABLE =
+    "pengajuan";
+
+
+let supabaseClient = null;
+
+
+/* =========================================================
+   2. DATA
+========================================================= */
+
+let semuaPengajuan = [];
+
+let pengajuanTerpilih = null;
+
+
+/* =========================================================
+   3. LOAD SUPABASE
+========================================================= */
+
+function loadSupabaseLibrary(){
+
+    return new Promise(
+        function(resolve,reject){
+
+            if(
+                window.supabase &&
+                typeof window.supabase.createClient ===
+                "function"
+            ){
+
+                resolve();
+
+                return;
+
+            }
+
+
+            const script =
+                document.createElement("script");
+
+
+            script.src =
+                "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+
+            script.onload =
+                function(){
+
+                    if(
+                        window.supabase &&
+                        typeof window.supabase.createClient ===
+                        "function"
+                    ){
+
+                        resolve();
+
+                    }else{
+
+                        reject(
+                            new Error(
+                                "Library Supabase tidak berhasil dimuat."
+                            )
+                        );
+
+                    }
+
+                };
+
+
+            script.onerror =
+                function(){
+
+                    reject(
+                        new Error(
+                            "Gagal memuat library Supabase."
+                        )
+                    );
+
+                };
+
+
+            document.head.appendChild(script);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   4. INIT
+========================================================= */
+
+async function initSupabase(){
+
+    await loadSupabaseLibrary();
+
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
         );
 
+}
 
-    if(!data){
 
-        tempat.innerHTML = `
+/* =========================================================
+   5. PESAN
+========================================================= */
 
-            <div class="empty">
+function tampilkanPesan(
+    teks,
+    tipe
+){
 
-                Belum ada pengajuan KUR.
+    const box =
+        document.getElementById("pesan");
 
-            </div>
 
-        `;
+    box.className =
+        "message " + tipe;
 
-        document.getElementById(
-            "statusInfo"
-        ).innerHTML =
-            "Belum ada pengajuan.";
 
-        document.getElementById(
-            "progressBar"
-        ).style.width = "0%";
+    box.innerHTML =
+        teks;
 
-        document.getElementById(
-            "progressBar"
-        ).innerHTML = "0%";
 
-        return;
+    box.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+
+}
+
+
+/* =========================================================
+   6. FORMAT RUPIAH
+========================================================= */
+
+function formatRupiah(
+    angka
+){
+
+    return "Rp " +
+        Number(
+            angka || 0
+        ).toLocaleString(
+            "id-ID"
+        );
+
+}
+
+
+/* =========================================================
+   7. FORMAT TANGGAL
+========================================================= */
+
+function formatTanggal(
+    tanggal
+){
+
+    if(!tanggal){
+
+        return "-";
 
     }
-
-
-    let p;
 
 
     try{
 
-        p = JSON.parse(data);
+        return new Date(
+            tanggal
+        ).toLocaleString(
+            "id-ID"
+        );
 
     }catch(e){
 
-        tempat.innerHTML = `
+        return tanggal;
 
+    }
+
+}
+
+
+/* =========================================================
+   8. ESCAPE HTML
+========================================================= */
+
+function escapeHTML(
+    nilai
+){
+
+    if(
+        nilai === null ||
+        nilai === undefined
+    ){
+
+        return "-";
+
+    }
+
+
+    return String(nilai)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   9. AMBIL SEMUA PENGAJUAN DARI SUPABASE
+========================================================= */
+
+async function muatSemuaPengajuan(){
+
+    const daftar =
+        document.getElementById(
+            "daftarPengajuan"
+        );
+
+
+    const jumlah =
+        document.getElementById(
+            "jumlahPengajuan"
+        );
+
+
+    daftar.innerHTML = `
+        <div class="loading">
+            ⏳ Mengambil semua pengajuan dari Supabase...
+        </div>
+    `;
+
+
+    jumlah.innerHTML =
+        "Memuat data...";
+
+
+    try{
+
+        if(!supabaseClient){
+
+            await initSupabase();
+
+        }
+
+
+        const hasil =
+            await supabaseClient
+                .from(SUPABASE_TABLE)
+                .select("*")
+                .order(
+                    "created_at",
+                    {
+                        ascending:false
+                    }
+                );
+
+
+        if(hasil.error){
+
+            console.error(
+                "SUPABASE SELECT ERROR:",
+                hasil.error
+            );
+
+
+            throw new Error(
+                hasil.error.message ||
+                "Gagal mengambil data pengajuan."
+            );
+
+        }
+
+
+        semuaPengajuan =
+            hasil.data || [];
+
+
+        console.log(
+            "Semua pengajuan:",
+            semuaPengajuan
+        );
+
+
+        jumlah.innerHTML =
+            "📋 Total pengajuan: <b>" +
+            semuaPengajuan.length +
+            "</b>";
+
+
+        tampilkanDaftar();
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        daftar.innerHTML = `
+            <div class="empty">
+                ❌ Gagal mengambil data pengajuan.<br><br>
+                ${escapeHTML(error.message)}
+            </div>
+        `;
+
+
+        jumlah.innerHTML =
+            "Gagal memuat data.";
+
+
+        tampilkanPesan(
+            "Gagal mengambil data dari Supabase.<br><br>" +
+            escapeHTML(error.message),
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   10. TAMPILKAN SEMUA DATA
+========================================================= */
+
+function tampilkanDaftar(){
+
+    const tempat =
+        document.getElementById(
+            "daftarPengajuan"
+        );
+
+
+    if(
+        !semuaPengajuan ||
+        semuaPengajuan.length === 0
+    ){
+
+        tempat.innerHTML = `
             <div class="empty">
 
-                Data pengajuan tidak valid.
+                📭 Belum ada pengajuan KUR.
 
             </div>
-
         `;
+
+        document.getElementById(
+            "detailCard"
+        ).classList.remove("show");
+
+
+        document.getElementById(
+            "statusCard"
+        ).classList.remove("show");
+
 
         return;
 
     }
 
 
-    const pinjaman =
-        Number(p.pinjaman || 0);
+    tempat.innerHTML =
+        semuaPengajuan
+        .map(
+            function(p,index){
+
+                const aktif =
+                    pengajuanTerpilih &&
+                    pengajuanTerpilih.id ===
+                    p.id
+                    ?
+                    "active"
+                    :
+                    "";
+
+
+                const status =
+                    p.status ||
+                    "Menunggu Verifikasi";
+
+
+                return `
+
+                    <div
+                        class="list-item ${aktif}"
+                        onclick="pilihPengajuan(${index})">
+
+                        <div class="list-top">
+
+                            <div>
+
+                                <div class="list-name">
+                                    ${escapeHTML(
+                                        p.nama ||
+                                        "Tanpa Nama"
+                                    )}
+                                </div>
+
+
+                                <div class="list-number">
+
+                                    ${escapeHTML(
+                                        p.nomor_pengajuan ||
+                                        "-"
+                                    )}
+
+                                </div>
+
+
+                                <div class="list-date">
+
+                                    ${formatTanggal(
+                                        p.created_at
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <span class="status">
+
+                                ${escapeHTML(
+                                    status
+                                )}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+
+    /*
+     * Kalau belum ada pilihan,
+     * otomatis pilih pengajuan pertama.
+     */
+
+    if(!pengajuanTerpilih){
+
+        pilihPengajuan(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   11. PILIH PENGAJUAN
+========================================================= */
+
+function pilihPengajuan(
+    index
+){
+
+    const data =
+        semuaPengajuan[index];
+
+
+    if(!data){
+
+        return;
+
+    }
+
+
+    pengajuanTerpilih =
+        data;
+
+
+    tampilkanDaftar();
+
+
+    tampilkanDetail(
+        data
+    );
+
+
+    document.getElementById(
+        "detailCard"
+    ).classList.add("show");
+
+
+    document.getElementById(
+        "statusCard"
+    ).classList.add("show");
+
+
+    setTimeout(
+        function(){
+
+            document.getElementById(
+                "detailCard"
+            ).scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },
+        100
+    );
+
+}
+
+
+/* =========================================================
+   12. DETAIL
+========================================================= */
+
+function tampilkanDetail(
+    p
+){
+
+    const tempat =
+        document.getElementById(
+            "detailPengajuan"
+        );
 
 
     const progress =
         Number(
-            localStorage.getItem(
-                "progress"
-            )
-            || p.progress
-            || 20
+            p.progress || 20
         );
 
 
     const status =
-        localStorage.getItem("status")
-        ||
-        p.status
-        ||
+        p.status ||
         "Menunggu Verifikasi";
 
 
@@ -432,13 +1183,50 @@ function tampilkanPengajuan(){
         <div class="row">
 
             <div class="label">
+                ID Pengajuan
+            </div>
+
+            <div class="value">
+                ${escapeHTML(
+                    p.id
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
                 Nomor Pengajuan
             </div>
 
             <div class="value">
-                KUR-20260001
+                ${escapeHTML(
+                    p.nomor_pengajuan
+                )}
             </div>
 
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Tanggal Pengajuan
+            </div>
+
+            <div class="value">
+                ${formatTanggal(
+                    p.created_at
+                )}
+            </div>
+
+        </div>
+
+
+        <div class="section-mini">
+            Data Pribadi
         </div>
 
 
@@ -449,7 +1237,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.nama || "-"}
+                ${escapeHTML(
+                    p.nama
+                )}
             </div>
 
         </div>
@@ -462,7 +1252,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.nik || "-"}
+                ${escapeHTML(
+                    p.nik
+                )}
             </div>
 
         </div>
@@ -475,7 +1267,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.hp || "-"}
+                ${escapeHTML(
+                    p.hp
+                )}
             </div>
 
         </div>
@@ -488,9 +1282,16 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.alamat || "-"}
+                ${escapeHTML(
+                    p.alamat
+                )}
             </div>
 
+        </div>
+
+
+        <div class="section-mini">
+            Data Usaha
         </div>
 
 
@@ -501,7 +1302,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.usaha || "-"}
+                ${escapeHTML(
+                    p.usaha
+                )}
             </div>
 
         </div>
@@ -514,7 +1317,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.jenisUsaha || "-"}
+                ${escapeHTML(
+                    p.jenis_usaha
+                )}
             </div>
 
         </div>
@@ -527,7 +1332,10 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.lamaUsaha || "-"}
+                ${escapeHTML(
+                    p.lama_usaha
+                )}
+                Tahun
             </div>
 
         </div>
@@ -536,15 +1344,20 @@ function tampilkanPengajuan(){
         <div class="row">
 
             <div class="label">
-                Penghasilan
+                Penghasilan per Bulan
             </div>
 
             <div class="value">
-                Rp ${Number(
-                    p.penghasilan || 0
-                ).toLocaleString("id-ID")}
+                ${formatRupiah(
+                    p.penghasilan
+                )}
             </div>
 
+        </div>
+
+
+        <div class="section-mini">
+            Data Pinjaman
         </div>
 
 
@@ -555,7 +1368,9 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                Rp ${pinjaman.toLocaleString("id-ID")}
+                ${formatRupiah(
+                    p.jumlah_pinjaman
+                )}
             </div>
 
         </div>
@@ -568,7 +1383,10 @@ function tampilkanPengajuan(){
             </div>
 
             <div class="value">
-                ${p.tenor || "-"}
+                ${escapeHTML(
+                    p.tenor
+                )}
+                Bulan
             </div>
 
         </div>
@@ -583,7 +1401,11 @@ function tampilkanPengajuan(){
             <div class="value">
 
                 <span class="status">
-                    ${status}
+
+                    ${escapeHTML(
+                        status
+                    )}
+
                 </span>
 
             </div>
@@ -601,9 +1423,9 @@ function tampilkanPengajuan(){
 }
 
 
-/* =================================
-   TAMPILKAN PROGRESS
-================================= */
+/* =========================================================
+   13. PROGRESS
+========================================================= */
 
 function tampilkanProgress(
     progress,
@@ -628,35 +1450,31 @@ function tampilkanProgress(
         "statusInfo"
     ).innerHTML =
 
-        "<b>Status:</b> "
-        + status
-        + "<br><br>"
-        + "<b>Progress:</b> "
-        + progress
-        + "%";
+        "<b>Status:</b> " +
+        escapeHTML(status) +
+
+        "<br><br>" +
+
+        "<b>Progress:</b> " +
+        progress +
+        "%";
 
 }
 
 
-/* =================================
-   UBAH STATUS
-================================= */
+/* =========================================================
+   14. UBAH STATUS DI SUPABASE
+========================================================= */
 
-function ubahStatus(
+async function ubahStatus(
     progress,
     status
 ){
 
-    const data =
-        localStorage.getItem(
-            "pengajuan"
-        );
-
-
-    if(!data){
+    if(!pengajuanTerpilih){
 
         alert(
-            "Belum ada pengajuan KUR."
+            "Pilih pengajuan terlebih dahulu."
         );
 
         return;
@@ -664,478 +1482,34 @@ function ubahStatus(
     }
 
 
-    let p;
+    const id =
+        pengajuanTerpilih.id;
 
 
-    try{
-
-        p = JSON.parse(data);
-
-    }catch(e){
+    if(!id){
 
         alert(
-            "Data pengajuan tidak valid."
+            "ID pengajuan tidak ditemukan."
         );
 
         return;
 
     }
 
-
-    const statusLama =
-        localStorage.getItem(
-            "status"
-        )
-        ||
-        p.status
-        ||
-        "Menunggu Verifikasi";
-
-
-    /*
-       Jika status sama,
-       tidak perlu membuat
-       notifikasi baru.
-    */
-
-    if(
-        statusLama === status
-        &&
-        Number(
-            localStorage.getItem(
-                "progress"
-            )
-        ) === progress
-    ){
-
-        alert(
-            "Status sudah berada pada tahap tersebut."
-        );
-
-        return;
-
-    }
-
-
-    /*
-       Simpan status
-    */
-
-    localStorage.setItem(
-        "status",
-        status
-    );
-
-
-    localStorage.setItem(
-        "progress",
-        progress
-    );
-
-
-    /*
-       Update data pengajuan
-    */
-
-    p.status =
-        status;
-
-
-    p.progress =
-        progress;
-
-
-    localStorage.setItem(
-        "pengajuan",
-        JSON.stringify(p)
-    );
-
-
-    /*
-       Jika 100%,
-       saldo pinjaman dicairkan.
-    */
-
-    if(progress === 100){
-
-        const saldoLama =
-            Number(
-                localStorage.getItem(
-                    "saldoPinjaman"
-                )
-                || 0
-            );
-
-
-        const jumlahPinjaman =
-            Number(
-                p.pinjaman
-                || 0
-            );
-
-
-        /*
-           Hindari menambahkan
-           pinjaman berkali-kali.
-        */
-
-        if(
-            !p.sudahDicairkan
-        ){
-
-            const saldoBaru =
-                saldoLama
-                +
-                jumlahPinjaman;
-
-
-            localStorage.setItem(
-                "saldoPinjaman",
-                saldoBaru
-            );
-
-
-            localStorage.setItem(
-                "saldo",
-                saldoBaru
-            );
-
-
-            p.sudahDicairkan =
-                true;
-
-
-            localStorage.setItem(
-                "pengajuan",
-                JSON.stringify(p)
-            );
-
-        }
-
-    }
-
-
-    /*
-       Buat notifikasi otomatis
-    */
-
-    buatNotifikasiStatus(
-        status,
-        progress
-    );
-
-
-    /*
-       Catat riwayat status
-    */
-
-    simpanRiwayatStatus(
-        status,
-        progress
-    );
-
-
-    tampilkanPengajuan();
-
-
-    alert(
-
-        "Status berhasil diubah.\n\n"
-
-        + status
-
-        + "\nProgress: "
-
-        + progress
-
-        + "%"
-
-        + "\n\nNotifikasi otomatis telah dikirim."
-
-    );
-
-}
-
-
-/* =================================
-   NOTIFIKASI OTOMATIS
-================================= */
-
-function buatNotifikasiStatus(
-    status,
-    progress
-){
-
-    let judul =
-        "";
-
-
-    let pesan =
-        "";
-
-
-    if(progress === 20){
-
-        judul =
-            "Pengajuan Diterima";
-
-
-        pesan =
-            "Pengajuan KUR Anda telah diterima "
-            +
-            "dan sedang menunggu proses verifikasi.";
-
-    }
-
-
-    else if(progress === 40){
-
-        judul =
-            "Verifikasi Dokumen";
-
-
-        pesan =
-            "Dokumen pengajuan KUR Anda sedang "
-            +
-            "dalam proses verifikasi.";
-
-    }
-
-
-    else if(progress === 60){
-
-        judul =
-            "Survey Lapangan";
-
-
-        pesan =
-            "Pengajuan KUR Anda telah masuk "
-            +
-            "tahap survey lapangan.";
-
-    }
-
-
-    else if(progress === 80){
-
-        judul =
-            "Persetujuan Kredit";
-
-
-        pesan =
-            "Pengajuan KUR Anda sedang dalam "
-            +
-            "proses persetujuan kredit.";
-
-    }
-
-
-    else if(progress === 100){
-
-        judul =
-            "Dana Dicairkan";
-
-
-        pesan =
-            "Selamat! Pengajuan KUR Anda telah "
-            +
-            "disetujui dan dana pinjaman telah "
-            +
-            "dicairkan.";
-
-    }
-
-
-    else if(progress === 0){
-
-        judul =
-            "Pengajuan Ditolak";
-
-
-        pesan =
-            "Mohon maaf, pengajuan KUR Anda "
-            +
-            "belum dapat disetujui.";
-
-    }
-
-
-    else{
-
-        judul =
-            status;
-
-
-        pesan =
-            "Status pengajuan KUR Anda telah "
-            +
-            "diperbarui menjadi "
-            +
-            status
-            +
-            ".";
-
-    }
-
-
-    let notifikasi =
-        [];
-
-
-    try{
-
-        notifikasi =
-            JSON.parse(
-                localStorage.getItem(
-                    "notifikasi"
-                )
-            )
-            || [];
-
-    }catch(e){
-
-        notifikasi = [];
-
-    }
-
-
-    notifikasi.unshift({
-
-        id:
-            Date.now(),
-
-        judul:
-            judul,
-
-        pesan:
-            pesan,
-
-        tanggal:
-            new Date()
-            .toLocaleString(
-                "id-ID"
-            ),
-
-        dibaca:
-            false
-
-    });
-
-
-    localStorage.setItem(
-        "notifikasi",
-        JSON.stringify(
-            notifikasi
-        )
-    );
-
-}
-
-
-/* =================================
-   RIWAYAT STATUS
-================================= */
-
-function simpanRiwayatStatus(
-    status,
-    progress
-){
-
-    let riwayat =
-        [];
-
-
-    try{
-
-        riwayat =
-            JSON.parse(
-                localStorage.getItem(
-                    "riwayatStatus"
-                )
-            )
-            || [];
-
-    }catch(e){
-
-        riwayat = [];
-
-    }
-
-
-    const data =
-        localStorage.getItem(
-            "pengajuan"
-        );
-
-
-    let p =
-        {};
-
-
-    if(data){
-
-        try{
-
-            p =
-                JSON.parse(data);
-
-        }catch(e){
-
-            p = {};
-
-        }
-
-    }
-
-
-    riwayat.unshift({
-
-        tanggal:
-            new Date()
-            .toLocaleString(
-                "id-ID"
-            ),
-
-        nomor:
-            "KUR-20260001",
-
-        nama:
-            p.nama || "-",
-
-        pinjaman:
-            p.pinjaman || 0,
-
-        tenor:
-            p.tenor || "-",
-
-        status:
-            status,
-
-        progress:
-            progress
-
-    });
-
-
-    localStorage.setItem(
-        "riwayatStatus",
-        JSON.stringify(
-            riwayat
-        )
-    );
-
-}
-
-
-/* =================================
-   RESET PENGAJUAN
-================================= */
-
-function resetPengajuan(){
 
     const yakin =
         confirm(
-            "Apakah Anda yakin ingin menghapus pengajuan ini?"
+            "Ubah status pengajuan " +
+            (
+                pengajuanTerpilih
+                    .nomor_pengajuan ||
+                ""
+            ) +
+            " menjadi:\n\n" +
+            status +
+            " (" +
+            progress +
+            "%)?"
         );
 
 
@@ -1146,40 +1520,130 @@ function resetPengajuan(){
     }
 
 
-    localStorage.removeItem(
-        "pengajuan"
-    );
+    try{
 
-    localStorage.removeItem(
-        "status"
-    );
+        if(!supabaseClient){
 
-    localStorage.removeItem(
-        "progress"
-    );
+            await initSupabase();
 
-    localStorage.removeItem(
-        "saldoPinjaman"
-    );
-
-    localStorage.removeItem(
-        "saldo"
-    );
+        }
 
 
-    alert(
-        "Data pengajuan berhasil direset."
-    );
+        const waktu =
+            new Date().toISOString();
 
 
-    tampilkanPengajuan();
+        const hasil =
+            await supabaseClient
+                .from(SUPABASE_TABLE)
+                .update({
+
+                    status:
+                        status,
+
+                    progress:
+                        progress,
+
+                    updated_at:
+                        waktu,
+
+                    sudah_dicairkan:
+                        progress === 100
+
+                })
+                .eq(
+                    "id",
+                    id
+                )
+                .select()
+                .single();
+
+
+        if(hasil.error){
+
+            console.error(
+                "UPDATE ERROR:",
+                hasil.error
+            );
+
+
+            throw new Error(
+                hasil.error.message ||
+                "Gagal mengubah status."
+            );
+
+        }
+
+
+        /*
+         * Update objek lokal sementara.
+         */
+
+        pengajuanTerpilih =
+            hasil.data;
+
+
+        /*
+         * Update data di array.
+         */
+
+        semuaPengajuan =
+            semuaPengajuan.map(
+                function(item){
+
+                    if(
+                        item.id === id
+                    ){
+
+                        return hasil.data;
+
+                    }
+
+                    return item;
+
+                }
+            );
+
+
+        tampilkanDaftar();
+
+
+        tampilkanDetail(
+            hasil.data
+        );
+
+
+        tampilkanPesan(
+            "✓ Status pengajuan berhasil diperbarui menjadi <b>" +
+            escapeHTML(status) +
+            "</b> (" +
+            progress +
+            "%).",
+            "success"
+        );
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        tampilkanPesan(
+            "❌ Gagal mengubah status.<br><br>" +
+            escapeHTML(error.message),
+            "error"
+        );
+
+    }
 
 }
 
 
-/* =================================
-   CEK LOGIN ADMIN
-================================= */
+/* =========================================================
+   15. LOGIN ADMIN
+========================================================= */
 
 if(
     localStorage.getItem(
@@ -1190,15 +1654,52 @@ if(
     window.location.href =
         "login.html";
 
-}else{
+}
 
-    tampilkanPengajuan();
+
+/* =========================================================
+   16. MULAI
+========================================================= */
+
+async function mulai(){
+
+    try{
+
+        await initSupabase();
+
+        await muatSemuaPengajuan();
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+
+        document.getElementById(
+            "daftarPengajuan"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                ❌ Supabase gagal terhubung.<br><br>
+
+                ${escapeHTML(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
 
 }
 
+
+mulai();
+
 </script>
 
-
 </body>
-
 </html>
