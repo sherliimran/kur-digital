@@ -1,661 +1,221 @@
-<!DOCTYPE html>
-<html lang="id">
+<script>
 
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>Pengajuan KUR</title>
-
-<link rel="stylesheet"
-href="css/style.css">
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    background:#f5f7fb;
-    font-family:Arial,Helvetica,sans-serif;
-    color:#222;
-}
+/* =========================================================
+   KUR DIGITAL
+   PENGAJUAN KUR + SUPABASE
+   ========================================================= */
 
 
-/* =========================
-   HEADER
-========================= */
+/* =========================================================
+   1. KONFIGURASI SUPABASE
+   =========================================================
 
-.header{
-    background:#0057B8;
-    color:white;
-    padding:25px;
-    text-align:center;
-    border-radius:0 0 25px 25px;
-}
+   GANTI 2 BARIS INI SAJA.
 
-.header h2{
-    margin:0;
-    font-size:24px;
-}
+   SUPABASE_URL:
+   contoh:
+   https://xxxxxxxxxxxx.supabase.co
 
-.header p{
-    margin:8px 0 0;
-    opacity:.9;
-}
+   SUPABASE_PUBLISHABLE_KEY:
+   ambil dari:
+   Supabase
+   > Settings
+   > API Keys
+   > Publishable key
 
+   JANGAN gunakan:
+   - secret key
+   - service_role
+*/
 
-/* =========================
-   FORM
-========================= */
+const SUPABASE_URL =
+    "ISI_URL_SUPABASE_KAMU";
 
-.form{
-    width:90%;
-    max-width:650px;
-    margin:20px auto;
-    background:white;
-    padding:20px;
-    border-radius:18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-}
+const SUPABASE_PUBLISHABLE_KEY =
+    "ISI_PUBLISHABLE_KEY_KAMU";
 
 
-/* =========================
-   SECTION
-========================= */
+/* =========================================================
+   2. KONFIGURASI TABEL
+   ========================================================= */
 
-.section-title{
-    margin:20px 0 5px;
-    padding-bottom:10px;
-    border-bottom:2px solid #eef2f7;
-    color:#0057B8;
-    font-size:18px;
-}
-
-.section-title:first-child{
-    margin-top:0;
-}
-
-.section-info{
-    color:#777;
-    font-size:13px;
-    margin:0 0 12px;
-    line-height:1.5;
-}
+const SUPABASE_TABLE =
+    "pengajuan";
 
 
-/* =========================
-   INPUT
-========================= */
+/* =========================================================
+   3. VARIABEL GLOBAL
+   ========================================================= */
 
-input,
-select,
-textarea{
-    width:100%;
-    padding:13px;
-    margin-top:10px;
-    margin-bottom:15px;
-    border:1px solid #ccc;
-    border-radius:10px;
-    box-sizing:border-box;
-    font-size:15px;
-    font-family:Arial,Helvetica,sans-serif;
-    background:white;
-}
+let supabaseClient = null;
 
-input:focus,
-select:focus,
-textarea:focus{
-    outline:none;
-    border-color:#0057B8;
-    box-shadow:0 0 0 2px rgba(0,87,184,.08);
-}
-
-textarea{
-    min-height:90px;
-    resize:vertical;
-}
+let supabaseSiap = false;
 
 
-/* =========================
-   LABEL
-========================= */
+/* =========================================================
+   4. LOAD SUPABASE JS
+   ========================================================= */
 
-label{
-    display:block;
-    margin-top:8px;
-    margin-bottom:5px;
-    font-size:14px;
-    font-weight:bold;
-    color:#333;
-}
+function loadSupabaseLibrary(){
 
-.file-label{
-    margin-top:12px;
+    return new Promise(function(resolve, reject){
+
+        /*
+         * Jika sudah ada, tidak perlu load lagi
+         */
+
+        if(
+            window.supabase &&
+            typeof window.supabase.createClient === "function"
+        ){
+
+            resolve();
+
+            return;
+
+        }
+
+
+        const script =
+            document.createElement("script");
+
+
+        script.src =
+            "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+
+
+        script.onload =
+            function(){
+
+                if(
+                    window.supabase &&
+                    typeof window.supabase.createClient === "function"
+                ){
+
+                    resolve();
+
+                }else{
+
+                    reject(
+                        new Error(
+                            "Library Supabase tidak berhasil dimuat."
+                        )
+                    );
+
+                }
+
+            };
+
+
+        script.onerror =
+            function(){
+
+                reject(
+                    new Error(
+                        "Tidak dapat memuat library Supabase."
+                    )
+                );
+
+            };
+
+
+        document.head.appendChild(script);
+
+    });
+
 }
 
 
-/* =========================
-   REKENING CARD
-========================= */
+/* =========================================================
+   5. INISIALISASI SUPABASE
+   ========================================================= */
 
-.rekening-card{
-    background:#eef6ff;
-    border:1px solid #cfe3ff;
-    padding:16px;
-    border-radius:15px;
-    margin:15px 0 20px;
-}
+async function initSupabase(){
 
-.rekening-card-title{
-    color:#0057B8;
-    font-size:17px;
-    font-weight:bold;
-    margin-bottom:6px;
-}
+    try{
 
-.rekening-card-info{
-    color:#555;
-    font-size:13px;
-    line-height:1.5;
-    margin-bottom:12px;
-}
+        /*
+         * Cek konfigurasi
+         */
 
+        if(
+            !SUPABASE_URL ||
+            SUPABASE_URL === "ISI_URL_SUPABASE_KAMU"
+        ){
 
-/* =========================
-   REQUIRED
-========================= */
+            console.warn(
+                "SUPABASE_URL belum diisi."
+            );
 
-.required{
-    color:#d32f2f;
-}
+            return false;
+
+        }
 
 
-/* =========================
-   CHECKBOX
-========================= */
+        if(
+            !SUPABASE_PUBLISHABLE_KEY ||
+            SUPABASE_PUBLISHABLE_KEY ===
+            "ISI_PUBLISHABLE_KEY_KAMU"
+        ){
 
-.agreement{
-    display:flex;
-    align-items:flex-start;
-    gap:10px;
-    margin:15px 0;
-    padding:12px;
-    background:#f8fafc;
-    border-radius:10px;
-    font-size:13px;
-    line-height:1.5;
-}
+            console.warn(
+                "SUPABASE_PUBLISHABLE_KEY belum diisi."
+            );
 
-.agreement input{
-    width:auto;
-    margin:3px 0 0;
-    flex-shrink:0;
-}
+            return false;
+
+        }
 
 
-/* =========================
-   BUTTON
-========================= */
+        /*
+         * Load library
+         */
 
-button{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    background:#0057B8;
-    color:white;
-    font-size:17px;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-button:active{
-    transform:scale(.98);
-}
-
-.back-button{
-    background:#555;
-}
+        await loadSupabaseLibrary();
 
 
-/* =========================
-   MESSAGE
-========================= */
+        /*
+         * Buat client
+         */
 
-.message{
-    display:none;
-    padding:14px;
-    border-radius:12px;
-    margin-bottom:15px;
-    font-size:14px;
-    line-height:1.5;
-}
-
-.message.error{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-.message.success{
-    background:#d1fae5;
-    color:#166534;
-}
+        supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
 
 
-/* =========================
-   RESPONSIVE
-========================= */
+        supabaseSiap = true;
 
-@media(max-width:500px){
 
-    .form{
-        width:94%;
-        padding:17px;
+        console.log(
+            "✓ Supabase berhasil terhubung."
+        );
+
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "Gagal inisialisasi Supabase:",
+            error
+        );
+
+
+        supabaseSiap = false;
+
+
+        return false;
+
     }
 
 }
 
-</style>
 
-</head>
-
-
-<body>
-
-
-<!-- =========================
-     HEADER
-========================= -->
-
-<div class="header">
-
-    <h2>
-        Pengajuan KUR
-    </h2>
-
-    <p>
-        Lengkapi data berikut
-    </p>
-
-</div>
-
-
-
-<!-- =========================
-     FORM
-========================= -->
-
-<div class="form">
-
-
-<div
-    id="pesanError"
-    class="message error">
-</div>
-
-
-<div
-    id="pesanSukses"
-    class="message success">
-</div>
-
-
-
-<!-- =========================
-     DATA PRIBADI
-========================= -->
-
-<div class="section-title">
-
-    👤 Data Pribadi
-
-</div>
-
-<p class="section-info">
-
-    Masukkan data pribadi sesuai dengan
-    identitas Anda.
-
-</p>
-
-
-<input
-    type="text"
-    id="nama"
-    placeholder="Nama Lengkap">
-
-
-<input
-    type="text"
-    id="nik"
-    placeholder="NIK"
-    inputmode="numeric">
-
-
-<input
-    type="tel"
-    id="hp"
-    placeholder="Nomor HP"
-    inputmode="tel">
-
-
-<textarea
-    id="alamat"
-    placeholder="Alamat Lengkap"></textarea>
-
-
-
-<!-- =========================
-     DATA REKENING NASABAH
-========================= -->
-
-<div class="section-title">
-
-    🏦 Data Rekening Nasabah
-
-</div>
-
-
-<div class="rekening-card">
-
-    <div class="rekening-card-title">
-
-        Rekening Atas Nama Nasabah
-
-    </div>
-
-
-    <div class="rekening-card-info">
-
-        Masukkan rekening bank milik Anda.
-        Data ini akan disimpan bersama pengajuan
-        dan nantinya dapat ditampilkan pada
-        halaman Profil Nasabah.
-
-    </div>
-
-
-    <label for="namaBank">
-
-        Nama Bank
-        <span class="required">*</span>
-
-    </label>
-
-    <input
-        type="text"
-        id="namaBank"
-        placeholder="Contoh: BRI">
-
-
-    <label for="nomorRekening">
-
-        Nomor Rekening
-        <span class="required">*</span>
-
-    </label>
-
-    <input
-        type="text"
-        id="nomorRekening"
-        placeholder="Contoh: 1234567890"
-        inputmode="numeric">
-
-
-    <label for="namaPemilikRekening">
-
-        Atas Nama Rekening
-        <span class="required">*</span>
-
-    </label>
-
-    <input
-        type="text"
-        id="namaPemilikRekening"
-        placeholder="Contoh: Budi Santoso">
-
-</div>
-
-
-
-<!-- =========================
-     DATA USAHA
-========================= -->
-
-<div class="section-title">
-
-    🏪 Data Usaha
-
-</div>
-
-<p class="section-info">
-
-    Masukkan informasi usaha yang sedang
-    Anda jalankan.
-
-</p>
-
-
-<input
-    type="text"
-    id="usaha"
-    placeholder="Nama Usaha">
-
-
-<select id="jenisUsaha">
-
-    <option value="">
-        Pilih Jenis Usaha
-    </option>
-
-    <option value="Kuliner">
-        Kuliner
-    </option>
-
-    <option value="Perdagangan">
-        Perdagangan
-    </option>
-
-    <option value="Pertanian">
-        Pertanian
-    </option>
-
-    <option value="Peternakan">
-        Peternakan
-    </option>
-
-    <option value="Jasa">
-        Jasa
-    </option>
-
-</select>
-
-
-<input
-    type="number"
-    id="lamaUsaha"
-    placeholder="Lama Usaha (Tahun)"
-    min="0">
-
-
-<input
-    type="number"
-    id="penghasilan"
-    placeholder="Penghasilan per Bulan"
-    min="0">
-
-
-
-<!-- =========================
-     DATA PINJAMAN
-========================= -->
-
-<div class="section-title">
-
-    💰 Data Pinjaman
-
-</div>
-
-
-<input
-    type="number"
-    id="pinjaman"
-    placeholder="Jumlah Pinjaman"
-    min="0">
-
-
-<select id="tenor">
-
-    <option value="">
-        Pilih Tenor
-    </option>
-
-    <option value="12 Bulan">
-        12 Bulan
-    </option>
-
-    <option value="24 Bulan">
-        24 Bulan
-    </option>
-
-    <option value="36 Bulan">
-        36 Bulan
-    </option>
-
-    <option value="48 Bulan">
-        48 Bulan
-    </option>
-
-    <option value="60 Bulan">
-        60 Bulan
-    </option>
-
-</select>
-
-
-
-<!-- =========================
-     DOKUMEN
-========================= -->
-
-<div class="section-title">
-
-    📎 Dokumen
-
-</div>
-
-
-<label
-    class="file-label"
-    for="ktp">
-
-    Foto KTP
-
-</label>
-
-<input
-    type="file"
-    id="ktp"
-    accept="image/*">
-
-
-<label
-    class="file-label"
-    for="selfie">
-
-    Foto Selfie
-
-</label>
-
-<input
-    type="file"
-    id="selfie"
-    accept="image/*">
-
-
-<label
-    class="file-label"
-    for="usahaFoto">
-
-    Foto Tempat Usaha
-
-</label>
-
-<input
-    type="file"
-    id="usahaFoto"
-    accept="image/*">
-
-
-
-<!-- =========================
-     PERSETUJUAN
-========================= -->
-
-<div class="agreement">
-
-    <input
-        type="checkbox"
-        id="persetujuan">
-
-    <label
-        for="persetujuan"
-        style="
-            margin:0;
-            font-weight:normal;
-        ">
-
-        Saya menyatakan bahwa data yang saya
-        masukkan adalah benar dan dapat digunakan
-        untuk proses pengajuan KUR Digital.
-
-    </label>
-
-</div>
-
-
-
-<!-- =========================
-     BUTTON
-========================= -->
-
-<button
-    onclick="kirimPengajuan()">
-
-    Ajukan Sekarang
-
-</button>
-
-
-<button
-    class="back-button"
-    onclick="window.location.href='dashboard.html'">
-
-    Kembali
-
-</button>
-
-
-</div>
-
-
-
-<!-- =========================
-     SCRIPT
-========================= -->
-
-<script>
-
-/* ==================================================
-   FORMAT RUPIAH
-================================================== */
+/* =========================================================
+   6. FORMAT RUPIAH
+   ========================================================= */
 
 function formatRupiah(angka){
 
@@ -666,9 +226,9 @@ function formatRupiah(angka){
 }
 
 
-/* ==================================================
-   PESAN
-================================================== */
+/* =========================================================
+   7. TAMPILKAN ERROR
+   ========================================================= */
 
 function tampilkanError(pesan){
 
@@ -677,27 +237,47 @@ function tampilkanError(pesan){
             "pesanError"
         );
 
+
     const sukses =
         document.getElementById(
             "pesanSukses"
         );
 
-    sukses.style.display =
-        "none";
 
-    box.innerHTML =
-        "⚠️ " + pesan;
+    if(sukses){
 
-    box.style.display =
-        "block";
+        sukses.style.display =
+            "none";
 
-    box.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-    });
+    }
+
+
+    if(box){
+
+        box.innerHTML =
+            "⚠️ " + pesan;
+
+        box.style.display =
+            "block";
+
+
+        box.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    }else{
+
+        alert(pesan);
+
+    }
 
 }
 
+
+/* =========================================================
+   8. TAMPILKAN SUKSES
+   ========================================================= */
 
 function tampilkanSukses(pesan){
 
@@ -706,31 +286,47 @@ function tampilkanSukses(pesan){
             "pesanSukses"
         );
 
+
     const error =
         document.getElementById(
             "pesanError"
         );
 
-    error.style.display =
-        "none";
 
-    box.innerHTML =
-        "✓ " + pesan;
+    if(error){
 
-    box.style.display =
-        "block";
+        error.style.display =
+            "none";
 
-    box.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-    });
+    }
+
+
+    if(box){
+
+        box.innerHTML =
+            "✓ " + pesan;
+
+        box.style.display =
+            "block";
+
+
+        box.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    }else{
+
+        alert(pesan);
+
+    }
 
 }
 
 
-/* ==================================================
-   AMBIL DATA LAMA
-================================================== */
+/* =========================================================
+   9. AMBIL PENGAJUAN LAMA DARI LOCAL STORAGE
+   ========================================================= */
 
 function ambilPengajuanLama(){
 
@@ -743,6 +339,7 @@ function ambilPengajuanLama(){
                 )
             );
 
+
         if(
             data &&
             typeof data === "object"
@@ -752,29 +349,153 @@ function ambilPengajuanLama(){
 
         }
 
-    }catch(e){
+    }catch(error){
 
         console.error(
             "Data pengajuan lama tidak valid:",
-            e
+            error
         );
 
     }
+
 
     return null;
 
 }
 
 
-/* ==================================================
-   KIRIM PENGAJUAN
-================================================== */
+/* =========================================================
+   10. BUAT UUID
+   ========================================================= */
 
-function kirimPengajuan(){
+function buatUUID(){
 
     /*
-     * Ambil semua input
+     * Browser modern
      */
+
+    if(
+        window.crypto &&
+        typeof window.crypto.randomUUID === "function"
+    ){
+
+        return window.crypto.randomUUID();
+
+    }
+
+
+    /*
+     * Fallback
+     */
+
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+        .replace(
+            /[xy]/g,
+            function(c){
+
+                const r =
+                    Math.random() * 16 | 0;
+
+                const v =
+                    c === "x"
+                    ?
+                    r
+                    :
+                    (r & 0x3 | 0x8);
+
+
+                return v.toString(16);
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   11. BUAT NOMOR PENGAJUAN
+   ========================================================= */
+
+function buatNomorPengajuan(){
+
+    const sekarang =
+        new Date();
+
+
+    const tahun =
+        sekarang.getFullYear();
+
+
+    const bulan =
+        String(
+            sekarang.getMonth() + 1
+        ).padStart(2,"0");
+
+
+    const tanggal =
+        String(
+            sekarang.getDate()
+        ).padStart(2,"0");
+
+
+    const jam =
+        String(
+            sekarang.getHours()
+        ).padStart(2,"0");
+
+
+    const menit =
+        String(
+            sekarang.getMinutes()
+        ).padStart(2,"0");
+
+
+    const detik =
+        String(
+            sekarang.getSeconds()
+        ).padStart(2,"0");
+
+
+    const acak =
+        Math.floor(
+            100 +
+            Math.random() * 900
+        );
+
+
+    return (
+        "KUR-" +
+        tahun +
+        bulan +
+        tanggal +
+        "-" +
+        jam +
+        menit +
+        detik +
+        acak
+    );
+
+}
+
+
+/* =========================================================
+   12. VALIDASI NOMOR REKENING
+   ========================================================= */
+
+function rekeningValid(nomor){
+
+    return /^[0-9\s-]+$/.test(
+        nomor
+    );
+
+}
+
+
+/* =========================================================
+   13. VALIDASI FORM
+   ========================================================= */
+
+function ambilDanValidasiForm(){
 
     const nama =
         document.getElementById(
@@ -800,8 +521,6 @@ function kirimPengajuan(){
         ).value.trim();
 
 
-    /* REKENING */
-
     const namaBank =
         document.getElementById(
             "namaBank"
@@ -819,8 +538,6 @@ function kirimPengajuan(){
             "namaPemilikRekening"
         ).value.trim();
 
-
-    /* USAHA */
 
     const usaha =
         document.getElementById(
@@ -846,8 +563,6 @@ function kirimPengajuan(){
         ).value;
 
 
-    /* PINJAMAN */
-
     const pinjaman =
         document.getElementById(
             "pinjaman"
@@ -860,18 +575,15 @@ function kirimPengajuan(){
         ).value;
 
 
-    /* PERSETUJUAN */
-
     const persetujuan =
         document.getElementById(
             "persetujuan"
         ).checked;
 
 
-
-    /* ==================================================
-       VALIDASI DATA PRIBADI
-    ================================================== */
+    /* =====================================================
+       VALIDASI PRIBADI
+    ===================================================== */
 
     if(!nama){
 
@@ -879,7 +591,7 @@ function kirimPengajuan(){
             "Nama lengkap wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
@@ -890,7 +602,22 @@ function kirimPengajuan(){
             "NIK wajib diisi."
         );
 
-        return;
+        return null;
+
+    }
+
+
+    /*
+     * NIK harus angka
+     */
+
+    if(!/^[0-9]+$/.test(nik)){
+
+        tampilkanError(
+            "NIK hanya boleh berisi angka."
+        );
+
+        return null;
 
     }
 
@@ -901,7 +628,7 @@ function kirimPengajuan(){
             "Nomor HP wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
@@ -912,15 +639,14 @@ function kirimPengajuan(){
             "Alamat lengkap wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
 
-
-    /* ==================================================
+    /* =====================================================
        VALIDASI REKENING
-    ================================================== */
+    ===================================================== */
 
     if(!namaBank){
 
@@ -928,7 +654,7 @@ function kirimPengajuan(){
             "Nama bank wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
@@ -939,22 +665,18 @@ function kirimPengajuan(){
             "Nomor rekening wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
 
-    if(
-        !/^[0-9\s-]+$/.test(
-            nomorRekening
-        )
-    ){
+    if(!rekeningValid(nomorRekening)){
 
         tampilkanError(
             "Nomor rekening hanya boleh berisi angka."
         );
 
-        return;
+        return null;
 
     }
 
@@ -965,15 +687,14 @@ function kirimPengajuan(){
             "Nama pemilik rekening wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
 
-
-    /* ==================================================
+    /* =====================================================
        VALIDASI USAHA
-    ================================================== */
+    ===================================================== */
 
     if(!usaha){
 
@@ -981,7 +702,7 @@ function kirimPengajuan(){
             "Nama usaha wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
@@ -992,13 +713,13 @@ function kirimPengajuan(){
             "Jenis usaha wajib dipilih."
         );
 
-        return;
+        return null;
 
     }
 
 
     if(
-        !lamaUsaha ||
+        lamaUsaha === "" ||
         Number(lamaUsaha) < 0
     ){
 
@@ -1006,13 +727,13 @@ function kirimPengajuan(){
             "Lama usaha wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
 
     if(
-        !penghasilan ||
+        penghasilan === "" ||
         Number(penghasilan) <= 0
     ){
 
@@ -1020,18 +741,17 @@ function kirimPengajuan(){
             "Penghasilan per bulan wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
 
-
-    /* ==================================================
+    /* =====================================================
        VALIDASI PINJAMAN
-    ================================================== */
+    ===================================================== */
 
     if(
-        !pinjaman ||
+        pinjaman === "" ||
         Number(pinjaman) <= 0
     ){
 
@@ -1039,7 +759,7 @@ function kirimPengajuan(){
             "Jumlah pinjaman wajib diisi."
         );
 
-        return;
+        return null;
 
     }
 
@@ -1050,15 +770,14 @@ function kirimPengajuan(){
             "Tenor pinjaman wajib dipilih."
         );
 
-        return;
+        return null;
 
     }
 
 
-
-    /* ==================================================
+    /* =====================================================
        VALIDASI DOKUMEN
-    ================================================== */
+    ===================================================== */
 
     const ktp =
         document.getElementById(
@@ -1087,7 +806,7 @@ function kirimPengajuan(){
             "Foto KTP wajib diupload."
         );
 
-        return;
+        return null;
 
     }
 
@@ -1101,7 +820,7 @@ function kirimPengajuan(){
             "Foto selfie wajib diupload."
         );
 
-        return;
+        return null;
 
     }
 
@@ -1115,15 +834,14 @@ function kirimPengajuan(){
             "Foto tempat usaha wajib diupload."
         );
 
-        return;
+        return null;
 
     }
 
 
-
-    /* ==================================================
-       PERSETUJUAN
-    ================================================== */
+    /* =====================================================
+       VALIDASI PERSETUJUAN
+    ===================================================== */
 
     if(!persetujuan){
 
@@ -1131,48 +849,12 @@ function kirimPengajuan(){
             "Silakan centang persetujuan terlebih dahulu."
         );
 
-        return;
+        return null;
 
     }
 
 
-
-    /* ==================================================
-       AMBIL DATA PENGAJUAN LAMA
-    ================================================== */
-
-    const lama =
-        ambilPengajuanLama();
-
-
-
-    /* ==================================================
-       BUAT DATA PENGAJUAN
-    ================================================== */
-
-    const dataPengajuan = {
-
-        id:
-            lama &&
-            lama.id
-            ?
-            lama.id
-            :
-            Date.now(),
-
-        tanggalPengajuan:
-            lama &&
-            lama.tanggalPengajuan
-            ?
-            lama.tanggalPengajuan
-            :
-            new Date()
-            .toLocaleString(
-                "id-ID"
-            ),
-
-
-        /* DATA PRIBADI */
+    return {
 
         nama:
             nama,
@@ -1186,11 +868,6 @@ function kirimPengajuan(){
         alamat:
             alamat,
 
-
-        /* =========================
-           DATA REKENING NASABAH
-        ========================= */
-
         namaBank:
             namaBank,
 
@@ -1200,9 +877,6 @@ function kirimPengajuan(){
         namaPemilikRekening:
             namaPemilikRekening,
 
-
-        /* DATA USAHA */
-
         usaha:
             usaha,
 
@@ -1210,41 +884,373 @@ function kirimPengajuan(){
             jenisUsaha,
 
         lamaUsaha:
-            Number(lamaUsaha),
+            lamaUsaha,
 
         penghasilan:
-            Number(penghasilan),
-
-
-        /* DATA PINJAMAN */
+            penghasilan,
 
         pinjaman:
-            Number(pinjaman),
+            pinjaman,
 
         tenor:
             tenor,
 
+        ktp:
+            ktp.files[0],
 
-        /* DOKUMEN */
+        selfie:
+            selfie.files[0],
+
+        usahaFoto:
+            usahaFoto.files[0]
+
+    };
+
+}
+
+
+/* =========================================================
+   14. SIMPAN KE SUPABASE
+   ========================================================= */
+
+async function simpanKeSupabase(formData){
+
+    /*
+     * Pastikan Supabase siap
+     */
+
+    if(!supabaseSiap){
+
+        const berhasil =
+            await initSupabase();
+
+
+        if(!berhasil){
+
+            throw new Error(
+                "Supabase belum terhubung. Periksa URL dan Publishable Key."
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Nomor pengajuan baru
+     */
+
+    const nomorPengajuan =
+        buatNomorPengajuan();
+
+
+    /*
+     * UUID baru
+     */
+
+    const id =
+        buatUUID();
+
+
+    /*
+     * Timestamp
+     */
+
+    const sekarang =
+        new Date()
+        .toISOString();
+
+
+    /*
+     * DATA YANG DIKIRIM KE TABEL
+     *
+     * Nama kolom disesuaikan dengan
+     * struktur tabel yang kamu kirim.
+     */
+
+    const dataDatabase = {
+
+        id:
+            id,
+
+        nomor_pengajuan:
+            nomorPengajuan,
+
+        nama:
+            formData.nama,
+
+        nik:
+            formData.nik,
+
+        hp:
+            formData.hp,
+
+        alamat:
+            formData.alamat,
+
+        usaha:
+            formData.usaha,
+
+        jenis_usaha:
+            formData.jenisUsaha,
+
+        /*
+         * Di database:
+         * lama_usaha = TEXT
+         */
+
+        lama_usaha:
+            String(
+                formData.lamaUsaha
+            ),
+
+        /*
+         * Di database:
+         * penghasilan = NUMERIC
+         */
+
+        penghasilan:
+            Number(
+                formData.penghasilan
+            ),
+
+        /*
+         * Kolom ini ada di database,
+         * tetapi form sekarang belum memiliki
+         * pilihan jenis pinjaman.
+         *
+         * Karena kolom nullable, kita kosongkan.
+         */
+
+        jenis_pinjaman:
+            null,
+
+        /*
+         * Di database:
+         * jumlah_pinjaman = NUMERIC
+         */
+
+        jumlah_pinjaman:
+            Number(
+                formData.pinjaman
+            ),
+
+        /*
+         * Form berisi:
+         * "12 Bulan", "24 Bulan", dst.
+         *
+         * Database:
+         * tenor = INTEGER
+         *
+         * Jadi diubah menjadi 12, 24, dst.
+         */
+
+        tenor:
+            parseInt(
+                formData.tenor,
+                10
+            ),
+
+        /*
+         * Status awal
+         */
+
+        status:
+            "Menunggu Verifikasi",
+
+        /*
+         * Progress awal
+         */
+
+        progress:
+            20,
+
+        /*
+         * Belum dicairkan
+         */
+
+        sudah_dicairkan:
+            false,
+
+        /*
+         * Timestamp
+         */
+
+        created_at:
+            sekarang,
+
+        updated_at:
+            sekarang
+
+    };
+
+
+    console.log(
+        "Data yang dikirim ke Supabase:",
+        dataDatabase
+    );
+
+
+    /*
+     * INSERT
+     */
+
+    const hasil =
+        await supabaseClient
+        .from(
+            SUPABASE_TABLE
+        )
+        .insert(
+            dataDatabase
+        )
+        .select()
+        .single();
+
+
+    /*
+     * Cek error
+     */
+
+    if(hasil.error){
+
+        console.error(
+            "Supabase INSERT ERROR:",
+            hasil.error
+        );
+
+
+        throw new Error(
+            hasil.error.message ||
+            "Gagal menyimpan pengajuan ke Supabase."
+        );
+
+    }
+
+
+    /*
+     * Kembalikan hasil
+     */
+
+    return {
+
+        data:
+            hasil.data,
+
+        nomorPengajuan:
+            nomorPengajuan
+
+    };
+
+}
+
+
+/* =========================================================
+   15. SIMPAN DATA LOKAL
+   ========================================================= */
+
+function simpanDataLokal(
+    formData,
+    hasilSupabase
+){
+
+    const nomorPengajuan =
+        hasilSupabase.nomorPengajuan;
+
+
+    const dataPengajuan = {
+
+        id:
+            hasilSupabase.data.id,
+
+        nomor_pengajuan:
+            nomorPengajuan,
+
+        tanggalPengajuan:
+            new Date()
+            .toLocaleString(
+                "id-ID"
+            ),
+
+
+        /* DATA PRIBADI */
+
+        nama:
+            formData.nama,
+
+        nik:
+            formData.nik,
+
+        hp:
+            formData.hp,
+
+        alamat:
+            formData.alamat,
+
+
+        /* REKENING */
+
+        namaBank:
+            formData.namaBank,
+
+        nomorRekening:
+            formData.nomorRekening,
+
+        namaPemilikRekening:
+            formData.namaPemilikRekening,
+
+
+        /* USAHA */
+
+        usaha:
+            formData.usaha,
+
+        jenisUsaha:
+            formData.jenisUsaha,
+
+        lamaUsaha:
+            Number(
+                formData.lamaUsaha
+            ),
+
+        penghasilan:
+            Number(
+                formData.penghasilan
+            ),
+
+
+        /* PINJAMAN */
+
+        pinjaman:
+            Number(
+                formData.pinjaman
+            ),
+
+        tenor:
+            formData.tenor,
+
+
+        /* DOKUMEN
+         * Hanya nama file di localStorage.
+         */
 
         ktp:
-            ktp.files[0]
+            formData.ktp
             ?
-            ktp.files[0].name
+            formData.ktp.name
             :
             "",
 
         selfie:
-            selfie.files[0]
+            formData.selfie
             ?
-            selfie.files[0].name
+            formData.selfie.name
             :
             "",
 
         usahaFoto:
-            usahaFoto.files[0]
+            formData.usahaFoto
             ?
-            usahaFoto.files[0].name
+            formData.usahaFoto.name
             :
             "",
 
@@ -1252,28 +1258,20 @@ function kirimPengajuan(){
         /* STATUS */
 
         status:
-            lama &&
-            lama.status
-            ?
-            lama.status
-            :
             "Menunggu Verifikasi",
 
         progress:
-            lama &&
-            lama.progress
-            ?
-            lama.progress
-            :
-            20
+            20,
+
+        sudah_dicairkan:
+            false
 
     };
 
 
-
-    /* ==================================================
-       SIMPAN PENGAJUAN
-    ================================================== */
+    /*
+     * Simpan pengajuan
+     */
 
     localStorage.setItem(
         "pengajuan",
@@ -1283,61 +1281,60 @@ function kirimPengajuan(){
     );
 
 
-
-    /* ==================================================
-       SIMPAN DATA REKENING TERPISAH
-       UNTUK PROFIL NASABAH
-    ================================================== */
+    /*
+     * Simpan rekening
+     */
 
     localStorage.setItem(
         "rekeningNasabah",
         JSON.stringify({
 
             namaBank:
-                namaBank,
+                formData.namaBank,
 
             nomorRekening:
-                nomorRekening,
+                formData.nomorRekening,
 
             namaPemilikRekening:
-                namaPemilikRekening
+                formData.namaPemilikRekening
 
         })
     );
 
 
-
-    /* ==================================================
-       SIMPAN DATA DASAR NASABAH
-    ================================================== */
+    /*
+     * Data dasar nasabah
+     */
 
     localStorage.setItem(
         "nama",
-        nama
+        formData.nama
     );
 
 
     localStorage.setItem(
         "nik",
-        nik
+        formData.nik
     );
 
 
     localStorage.setItem(
         "hp",
-        hp
+        formData.hp
     );
 
 
     localStorage.setItem(
         "alamat",
-        alamat
+        formData.alamat
     );
 
 
     localStorage.setItem(
         "jumlahPinjaman",
-        String(pinjaman)
+        String(
+            formData.pinjaman
+        )
     );
 
 
@@ -1345,7 +1342,8 @@ function kirimPengajuan(){
         "tenor",
         String(
             parseInt(
-                tenor
+                formData.tenor,
+                10
             ) || 0
         )
     );
@@ -1353,15 +1351,53 @@ function kirimPengajuan(){
 
     localStorage.setItem(
         "saldo",
-        String(pinjaman)
+        String(
+            formData.pinjaman
+        )
     );
 
 
-    /* ==================================================
-       NOTIFIKASI
-    ================================================== */
+    localStorage.setItem(
+        "status",
+        "Menunggu Verifikasi"
+    );
+
+
+    localStorage.setItem(
+        "progress",
+        "20"
+    );
+
+
+    /*
+     * Simpan nomor pengajuan
+     * supaya dashboard bisa menampilkannya.
+     */
+
+    localStorage.setItem(
+        "nomorPengajuan",
+        nomorPengajuan
+    );
+
+
+    /*
+     * Simpan ID Supabase
+     */
+
+    localStorage.setItem(
+        "pengajuanId",
+        String(
+            hasilSupabase.data.id
+        )
+    );
+
+
+    /*
+     * NOTIFIKASI
+     */
 
     let notifikasi = [];
+
 
     try{
 
@@ -1372,7 +1408,7 @@ function kirimPengajuan(){
                 )
             ) || [];
 
-    }catch(e){
+    }catch(error){
 
         notifikasi = [];
 
@@ -1388,9 +1424,14 @@ function kirimPengajuan(){
             "Pengajuan KUR Diterima",
 
         pesan:
-            "Pengajuan KUR atas nama " +
-            nama +
+            "Pengajuan KUR " +
+            nomorPengajuan +
+            " atas nama " +
+            formData.nama +
             " berhasil dikirim dan sedang menunggu verifikasi Admin.",
+
+        nomor_pengajuan:
+            nomorPengajuan,
 
         tanggal:
             new Date()
@@ -1404,6 +1445,18 @@ function kirimPengajuan(){
     });
 
 
+    /*
+     * Batasi notifikasi
+     * agar localStorage tidak terlalu besar.
+     */
+
+    notifikasi =
+        notifikasi.slice(
+            0,
+            50
+        );
+
+
     localStorage.setItem(
         "notifikasi",
         JSON.stringify(
@@ -1411,64 +1464,220 @@ function kirimPengajuan(){
         )
     );
 
+}
 
 
-    /* ==================================================
-       STATUS
-    ================================================== */
+/* =========================================================
+   16. KIRIM PENGAJUAN
+   ========================================================= */
 
-    localStorage.setItem(
-        "status",
-        "Menunggu Verifikasi"
-    );
+async function kirimPengajuan(){
+
+    /*
+     * Cegah klik berkali-kali
+     */
+
+    const tombol =
+        document.querySelector(
+            'button[onclick="kirimPengajuan()"]'
+        );
 
 
-    localStorage.setItem(
-        "progress",
-        "20"
-    );
+    if(
+        tombol &&
+        tombol.disabled
+    ){
 
+        return;
 
-
-    /* ==================================================
-       HASIL
-    ================================================== */
-
-    tampilkanSukses(
-        "Pengajuan berhasil dikirim. Data rekening Anda juga telah tersimpan dan nantinya dapat ditampilkan pada Profil Nasabah."
-    );
+    }
 
 
     /*
-       Kosongkan input dokumen
-    */
+     * Validasi
+     */
 
-    ktp.value = "";
+    const formData =
+        ambilDanValidasiForm();
 
-    selfie.value = "";
 
-    usahaFoto.value = "";
+    if(!formData){
 
+        return;
+
+    }
 
 
     /*
-       Beri sedikit waktu agar
-       pesan sukses terlihat
-    */
+     * Disable tombol
+     */
 
-    setTimeout(function(){
+    if(tombol){
 
-        window.location.href =
-            "dashboard.html";
+        tombol.disabled =
+            true;
 
-    },1500);
+        tombol.dataset.text =
+            tombol.innerText;
+
+        tombol.innerText =
+            "Mengirim Pengajuan...";
+
+        tombol.style.opacity =
+            "0.7";
+
+    }
+
+
+    try{
+
+        /*
+         * Tampilkan proses
+         */
+
+        tampilkanSukses(
+            "Sedang mengirim pengajuan..."
+        );
+
+
+        /*
+         * Kirim ke Supabase
+         */
+
+        const hasil =
+            await simpanKeSupabase(
+                formData
+            );
+
+
+        /*
+         * Setelah Supabase sukses,
+         * baru simpan localStorage.
+         */
+
+        simpanDataLokal(
+            formData,
+            hasil
+        );
+
+
+        /*
+         * Kosongkan file input.
+         */
+
+        const ktp =
+            document.getElementById(
+                "ktp"
+            );
+
+
+        const selfie =
+            document.getElementById(
+                "selfie"
+            );
+
+
+        const usahaFoto =
+            document.getElementById(
+                "usahaFoto"
+            );
+
+
+        if(ktp){
+
+            ktp.value =
+                "";
+
+        }
+
+
+        if(selfie){
+
+            selfie.value =
+                "";
+
+        }
+
+
+        if(usahaFoto){
+
+            usahaFoto.value =
+                "";
+
+        }
+
+
+        /*
+         * Pesan berhasil
+         */
+
+        tampilkanSukses(
+            "Pengajuan berhasil dikirim. " +
+            "Nomor Pengajuan: " +
+            hasil.nomorPengajuan
+        );
+
+
+        /*
+         * Tunggu sebentar,
+         * lalu kembali ke dashboard.
+         */
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            1800
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "Gagal mengirim pengajuan:",
+            error
+        );
+
+
+        /*
+         * Tampilkan error yang sebenarnya
+         */
+
+        tampilkanError(
+            "Pengajuan gagal dikirim ke server. " +
+            error.message
+        );
+
+
+        /*
+         * Aktifkan tombol kembali
+         */
+
+        if(tombol){
+
+            tombol.disabled =
+                false;
+
+            tombol.innerText =
+                tombol.dataset.text ||
+                "Ajukan Sekarang";
+
+            tombol.style.opacity =
+                "1";
+
+        }
+
+    }
 
 }
 
 
-/* ==================================================
-   LOAD DATA SEBELUMNYA
-================================================== */
+/* =========================================================
+   17. LOAD DATA SEBELUMNYA
+   ========================================================= */
 
 function loadDataSebelumnya(){
 
@@ -1484,162 +1693,289 @@ function loadDataSebelumnya(){
 
 
     /*
-       Data pribadi
-    */
+     * DATA PRIBADI
+     */
 
     if(data.nama){
 
-        document.getElementById(
-            "nama"
-        ).value =
-            data.nama;
+        const el =
+            document.getElementById(
+                "nama"
+            );
+
+        if(el){
+
+            el.value =
+                data.nama;
+
+        }
 
     }
 
 
     if(data.nik){
 
-        document.getElementById(
-            "nik"
-        ).value =
-            data.nik;
+        const el =
+            document.getElementById(
+                "nik"
+            );
+
+        if(el){
+
+            el.value =
+                data.nik;
+
+        }
 
     }
 
 
     if(data.hp){
 
-        document.getElementById(
-            "hp"
-        ).value =
-            data.hp;
+        const el =
+            document.getElementById(
+                "hp"
+            );
+
+        if(el){
+
+            el.value =
+                data.hp;
+
+        }
 
     }
 
 
     if(data.alamat){
 
-        document.getElementById(
-            "alamat"
-        ).value =
-            data.alamat;
+        const el =
+            document.getElementById(
+                "alamat"
+            );
+
+        if(el){
+
+            el.value =
+                data.alamat;
+
+        }
 
     }
 
 
     /*
-       Rekening
-    */
+     * REKENING
+     */
 
     if(data.namaBank){
 
-        document.getElementById(
-            "namaBank"
-        ).value =
-            data.namaBank;
+        const el =
+            document.getElementById(
+                "namaBank"
+            );
+
+        if(el){
+
+            el.value =
+                data.namaBank;
+
+        }
 
     }
 
 
     if(data.nomorRekening){
 
-        document.getElementById(
-            "nomorRekening"
-        ).value =
-            data.nomorRekening;
+        const el =
+            document.getElementById(
+                "nomorRekening"
+            );
+
+        if(el){
+
+            el.value =
+                data.nomorRekening;
+
+        }
 
     }
 
 
     if(data.namaPemilikRekening){
 
-        document.getElementById(
-            "namaPemilikRekening"
-        ).value =
-            data.namaPemilikRekening;
+        const el =
+            document.getElementById(
+                "namaPemilikRekening"
+            );
+
+        if(el){
+
+            el.value =
+                data.namaPemilikRekening;
+
+        }
 
     }
 
 
     /*
-       Data usaha
-    */
+     * DATA USAHA
+     */
 
     if(data.usaha){
 
-        document.getElementById(
-            "usaha"
-        ).value =
-            data.usaha;
+        const el =
+            document.getElementById(
+                "usaha"
+            );
+
+        if(el){
+
+            el.value =
+                data.usaha;
+
+        }
 
     }
 
 
     if(data.jenisUsaha){
 
-        document.getElementById(
-            "jenisUsaha"
-        ).value =
-            data.jenisUsaha;
+        const el =
+            document.getElementById(
+                "jenisUsaha"
+            );
+
+        if(el){
+
+            el.value =
+                data.jenisUsaha;
+
+        }
 
     }
 
 
-    if(data.lamaUsaha !== undefined){
+    if(
+        data.lamaUsaha !== undefined
+    ){
 
-        document.getElementById(
-            "lamaUsaha"
-        ).value =
-            data.lamaUsaha;
+        const el =
+            document.getElementById(
+                "lamaUsaha"
+            );
+
+        if(el){
+
+            el.value =
+                data.lamaUsaha;
+
+        }
 
     }
 
 
-    if(data.penghasilan !== undefined){
+    if(
+        data.penghasilan !== undefined
+    ){
 
-        document.getElementById(
-            "penghasilan"
-        ).value =
-            data.penghasilan;
+        const el =
+            document.getElementById(
+                "penghasilan"
+            );
+
+        if(el){
+
+            el.value =
+                data.penghasilan;
+
+        }
 
     }
 
 
     /*
-       Data pinjaman
-    */
+     * DATA PINJAMAN
+     */
 
     if(data.pinjaman){
 
-        document.getElementById(
-            "pinjaman"
-        ).value =
-            data.pinjaman;
+        const el =
+            document.getElementById(
+                "pinjaman"
+            );
+
+        if(el){
+
+            el.value =
+                data.pinjaman;
+
+        }
 
     }
 
 
     if(data.tenor){
 
-        document.getElementById(
-            "tenor"
-        ).value =
-            data.tenor;
+        const el =
+            document.getElementById(
+                "tenor"
+            );
+
+        if(el){
+
+            el.value =
+                data.tenor;
+
+        }
 
     }
 
 }
 
 
-/* ==================================================
-   JALANKAN
-================================================== */
+/* =========================================================
+   18. CEK STATUS SUPABASE SAAT HALAMAN DIBUKA
+   ========================================================= */
 
-loadDataSebelumnya();
+async function mulaiHalaman(){
+
+    /*
+     * Jangan blokir form kalau Supabase belum siap.
+     * Kita hanya mencoba menghubungkan.
+     */
+
+    await initSupabase();
+
+
+    /*
+     * Isi data lama
+     */
+
+    loadDataSebelumnya();
+
+}
+
+
+/* =========================================================
+   19. JALANKAN
+   ========================================================= */
+
+if(
+    document.readyState === "loading"
+){
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        mulaiHalaman
+    );
+
+}else{
+
+    mulaiHalaman();
+
+}
+
 
 </script>
-
-
-</body>
-
-</html>
