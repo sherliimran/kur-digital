@@ -2002,20 +2002,27 @@ async function ubahStatus(
         );
 
 
-        const hasil =
-            await supabaseClient
-            .from(
-                SUPABASE_TABLE
-            )
-            .update(
-                updateData
-            )
-            .eq(
-                "id",
-                id
-            )
-            .select()
-            .single();
+const hasil =
+    await supabaseClient
+    .from(SUPABASE_TABLE)
+    .update(updateData)
+    .eq("id", id)
+    .select();
+
+if (hasil.error) {
+    throw hasil.error;
+}
+
+if (!hasil.data || hasil.data.length === 0) {
+    throw new Error(
+        "Data pengajuan tidak ditemukan atau tidak memiliki izin untuk diperbarui."
+    );
+}
+
+console.log(
+    "Update Supabase berhasil:",
+    hasil.data
+);
 
 
         if(hasil.error){
