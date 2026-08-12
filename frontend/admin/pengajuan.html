@@ -5,13 +5,22 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+    name="theme-color"
+    content="#0057B8"
+>
 
 <title>Pengajuan KUR - Admin</title>
 
-<link rel="stylesheet"
-      href="../css/admin.css">
+<link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+>
 
 <style>
 
@@ -26,151 +35,361 @@ body{
     color:#1f2937;
 }
 
+
+/* =========================
+   HEADER
+========================= */
+
 .header{
     background:#0057B8;
     color:white;
-    padding:22px 20px;
-    border-radius:0 0 25px 25px;
+    padding:22px 18px;
+    border-radius:0 0 24px 24px;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
 }
 
 .header-inner{
-    max-width:900px;
+    max-width:1100px;
     margin:auto;
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
 }
 
 .header h1{
     margin:0;
-    font-size:25px;
+    font-size:24px;
 }
 
 .header p{
     margin:7px 0 0;
+    font-size:13px;
     opacity:.9;
 }
 
+.header-actions{
+    display:flex;
+    gap:8px;
+}
+
+.header-btn{
+    border:0;
+    background:rgba(255,255,255,.16);
+    color:white;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.header-btn:active{
+    transform:scale(.95);
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
 .container{
-    max-width:900px;
+    max-width:1100px;
     margin:auto;
     padding:20px 14px 50px;
 }
 
-.card{
-    background:white;
-    padding:20px;
-    border-radius:18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-    margin-bottom:20px;
+
+/* =========================
+   STATISTIK
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:12px;
+    margin-bottom:18px;
 }
 
-.title{
+.stat-card{
+    background:white;
+    border-radius:15px;
+    padding:17px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+
+.stat-label{
+    color:#6b7280;
+    font-size:12px;
+    margin-bottom:7px;
+}
+
+.stat-value{
+    font-size:25px;
+    font-weight:bold;
     color:#0057B8;
-    margin-top:0;
 }
 
 
 /* =========================
-   TOOLBAR
+   CARD
 ========================= */
 
-.toolbar{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:15px;
+.card{
+    background:white;
+    border-radius:17px;
+    padding:18px;
+    margin-bottom:18px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
 }
 
-.toolbar button{
+.title{
+    margin:0 0 15px;
+    color:#0057B8;
+    font-size:19px;
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+.filter-row{
+    display:grid;
+    grid-template-columns:
+        1fr 220px auto;
+    gap:10px;
+}
+
+input,
+select{
+    width:100%;
+    border:1px solid #d1d5db;
+    border-radius:10px;
+    padding:12px;
+    font-size:14px;
+    outline:none;
+    background:white;
+}
+
+input:focus,
+select:focus{
+    border-color:#0057B8;
+    box-shadow:
+        0 0 0 3px
+        rgba(0,87,184,.08);
+}
+
+.btn{
     border:0;
     border-radius:10px;
-    padding:11px 15px;
+    padding:12px 16px;
+    font-size:14px;
     font-weight:bold;
     cursor:pointer;
 }
 
-.btn-refresh{
+.btn-blue{
     background:#0057B8;
     color:white;
 }
 
-.btn-dashboard{
-    background:#555;
+.btn-gray{
+    background:#e5e7eb;
+    color:#374151;
+}
+
+.btn-green{
+    background:#16a34a;
+    color:white;
+}
+
+.btn-red{
+    background:#dc2626;
     color:white;
 }
 
 
 /* =========================
-   JUMLAH DATA
+   LIST
 ========================= */
 
-.jumlah{
-    background:#eef6ff;
-    border:1px solid #bfdbfe;
-    color:#174a7c;
-    border-radius:12px;
-    padding:13px;
+.list-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
     margin-bottom:15px;
-    font-size:14px;
+}
+
+.jumlah-info{
+    color:#6b7280;
+    font-size:13px;
 }
 
 
 /* =========================
-   LIST PENGAJUAN
+   ITEM PENGAJUAN
 ========================= */
 
-.list-item{
-    border:1px solid #e2e8f0;
-    border-radius:14px;
-    padding:15px;
-    margin-bottom:12px;
-    cursor:pointer;
-    transition:.2s;
+.pengajuan{
+    border:1px solid #e5e7eb;
+    border-radius:15px;
+    margin-bottom:13px;
+    overflow:hidden;
+    background:white;
 }
 
-.list-item:hover{
-    border-color:#0057B8;
-    box-shadow:0 3px 10px rgba(0,87,184,.1);
-}
-
-.list-item.active{
-    border:2px solid #0057B8;
-    background:#f8fbff;
-}
-
-.list-top{
+.pengajuan-top{
+    padding:16px;
+    background:#f8fafc;
     display:flex;
     justify-content:space-between;
+    gap:15px;
     align-items:flex-start;
-    gap:10px;
 }
 
-.list-name{
-    font-size:17px;
-    font-weight:bold;
-    color:#111827;
-}
-
-.list-number{
+.pengajuan-nomor{
+    font-size:13px;
     color:#0057B8;
+    font-weight:bold;
+}
+
+.pengajuan-nama{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.pengajuan-tanggal{
+    color:#6b7280;
     font-size:12px;
     margin-top:5px;
-    font-weight:bold;
 }
 
-.list-date{
-    font-size:11px;
-    color:#777;
-    margin-top:5px;
-}
+
+/* =========================
+   STATUS
+========================= */
 
 .status{
     display:inline-block;
     padding:7px 10px;
     border-radius:20px;
-    background:#fff3cd;
-    color:#856404;
-    font-size:12px;
+    font-size:11px;
     font-weight:bold;
     white-space:nowrap;
+}
+
+.status-menunggu{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.status-proses{
+    background:#dbeafe;
+    color:#1e40af;
+}
+
+.status-survey{
+    background:#ede9fe;
+    color:#6d28d9;
+}
+
+.status-setuju{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status-cair{
+    background:#bbf7d0;
+    color:#166534;
+}
+
+.status-tolak{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary{
+    padding:15px;
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:10px;
+}
+
+.summary-item{
+    background:#f8fafc;
+    border-radius:10px;
+    padding:12px;
+}
+
+.summary-label{
+    color:#6b7280;
+    font-size:11px;
+}
+
+.summary-value{
+    font-size:14px;
+    font-weight:bold;
+    margin-top:4px;
+    word-break:break-word;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-wrap{
+    padding:0 15px 15px;
+}
+
+.progress-bg{
+    width:100%;
+    height:16px;
+    border-radius:20px;
+    background:#e5e7eb;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    background:#0057B8;
+    color:white;
+    font-size:10px;
+    line-height:16px;
+    text-align:center;
+    transition:.3s;
+}
+
+
+/* =========================
+   ACTION
+========================= */
+
+.action-row{
+    padding:0 15px 15px;
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.action-row .btn{
+    flex:1;
+    min-width:130px;
 }
 
 
@@ -180,157 +399,172 @@ body{
 
 .detail{
     display:none;
+    border-top:1px solid #e5e7eb;
+    padding:15px;
+    background:#fff;
 }
 
-.detail.show{
+.detail.active{
     display:block;
 }
 
-.row{
-    padding:13px 0;
-    border-bottom:1px solid #e5e7eb;
+.detail-title{
+    color:#0057B8;
+    font-weight:bold;
+    margin-bottom:12px;
 }
 
-.label{
-    color:#777;
+.detail-grid{
+    display:grid;
+    grid-template-columns:
+        1fr 1fr;
+    gap:10px;
+}
+
+.detail-item{
+    background:#f8fafc;
+    border-radius:10px;
+    padding:11px;
+}
+
+.detail-label{
+    font-size:11px;
+    color:#6b7280;
+    margin-bottom:4px;
+}
+
+.detail-value{
     font-size:13px;
-    margin-bottom:5px;
-}
-
-.value{
-    font-size:16px;
     font-weight:bold;
     word-break:break-word;
 }
 
-.section-mini{
-    color:#0057B8;
-    font-weight:bold;
-    font-size:16px;
-    margin:20px 0 5px;
-}
-
 
 /* =========================
-   PROGRESS
+   MODAL
 ========================= */
 
-.progress-box{
-    margin-top:20px;
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:9999;
+    padding:20px;
+    overflow:auto;
 }
 
-.progress-bg{
+.modal.active{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.modal-box{
     width:100%;
-    height:20px;
-    background:#e5e7eb;
-    border-radius:20px;
-    overflow:hidden;
+    max-width:750px;
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:18px;
+    padding:20px;
 }
 
-.progress-bar{
-    height:100%;
-    width:0%;
-    background:#0057B8;
-    color:white;
-    text-align:center;
-    line-height:20px;
-    font-size:11px;
-    transition:.3s;
-}
-
-
-/* =========================
-   ACTIONS
-========================= */
-
-.actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     gap:10px;
+    margin-bottom:15px;
 }
 
-.actions button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:12px;
-    color:white;
-    font-size:14px;
-    font-weight:bold;
+.modal-title{
+    margin:0;
+    color:#0057B8;
+}
+
+.close-btn{
+    border:0;
+    background:#eee;
+    width:38px;
+    height:38px;
+    border-radius:50%;
     cursor:pointer;
 }
 
-.btn20{
-    background:#6b7280;
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.empty{
+    text-align:center;
+    color:#6b7280;
+    padding:40px 15px;
 }
 
-.btn40{
-    background:#0057B8;
+.loading{
+    text-align:center;
+    padding:40px;
+    color:#6b7280;
 }
 
-.btn60{
-    background:#f59e0b;
+.spinner{
+    width:35px;
+    height:35px;
+    border:4px solid #e5e7eb;
+    border-top-color:#0057B8;
+    border-radius:50%;
+    margin:0 auto 12px;
+    animation:
+        spin .8s linear infinite;
 }
 
-.btn80{
-    background:#7c3aed;
-}
+@keyframes spin{
 
-.btn100{
-    background:#16a34a;
-}
+    to{
+        transform:rotate(360deg);
+    }
 
-.btnTolak{
-    background:#dc2626;
 }
 
 
 /* =========================
-   INFO / PESAN
+   ALERT
 ========================= */
 
-.info{
-    background:#eef6ff;
-    padding:15px;
-    border-radius:12px;
-    margin-top:15px;
-    color:#174a7c;
-    line-height:1.5;
-}
-
-.message{
+.alert{
     display:none;
     padding:13px;
     border-radius:10px;
     margin-bottom:15px;
-    line-height:1.5;
     font-size:13px;
 }
 
-.message.error{
+.alert.error{
     display:block;
     background:#fee2e2;
     color:#991b1b;
     border:1px solid #fecaca;
 }
 
-.message.success{
+.alert.success{
     display:block;
     background:#dcfce7;
     color:#166534;
     border:1px solid #bbf7d0;
 }
 
-.empty{
-    text-align:center;
-    color:#777;
-    padding:30px 10px;
-}
 
-.loading{
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
     text-align:center;
-    color:#0057B8;
-    padding:25px;
+    color:#6b7280;
+    font-size:11px;
+    padding:20px;
 }
 
 
@@ -338,22 +572,53 @@ body{
    RESPONSIVE
 ========================= */
 
+@media(max-width:800px){
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .filter-row{
+        grid-template-columns:1fr;
+    }
+
+    .summary{
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+}
+
+
 @media(max-width:600px){
 
-    .container{
-        padding:14px 12px 40px;
+    .header-top{
+        align-items:flex-start;
     }
 
-    .card{
-        padding:16px;
+    .header h1{
+        font-size:21px;
     }
 
-    .list-top{
+    .pengajuan-top{
         flex-direction:column;
     }
 
-    .actions{
+    .detail-grid{
         grid-template-columns:1fr;
+    }
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat-card{
+        padding:13px;
+    }
+
+    .stat-value{
+        font-size:21px;
     }
 
 }
@@ -372,223 +637,265 @@ body{
 
 <header class="header">
 
-    <div class="header-inner">
+<div class="header-inner">
 
-        <h1>
-            Pengajuan KUR
-        </h1>
+<div class="header-top">
 
-        <p>
-            Panel Admin KUR Digital
-        </p>
+<div>
 
-    </div>
+<h1>
+Pengajuan KUR
+</h1>
+
+<p>
+Panel Admin KUR Digital
+</p>
+
+</div>
+
+
+<div class="header-actions">
+
+<button
+class="header-btn"
+title="Refresh"
+onclick="muatSemuaPengajuan()"
+>
+
+<span class="material-icons">
+refresh
+</span>
+
+</button>
+
+
+<button
+class="header-btn"
+title="Dashboard"
+onclick="window.location.href='dashboard-admin.html'"
+>
+
+<span class="material-icons">
+dashboard
+</span>
+
+</button>
+
+</div>
+
+</div>
+
+</div>
 
 </header>
 
 
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <main class="container">
 
 
+<div
+id="alertBox"
+class="alert"
+></div>
+
+
 <!-- =====================================================
-     TOOLBAR
+     STATISTIK
 ===================================================== -->
 
-<div class="toolbar">
-
-    <button
-        class="btn-refresh"
-        onclick="muatSemuaPengajuan()">
-
-        🔄 Refresh Pengajuan
-
-    </button>
+<div class="stats">
 
 
-    <button
-        class="btn-dashboard"
-        onclick="window.location.href='dashboard.html'">
+<div class="stat-card">
 
-        ← Dashboard
-
-    </button>
-
+<div class="stat-label">
+TOTAL PENGAJUAN
 </div>
-
-
-<!-- =====================================================
-     PESAN
-===================================================== -->
 
 <div
-    id="pesan"
-    class="message">
+class="stat-value"
+id="totalPengajuan"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+MENUNGGU VERIFIKASI
+</div>
+
+<div
+class="stat-value"
+id="totalMenunggu"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+DALAM PROSES
+</div>
+
+<div
+class="stat-value"
+id="totalProses"
+>
+0
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<div class="stat-label">
+DANA DICAIRKAN
+</div>
+
+<div
+class="stat-value"
+id="totalCair"
+>
+0
+</div>
+
+</div>
+
+
 </div>
 
 
 <!-- =====================================================
-     DAFTAR PENGAJUAN
+     FILTER
 ===================================================== -->
 
 <div class="card">
 
-    <h2 class="title">
-        Semua Pengajuan
-    </h2>
+<h2 class="title">
+Daftar Semua Pengajuan
+</h2>
 
 
-    <div
-        id="jumlahPengajuan"
-        class="jumlah">
-
-        Memuat data...
-
-    </div>
+<div class="filter-row">
 
 
-    <div id="daftarPengajuan">
+<input
+type="search"
+id="inputCari"
+placeholder="Cari nama, NIK, nomor pengajuan..."
+oninput="renderPengajuan()"
+>
 
-        <div class="loading">
-            Memuat pengajuan dari Supabase...
-        </div>
 
-    </div>
+<select
+id="filterStatus"
+onchange="renderPengajuan()"
+>
+
+<option value="">
+Semua Status
+</option>
+
+<option value="Menunggu Verifikasi">
+Menunggu Verifikasi
+</option>
+
+<option value="Verifikasi Dokumen">
+Verifikasi Dokumen
+</option>
+
+<option value="Survey Lapangan">
+Survey Lapangan
+</option>
+
+<option value="Persetujuan Kredit">
+Persetujuan Kredit
+</option>
+
+<option value="Dana Dicairkan">
+Dana Dicairkan
+</option>
+
+<option value="Pengajuan Ditolak">
+Pengajuan Ditolak
+</option>
+
+</select>
+
+
+<button
+class="btn btn-blue"
+onclick="muatSemuaPengajuan()"
+>
+
+<span
+class="material-icons"
+style="vertical-align:middle;font-size:18px;"
+>
+refresh
+</span>
+
+Refresh
+
+</button>
+
+
+</div>
 
 </div>
 
 
 <!-- =====================================================
-     DETAIL PENGAJUAN
+     DAFTAR
 ===================================================== -->
 
+<div class="card">
+
+<div class="list-header">
+
+<div>
+
+<h2 class="title" style="margin:0;">
+Data Pengajuan
+</h2>
+
 <div
-    id="detailCard"
-    class="card detail">
+class="jumlah-info"
+id="jumlahTampil"
+>
+Memuat...
+</div>
 
-    <h2 class="title">
-        Detail Pengajuan
-    </h2>
-
-
-    <div id="detailPengajuan">
-    </div>
-
-
-    <!-- PROGRESS -->
-
-    <div class="section-mini">
-        Progress Pengajuan
-    </div>
-
-
-    <div class="progress-box">
-
-        <div class="progress-bg">
-
-            <div
-                class="progress-bar"
-                id="progressBar">
-
-                0%
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div
-        class="info"
-        id="statusInfo">
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- =====================================================
-     UPDATE STATUS
-===================================================== -->
-
 <div
-    id="statusCard"
-    class="card detail">
+id="daftarPengajuan"
+>
 
-    <h2 class="title">
-        Update Status
-    </h2>
+<div class="loading">
 
+<div class="spinner"></div>
 
-    <div class="info">
+Memuat semua data dari Supabase...
 
-        Pilih salah satu status untuk pengajuan
-        yang sedang dipilih.
+</div>
 
-    </div>
-
-
-    <br>
-
-
-    <div class="actions">
-
-
-        <button
-            class="btn20"
-            onclick="ubahStatus(20,'Menunggu Verifikasi')">
-
-            20% — Menunggu Verifikasi
-
-        </button>
-
-
-        <button
-            class="btn40"
-            onclick="ubahStatus(40,'Verifikasi Dokumen')">
-
-            40% — Verifikasi Dokumen
-
-        </button>
-
-
-        <button
-            class="btn60"
-            onclick="ubahStatus(60,'Survey Lapangan')">
-
-            60% — Survey Lapangan
-
-        </button>
-
-
-        <button
-            class="btn80"
-            onclick="ubahStatus(80,'Persetujuan Kredit')">
-
-            80% — Persetujuan Kredit
-
-        </button>
-
-
-        <button
-            class="btn100"
-            onclick="ubahStatus(100,'Dana Dicairkan')">
-
-            100% — Dana Dicairkan
-
-        </button>
-
-
-        <button
-            class="btnTolak"
-            onclick="ubahStatus(0,'Pengajuan Ditolak')">
-
-            ✕ Tolak Pengajuan
-
-        </button>
-
-
-    </div>
+</div>
 
 </div>
 
@@ -596,17 +903,71 @@ body{
 </main>
 
 
+<footer class="footer">
+
+© 2026 KUR Digital<br>
+
+Panel Administrator
+
+</footer>
+
+
+<!-- =====================================================
+     MODAL DETAIL
+===================================================== -->
+
+<div
+class="modal"
+id="modalDetail"
+>
+
+<div class="modal-box">
+
+
+<div class="modal-header">
+
+<h2
+class="modal-title"
+>
+Detail Pengajuan
+</h2>
+
+
+<button
+class="close-btn"
+onclick="tutupDetail()"
+>
+
+<span class="material-icons">
+close
+</span>
+
+</button>
+
+</div>
+
+
+<div id="isiDetail">
+
+</div>
+
+
+</div>
+
+</div>
+
+
 <script>
 
 /* =========================================================
    KUR DIGITAL
    ADMIN PENGAJUAN
-   SUPABASE VERSION
+   BACA SEMUA DATA SUPABASE
 ========================================================= */
 
 
 /* =========================================================
-   1. SUPABASE
+   1. KONFIGURASI
 ========================================================= */
 
 const SUPABASE_URL =
@@ -621,16 +982,13 @@ const SUPABASE_TABLE =
     "pengajuan";
 
 
-let supabaseClient = null;
-
-
 /* =========================================================
-   2. DATA
+   2. VARIABEL
 ========================================================= */
 
-let semuaPengajuan = [];
+let supabaseClient = null;
 
-let pengajuanTerpilih = null;
+let semuaPengajuan = [];
 
 
 /* =========================================================
@@ -678,7 +1036,7 @@ function loadSupabaseLibrary(){
 
                         reject(
                             new Error(
-                                "Library Supabase tidak berhasil dimuat."
+                                "Library Supabase gagal dimuat."
                             )
                         );
 
@@ -692,7 +1050,7 @@ function loadSupabaseLibrary(){
 
                     reject(
                         new Error(
-                            "Gagal memuat library Supabase."
+                            "Tidak dapat memuat Supabase."
                         )
                     );
 
@@ -726,31 +1084,27 @@ async function initSupabase(){
 
 
 /* =========================================================
-   5. PESAN
+   5. ESCAPE HTML
 ========================================================= */
 
-function tampilkanPesan(
-    teks,
-    tipe
-){
+function escapeHtml(value){
 
-    const box =
-        document.getElementById("pesan");
+    if(
+        value === null ||
+        value === undefined
+    ){
 
+        return "-";
 
-    box.className =
-        "message " + tipe;
-
-
-    box.innerHTML =
-        teks;
+    }
 
 
-    box.scrollIntoView({
-        behavior:"smooth",
-        block:"center"
-    });
-
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
@@ -759,16 +1113,14 @@ function tampilkanPesan(
    6. FORMAT RUPIAH
 ========================================================= */
 
-function formatRupiah(
-    angka
-){
+function rupiah(value){
+
+    const angka =
+        Number(value || 0);
+
 
     return "Rp " +
-        Number(
-            angka || 0
-        ).toLocaleString(
-            "id-ID"
-        );
+        angka.toLocaleString("id-ID");
 
 }
 
@@ -777,11 +1129,9 @@ function formatRupiah(
    7. FORMAT TANGGAL
 ========================================================= */
 
-function formatTanggal(
-    tanggal
-){
+function formatTanggal(value){
 
-    if(!tanggal){
+    if(!value){
 
         return "-";
 
@@ -790,15 +1140,18 @@ function formatTanggal(
 
     try{
 
-        return new Date(
-            tanggal
-        ).toLocaleString(
-            "id-ID"
-        );
+        return new Date(value)
+            .toLocaleString(
+                "id-ID",
+                {
+                    dateStyle:"medium",
+                    timeStyle:"short"
+                }
+            );
 
-    }catch(e){
+    }catch(error){
 
-        return tanggal;
+        return value;
 
     }
 
@@ -806,50 +1159,114 @@ function formatTanggal(
 
 
 /* =========================================================
-   8. ESCAPE HTML
+   8. STATUS CLASS
 ========================================================= */
 
-function escapeHTML(
-    nilai
-){
+function statusClass(status){
+
+    const s =
+        String(status || "")
+        .toLowerCase();
+
 
     if(
-        nilai === null ||
-        nilai === undefined
+        s.includes("menunggu")
     ){
 
-        return "-";
+        return "status-menunggu";
 
     }
 
 
-    return String(nilai)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+    if(
+        s.includes("verifikasi")
+    ){
+
+        return "status-proses";
+
+    }
+
+
+    if(
+        s.includes("survey")
+    ){
+
+        return "status-survey";
+
+    }
+
+
+    if(
+        s.includes("persetujuan")
+    ){
+
+        return "status-setuju";
+
+    }
+
+
+    if(
+        s.includes("cair")
+    ){
+
+        return "status-cair";
+
+    }
+
+
+    if(
+        s.includes("tolak")
+    ){
+
+        return "status-tolak";
+
+    }
+
+
+    return "status-proses";
 
 }
 
 
 /* =========================================================
-   9. AMBIL SEMUA PENGAJUAN DARI SUPABASE
+   9. ALERT
+========================================================= */
+
+function tampilkanAlert(
+    pesan,
+    tipe
+){
+
+    const box =
+        document.getElementById(
+            "alertBox"
+        );
+
+
+    box.className =
+        "alert " +
+        tipe;
+
+
+    box.innerHTML =
+        pesan;
+
+
+    setTimeout(
+        function(){
+
+            box.className =
+                "alert";
+
+        },
+        5000
+    );
+
+}
+
+
+/* =========================================================
+   10. AMBIL SEMUA DATA SUPABASE
 ========================================================= */
 
 async function muatSemuaPengajuan(){
@@ -860,21 +1277,17 @@ async function muatSemuaPengajuan(){
         );
 
 
-    const jumlah =
-        document.getElementById(
-            "jumlahPengajuan"
-        );
-
-
     daftar.innerHTML = `
+
         <div class="loading">
-            ⏳ Mengambil semua pengajuan dari Supabase...
+
+            <div class="spinner"></div>
+
+            Mengambil semua data dari Supabase...
+
         </div>
+
     `;
-
-
-    jumlah.innerHTML =
-        "Memuat data...";
 
 
     try{
@@ -886,75 +1299,106 @@ async function muatSemuaPengajuan(){
         }
 
 
+        console.log(
+            "Mengambil semua data dari tabel:",
+            SUPABASE_TABLE
+        );
+
+
+        /*
+         * PENTING:
+         * select("*") berarti membaca
+         * semua kolom yang tersedia
+         * pada tabel pengajuan.
+         */
+
         const hasil =
             await supabaseClient
-                .from(SUPABASE_TABLE)
-                .select("*")
-                .order(
-                    "created_at",
-                    {
-                        ascending:false
-                    }
-                );
+            .from(SUPABASE_TABLE)
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            );
 
 
         if(hasil.error){
 
             console.error(
-                "SUPABASE SELECT ERROR:",
+                "SUPABASE ERROR:",
                 hasil.error
             );
 
 
             throw new Error(
-                hasil.error.message ||
-                "Gagal mengambil data pengajuan."
+                hasil.error.message
             );
 
         }
 
 
         semuaPengajuan =
-            hasil.data || [];
+            Array.isArray(
+                hasil.data
+            )
+            ?
+            hasil.data
+            :
+            [];
 
 
         console.log(
-            "Semua pengajuan:",
-            semuaPengajuan
+            "Jumlah pengajuan dari Supabase:",
+            semuaPengajuan.length
         );
 
 
-        jumlah.innerHTML =
-            "📋 Total pengajuan: <b>" +
-            semuaPengajuan.length +
-            "</b>";
+        updateStatistik();
 
 
-        tampilkanDaftar();
+        renderPengajuan();
 
 
     }catch(error){
 
         console.error(
+            "Gagal membaca Supabase:",
             error
         );
 
 
+        semuaPengajuan = [];
+
+
         daftar.innerHTML = `
+
             <div class="empty">
-                ❌ Gagal mengambil data pengajuan.<br><br>
-                ${escapeHTML(error.message)}
+
+                <b>Gagal membaca data Supabase.</b>
+
+                <br><br>
+
+                ${escapeHtml(error.message)}
+
+                <br><br>
+
+                <button
+                    class="btn btn-blue"
+                    onclick="muatSemuaPengajuan()"
+                >
+                    Coba Lagi
+                </button>
+
             </div>
+
         `;
 
 
-        jumlah.innerHTML =
-            "Gagal memuat data.";
-
-
-        tampilkanPesan(
-            "Gagal mengambil data dari Supabase.<br><br>" +
-            escapeHTML(error.message),
+        tampilkanAlert(
+            "Gagal mengambil data Supabase: " +
+            escapeHtml(error.message),
             "error"
         );
 
@@ -964,111 +1408,706 @@ async function muatSemuaPengajuan(){
 
 
 /* =========================================================
-   10. TAMPILKAN SEMUA DATA
+   11. STATISTIK
 ========================================================= */
 
-function tampilkanDaftar(){
+function updateStatistik(){
 
-    const tempat =
+    const total =
+        semuaPengajuan.length;
+
+
+    const menunggu =
+        semuaPengajuan.filter(
+            function(p){
+
+                return String(
+                    p.status || ""
+                ).toLowerCase()
+                .includes("menunggu");
+
+            }
+        ).length;
+
+
+    const proses =
+        semuaPengajuan.filter(
+            function(p){
+
+                const s =
+                    String(
+                        p.status || ""
+                    ).toLowerCase();
+
+
+                return (
+                    s.includes("verifikasi") ||
+                    s.includes("survey") ||
+                    s.includes("persetujuan")
+                );
+
+            }
+        ).length;
+
+
+    const cair =
+        semuaPengajuan.filter(
+            function(p){
+
+                return String(
+                    p.status || ""
+                ).toLowerCase()
+                .includes("cair");
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "totalPengajuan"
+    ).innerText =
+        total;
+
+
+    document.getElementById(
+        "totalMenunggu"
+    ).innerText =
+        menunggu;
+
+
+    document.getElementById(
+        "totalProses"
+    ).innerText =
+        proses;
+
+
+    document.getElementById(
+        "totalCair"
+    ).innerText =
+        cair;
+
+}
+
+
+/* =========================================================
+   12. FILTER + RENDER
+========================================================= */
+
+function renderPengajuan(){
+
+    const daftar =
         document.getElementById(
             "daftarPengajuan"
         );
 
 
-    if(
-        !semuaPengajuan ||
-        semuaPengajuan.length === 0
-    ){
+    const keyword =
+        document.getElementById(
+            "inputCari"
+        ).value
+        .trim()
+        .toLowerCase();
 
-        tempat.innerHTML = `
+
+    const filter =
+        document.getElementById(
+            "filterStatus"
+        ).value;
+
+
+    const hasil =
+        semuaPengajuan.filter(
+            function(p){
+
+                const teks = (
+
+                    (p.nama || "") +
+                    " " +
+                    (p.nik || "") +
+                    " " +
+                    (p.nomor_pengajuan || "") +
+                    " " +
+                    (p.hp || "") +
+                    " " +
+                    (p.usaha || "")
+
+                ).toLowerCase();
+
+
+                const cocokCari =
+                    !keyword ||
+                    teks.includes(keyword);
+
+
+                const cocokStatus =
+                    !filter ||
+                    String(p.status || "") ===
+                    filter;
+
+
+                return (
+                    cocokCari &&
+                    cocokStatus
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        "jumlahTampil"
+    ).innerText =
+        hasil.length +
+        " pengajuan ditampilkan dari " +
+        semuaPengajuan.length +
+        " total";
+
+
+    if(!hasil.length){
+
+        daftar.innerHTML = `
+
             <div class="empty">
 
-                📭 Belum ada pengajuan KUR.
+                Tidak ada pengajuan yang sesuai.
 
             </div>
+
         `;
-
-        document.getElementById(
-            "detailCard"
-        ).classList.remove("show");
-
-
-        document.getElementById(
-            "statusCard"
-        ).classList.remove("show");
-
 
         return;
 
     }
 
 
-    tempat.innerHTML =
-        semuaPengajuan
+    daftar.innerHTML =
+        hasil
         .map(
-            function(p,index){
+            function(p){
 
-                const aktif =
-                    pengajuanTerpilih &&
-                    pengajuanTerpilih.id ===
-                    p.id
-                    ?
-                    "active"
-                    :
-                    "";
+                return buatKartuPengajuan(p);
 
+            }
+        )
+        .join("");
 
-                const status =
-                    p.status ||
-                    "Menunggu Verifikasi";
+}
 
 
-                return `
+/* =========================================================
+   13. BUAT KARTU
+========================================================= */
+
+function buatKartuPengajuan(p){
+
+    const id =
+        escapeHtml(
+            p.id || ""
+        );
+
+
+    const nomor =
+        escapeHtml(
+            p.nomor_pengajuan ||
+            "-"
+        );
+
+
+    const nama =
+        escapeHtml(
+            p.nama ||
+            "-"
+        );
+
+
+    const status =
+        escapeHtml(
+            p.status ||
+            "Menunggu Verifikasi"
+        );
+
+
+    const progress =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                Number(
+                    p.progress || 0
+                )
+            )
+        );
+
+
+    const jumlah =
+        rupiah(
+            p.jumlah_pinjaman
+        );
+
+
+    const tanggal =
+        formatTanggal(
+            p.created_at
+        );
+
+
+    return `
+
+        <div
+            class="pengajuan"
+            id="pengajuan-${id}"
+        >
+
+            <div class="pengajuan-top">
+
+                <div>
+
+                    <div class="pengajuan-nomor">
+
+                        ${nomor}
+
+                    </div>
+
+                    <div class="pengajuan-nama">
+
+                        ${nama}
+
+                    </div>
+
+                    <div class="pengajuan-tanggal">
+
+                        ${tanggal}
+
+                    </div>
+
+                </div>
+
+
+                <span
+                    class="status ${statusClass(status)}"
+                >
+
+                    ${status}
+
+                </span>
+
+            </div>
+
+
+            <div class="summary">
+
+
+                <div class="summary-item">
+
+                    <div class="summary-label">
+                        NIK
+                    </div>
+
+                    <div class="summary-value">
+                        ${escapeHtml(p.nik || "-")}
+                    </div>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <div class="summary-label">
+                        HP
+                    </div>
+
+                    <div class="summary-value">
+                        ${escapeHtml(p.hp || "-")}
+                    </div>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <div class="summary-label">
+                        Jumlah Pinjaman
+                    </div>
+
+                    <div class="summary-value">
+                        ${jumlah}
+                    </div>
+
+                </div>
+
+
+                <div class="summary-item">
+
+                    <div class="summary-label">
+                        Tenor
+                    </div>
+
+                    <div class="summary-value">
+                        ${escapeHtml(p.tenor || "-")}
+                        Bulan
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="progress-wrap">
+
+                <div class="progress-bg">
 
                     <div
-                        class="list-item ${aktif}"
-                        onclick="pilihPengajuan(${index})">
+                        class="progress-bar"
+                        style="width:${progress}%"
+                    >
 
-                        <div class="list-top">
+                        ${progress}%
 
-                            <div>
+                    </div>
 
-                                <div class="list-name">
-                                    ${escapeHTML(
-                                        p.nama ||
-                                        "Tanpa Nama"
-                                    )}
-                                </div>
+                </div>
+
+            </div>
 
 
-                                <div class="list-number">
-
-                                    ${escapeHTML(
-                                        p.nomor_pengajuan ||
-                                        "-"
-                                    )}
-
-                                </div>
+            <div class="action-row">
 
 
-                                <div class="list-date">
+                <button
+                    class="btn btn-blue"
+                    onclick="lihatDetail('${id}')"
+                >
 
-                                    ${formatTanggal(
-                                        p.created_at
-                                    )}
+                    <span
+                        class="material-icons"
+                        style="vertical-align:middle;font-size:17px;"
+                    >
+                        visibility
+                    </span>
 
-                                </div>
+                    Detail
 
-                            </div>
+                </button>
 
 
-                            <span class="status">
+                <button
+                    class="btn btn-green"
+                    onclick="ubahStatusSupabase('${id}',40,'Verifikasi Dokumen')"
+                >
 
-                                ${escapeHTML(
-                                    status
-                                )}
+                    Verifikasi
 
-                            </span>
+                </button>
+
+
+                <button
+                    class="btn btn-gray"
+                    onclick="ubahStatusSupabase('${id}',60,'Survey Lapangan')"
+                >
+
+                    Survey
+
+                </button>
+
+
+                <button
+                    class="btn btn-red"
+                    onclick="ubahStatusSupabase('${id}',0,'Pengajuan Ditolak')"
+                >
+
+                    Tolak
+
+                </button>
+
+
+            </div>
+
+
+            <div
+                class="detail"
+                id="detail-${id}"
+            >
+
+                ${buatDetailHtml(p)}
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   14. DETAIL HTML
+========================================================= */
+
+function buatDetailHtml(p){
+
+    /*
+     * Daftar ini membaca kolom-kolom
+     * utama yang digunakan aplikasi.
+     *
+     * Jika kolom tambahan ada di Supabase,
+     * akan tetap ditampilkan di bagian
+     * "Semua Kolom Supabase".
+     */
+
+    const kolomUtama = [
+
+        ["ID",p.id],
+
+        ["Nomor Pengajuan",p.nomor_pengajuan],
+
+        ["Nama Lengkap",p.nama],
+
+        ["NIK",p.nik],
+
+        ["Nomor HP",p.hp],
+
+        ["Alamat",p.alamat],
+
+        ["Nama Bank",p.namaBank ?? p.nama_bank],
+
+        ["Nomor Rekening",
+            p.nomorRekening ??
+            p.nomor_rekening],
+
+        ["Nama Pemilik Rekening",
+            p.namaPemilikRekening ??
+            p.nama_pemilik_rekening],
+
+        ["Nama Usaha",p.usaha],
+
+        ["Jenis Usaha",p.jenis_usaha],
+
+        ["Lama Usaha",
+            p.lama_usaha !== undefined
+            ?
+            p.lama_usaha + " Tahun"
+            :
+            null],
+
+        ["Penghasilan",
+            p.penghasilan !== undefined
+            ?
+            rupiah(p.penghasilan)
+            :
+            null],
+
+        ["Jenis Pinjaman",
+            p.jenis_pinjaman],
+
+        ["Jumlah Pinjaman",
+            p.jumlah_pinjaman !== undefined
+            ?
+            rupiah(p.jumlah_pinjaman)
+            :
+            null],
+
+        ["Tenor",
+            p.tenor !== undefined
+            ?
+            p.tenor + " Bulan"
+            :
+            null],
+
+        ["Status",p.status],
+
+        ["Progress",
+            p.progress !== undefined
+            ?
+            p.progress + "%"
+            :
+            null],
+
+        ["Sudah Dicairkan",
+            p.sudah_dicairkan !== undefined
+            ?
+            (
+                p.sudah_dicairkan
+                ?
+                "Ya"
+                :
+                "Belum"
+            )
+            :
+            null],
+
+        ["Dibuat",
+            formatTanggal(p.created_at)],
+
+        ["Diperbarui",
+            formatTanggal(p.updated_at)]
+
+    ];
+
+
+    let html = `
+
+        <div class="detail-title">
+            Data Pengajuan
+        </div>
+
+        <div class="detail-grid">
+
+    `;
+
+
+    kolomUtama.forEach(
+        function(item){
+
+            const label =
+                item[0];
+
+
+            const value =
+                item[1];
+
+
+            if(
+                value !== null &&
+                value !== undefined &&
+                value !== ""
+            ){
+
+                html += `
+
+                    <div class="detail-item">
+
+                        <div class="detail-label">
+                            ${escapeHtml(label)}
+                        </div>
+
+                        <div class="detail-value">
+                            ${escapeHtml(value)}
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+    );
+
+
+    html += `
+
+        </div>
+
+    `;
+
+
+    /*
+     * SEMUA KOLOM TAMBAHAN
+     */
+
+    const kolomSudah =
+        new Set([
+
+            "id",
+            "nomor_pengajuan",
+            "nama",
+            "nik",
+            "hp",
+            "alamat",
+            "namaBank",
+            "nama_bank",
+            "nomorRekening",
+            "nomor_rekening",
+            "namaPemilikRekening",
+            "nama_pemilik_rekening",
+            "usaha",
+            "jenis_usaha",
+            "lama_usaha",
+            "penghasilan",
+            "jenis_pinjaman",
+            "jumlah_pinjaman",
+            "tenor",
+            "status",
+            "progress",
+            "sudah_dicairkan",
+            "created_at",
+            "updated_at"
+
+        ]);
+
+
+    const tambahan =
+        Object.keys(p)
+        .filter(
+            function(key){
+
+                return !kolomSudah.has(key);
+
+            }
+        );
+
+
+    if(tambahan.length){
+
+        html += `
+
+            <div
+                class="detail-title"
+                style="margin-top:20px;"
+            >
+
+                Semua Kolom Tambahan Supabase
+
+            </div>
+
+            <div class="detail-grid">
+
+        `;
+
+
+        tambahan.forEach(
+            function(key){
+
+                let value =
+                    p[key];
+
+
+                if(
+                    value &&
+                    typeof value === "object"
+                ){
+
+                    try{
+
+                        value =
+                            JSON.stringify(
+                                value
+                            );
+
+                    }catch(e){
+
+                        value =
+                            String(value);
+
+                    }
+
+                }
+
+
+                html += `
+
+                    <div class="detail-item">
+
+                        <div class="detail-label">
+
+                            ${escapeHtml(key)}
+
+                        </div>
+
+                        <div class="detail-value">
+
+                            ${escapeHtml(value)}
 
                         </div>
 
@@ -1077,419 +2116,143 @@ function tampilkanDaftar(){
                 `;
 
             }
-        )
-        .join("");
+        );
 
 
-    /*
-     * Kalau belum ada pilihan,
-     * otomatis pilih pengajuan pertama.
-     */
+        html += `
 
-    if(!pengajuanTerpilih){
+            </div>
 
-        pilihPengajuan(0);
+        `;
 
     }
+
+
+    return html;
 
 }
 
 
 /* =========================================================
-   11. PILIH PENGAJUAN
+   15. LIHAT DETAIL
 ========================================================= */
 
-function pilihPengajuan(
-    index
-){
+function lihatDetail(id){
 
-    const data =
-        semuaPengajuan[index];
+    const p =
+        semuaPengajuan.find(
+            function(item){
+
+                return String(item.id) ===
+                    String(id);
+
+            }
+        );
 
 
-    if(!data){
+    if(!p){
+
+        alert(
+            "Data pengajuan tidak ditemukan."
+        );
 
         return;
 
     }
 
 
-    pengajuanTerpilih =
-        data;
+    const detail =
+        document.getElementById(
+            "detail-" + id
+        );
 
 
-    tampilkanDaftar();
+    if(detail){
 
+        detail.classList.toggle(
+            "active"
+        );
 
-    tampilkanDetail(
-        data
-    );
-
-
-    document.getElementById(
-        "detailCard"
-    ).classList.add("show");
-
-
-    document.getElementById(
-        "statusCard"
-    ).classList.add("show");
-
-
-    setTimeout(
-        function(){
-
-            document.getElementById(
-                "detailCard"
-            ).scrollIntoView({
-                behavior:"smooth",
-                block:"start"
-            });
-
-        },
-        100
-    );
+    }
 
 }
 
 
 /* =========================================================
-   12. DETAIL
+   16. MODAL DETAIL LENGKAP
 ========================================================= */
 
-function tampilkanDetail(
-    p
-){
+function bukaDetailModal(id){
 
-    const tempat =
-        document.getElementById(
-            "detailPengajuan"
+    const p =
+        semuaPengajuan.find(
+            function(item){
+
+                return String(item.id) ===
+                    String(id);
+
+            }
         );
 
 
-    const progress =
-        Number(
-            p.progress || 20
-        );
+    if(!p){
 
+        return;
 
-    const status =
-        p.status ||
-        "Menunggu Verifikasi";
-
-
-    tempat.innerHTML = `
-
-        <div class="row">
-
-            <div class="label">
-                ID Pengajuan
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.id
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Nomor Pengajuan
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.nomor_pengajuan
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Tanggal Pengajuan
-            </div>
-
-            <div class="value">
-                ${formatTanggal(
-                    p.created_at
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="section-mini">
-            Data Pribadi
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Nama Pemohon
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.nama
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                NIK
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.nik
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Nomor HP
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.hp
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Alamat
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.alamat
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="section-mini">
-            Data Usaha
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Nama Usaha
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.usaha
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Jenis Usaha
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.jenis_usaha
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Lama Usaha
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.lama_usaha
-                )}
-                Tahun
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Penghasilan per Bulan
-            </div>
-
-            <div class="value">
-                ${formatRupiah(
-                    p.penghasilan
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="section-mini">
-            Data Pinjaman
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Jumlah Pinjaman
-            </div>
-
-            <div class="value">
-                ${formatRupiah(
-                    p.jumlah_pinjaman
-                )}
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Tenor
-            </div>
-
-            <div class="value">
-                ${escapeHTML(
-                    p.tenor
-                )}
-                Bulan
-            </div>
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="label">
-                Status
-            </div>
-
-            <div class="value">
-
-                <span class="status">
-
-                    ${escapeHTML(
-                        status
-                    )}
-
-                </span>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    tampilkanProgress(
-        progress,
-        status
-    );
-
-}
-
-
-/* =========================================================
-   13. PROGRESS
-========================================================= */
-
-function tampilkanProgress(
-    progress,
-    status
-){
-
-    const bar =
-        document.getElementById(
-            "progressBar"
-        );
-
-
-    bar.style.width =
-        progress + "%";
-
-
-    bar.innerHTML =
-        progress + "%";
+    }
 
 
     document.getElementById(
-        "statusInfo"
+        "isiDetail"
     ).innerHTML =
+        buatDetailHtml(p);
 
-        "<b>Status:</b> " +
-        escapeHTML(status) +
 
-        "<br><br>" +
+    document.getElementById(
+        "modalDetail"
+    ).classList.add(
+        "active"
+    );
 
-        "<b>Progress:</b> " +
-        progress +
-        "%";
+}
+
+
+function tutupDetail(){
+
+    document.getElementById(
+        "modalDetail"
+    ).classList.remove(
+        "active"
+    );
 
 }
 
 
 /* =========================================================
-   14. UBAH STATUS DI SUPABASE
+   17. UPDATE STATUS SUPABASE
 ========================================================= */
 
-async function ubahStatus(
+async function ubahStatusSupabase(
+    id,
     progress,
     status
 ){
 
-    if(!pengajuanTerpilih){
+    const p =
+        semuaPengajuan.find(
+            function(item){
 
-        alert(
-            "Pilih pengajuan terlebih dahulu."
+                return String(item.id) ===
+                    String(id);
+
+            }
         );
 
-        return;
 
-    }
-
-
-    const id =
-        pengajuanTerpilih.id;
-
-
-    if(!id){
+    if(!p){
 
         alert(
-            "ID pengajuan tidak ditemukan."
+            "Data pengajuan tidak ditemukan."
         );
 
         return;
@@ -1500,16 +2263,12 @@ async function ubahStatus(
     const yakin =
         confirm(
             "Ubah status pengajuan " +
-            (
-                pengajuanTerpilih
-                    .nomor_pengajuan ||
-                ""
-            ) +
+            (p.nomor_pengajuan || "") +
             " menjadi:\n\n" +
             status +
-            " (" +
+            "\nProgress: " +
             progress +
-            "%)?"
+            "%"
         );
 
 
@@ -1529,96 +2288,81 @@ async function ubahStatus(
         }
 
 
-        const waktu =
-            new Date().toISOString();
+        const updateData = {
+
+            status:
+                status,
+
+            progress:
+                progress,
+
+            updated_at:
+                new Date().toISOString()
+
+        };
+
+
+        /*
+         * Jika 100%, tandai sudah dicairkan.
+         */
+
+        if(progress === 100){
+
+            updateData.sudah_dicairkan =
+                true;
+
+        }
 
 
         const hasil =
             await supabaseClient
-                .from(SUPABASE_TABLE)
-                .update({
-
-                    status:
-                        status,
-
-                    progress:
-                        progress,
-
-                    updated_at:
-                        waktu,
-
-                    sudah_dicairkan:
-                        progress === 100
-
-                })
-                .eq(
-                    "id",
-                    id
-                )
-                .select()
-                .single();
+            .from(SUPABASE_TABLE)
+            .update(updateData)
+            .eq("id",id)
+            .select()
+            .single();
 
 
         if(hasil.error){
 
-            console.error(
-                "UPDATE ERROR:",
-                hasil.error
-            );
-
-
             throw new Error(
-                hasil.error.message ||
-                "Gagal mengubah status."
+                hasil.error.message
             );
 
         }
 
 
         /*
-         * Update objek lokal sementara.
+         * Update array lokal
+         * supaya tampilan langsung berubah.
          */
 
-        pengajuanTerpilih =
-            hasil.data;
-
-
-        /*
-         * Update data di array.
-         */
-
-        semuaPengajuan =
-            semuaPengajuan.map(
+        const index =
+            semuaPengajuan.findIndex(
                 function(item){
 
-                    if(
-                        item.id === id
-                    ){
-
-                        return hasil.data;
-
-                    }
-
-                    return item;
+                    return String(item.id) ===
+                        String(id);
 
                 }
             );
 
 
-        tampilkanDaftar();
+        if(index !== -1){
+
+            semuaPengajuan[index] =
+                hasil.data;
+
+        }
 
 
-        tampilkanDetail(
-            hasil.data
-        );
+        updateStatistik();
+
+        renderPengajuan();
 
 
-        tampilkanPesan(
-            "✓ Status pengajuan berhasil diperbarui menjadi <b>" +
-            escapeHTML(status) +
-            "</b> (" +
-            progress +
-            "%).",
+        tampilkanAlert(
+            "Status berhasil diperbarui di Supabase.",
             "success"
         );
 
@@ -1626,13 +2370,14 @@ async function ubahStatus(
     }catch(error){
 
         console.error(
+            "Gagal update status:",
             error
         );
 
 
-        tampilkanPesan(
-            "❌ Gagal mengubah status.<br><br>" +
-            escapeHTML(error.message),
+        tampilkanAlert(
+            "Gagal memperbarui status: " +
+            escapeHtml(error.message),
             "error"
         );
 
@@ -1642,7 +2387,29 @@ async function ubahStatus(
 
 
 /* =========================================================
-   15. LOGIN ADMIN
+   18. TUTUP MODAL KLIK LUAR
+========================================================= */
+
+document.getElementById(
+    "modalDetail"
+).addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target === this
+        ){
+
+            tutupDetail();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   19. CEK LOGIN ADMIN
 ========================================================= */
 
 if(
@@ -1654,52 +2421,21 @@ if(
     window.location.href =
         "login.html";
 
-}
+}else{
 
+    /*
+     * Jangan membaca localStorage pengajuan.
+     *
+     * Semua data langsung dari Supabase.
+     */
 
-/* =========================================================
-   16. MULAI
-========================================================= */
-
-async function mulai(){
-
-    try{
-
-        await initSupabase();
-
-        await muatSemuaPengajuan();
-
-    }catch(error){
-
-        console.error(
-            error
-        );
-
-
-        document.getElementById(
-            "daftarPengajuan"
-        ).innerHTML = `
-
-            <div class="empty">
-
-                ❌ Supabase gagal terhubung.<br><br>
-
-                ${escapeHTML(
-                    error.message
-                )}
-
-            </div>
-
-        `;
-
-    }
+    muatSemuaPengajuan();
 
 }
-
-
-mulai();
 
 </script>
 
+
 </body>
+
 </html>
