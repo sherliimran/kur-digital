@@ -780,93 +780,309 @@ body{
 
 
 
-<!-- =====================================================
-     UPDATE STATUS
-===================================================== -->
+/* =========================================================
+   UPDATE STATUS SUPABASE - VERSI STABIL
+========================================================= */
 
-<section
-    class="card"
-    id="statusCard"
-    style="display:none;">
+async function ubahStatus(
+    progressBaru,
+    statusBaru
+){
 
-    <h2 class="title">
-        Update Status
-    </h2>
+    if(!pengajuanTerpilih){
 
+        tampilkanError(
+            "Pilih pengajuan terlebih dahulu."
+        );
 
-    <div class="status-buttons">
-
-
-        <button
-            type="button"
-            class="status-btn btn20"
-            onclick="ubahStatus(20,'Menunggu Verifikasi')">
-
-            20%<br>
-            Menunggu Verifikasi
-
-        </button>
+        return;
+    }
 
 
-        <button
-            type="button"
-            class="status-btn btn40"
-            onclick="ubahStatus(40,'Verifikasi Dokumen')">
-
-            40%<br>
-            Verifikasi Dokumen
-
-        </button>
+    const id = pengajuanTerpilih.id;
 
 
-        <button
-            type="button"
-            class="status-btn btn60"
-            onclick="ubahStatus(60,'Survey Lapangan')">
-
-            60%<br>
-            Survey Lapangan
-
-        </button>
+    const nama =
+        pengajuanTerpilih.nama ||
+        "-";
 
 
-        <button
-            type="button"
-            class="status-btn btn80"
-            onclick="ubahStatus(80,'Persetujuan Kredit')">
+    const yakin = confirm(
 
-            80%<br>
-            Persetujuan Kredit
+        "Ubah status pengajuan:\n\n" +
 
-        </button>
+        nama +
 
+        "\n\nMenjadi:\n" +
 
-        <button
-            type="button"
-            class="status-btn btn100"
-            onclick="ubahStatus(100,'Dana Dicairkan')">
+        statusBaru +
 
-            100%<br>
-            Dana Dicairkan
+        "\nProgress: " +
 
-        </button>
+        progressBaru +
+
+        "%"
+
+    );
 
 
-        <button
-            type="button"
-            class="status-btn btn0"
-            onclick="ubahStatus(0,'Pengajuan Ditolak')">
+    if(!yakin){
 
-            ✕<br>
-            Tolak Pengajuan
-
-        </button>
+        return;
+    }
 
 
-    </div>
+    try{
 
-</section>
+        /* =========================================
+           PASTIKAN SUPABASE SIAP
+        ========================================= */
 
+        if(!supabaseClient){
+
+            const siap =
+                await initSupabase();
+
+
+            if(!siap){
+
+                return;
+            }
+
+        }
+
+
+        /* =========================================
+           DATA YANG AKAN DIUPDATE
+        ========================================= */
+
+        const updateData = {
+
+            status:
+                statusBaru,
+
+            progress:
+                progressBaru,
+
+            sudah_dicairkan:
+                progressBaru === 100,
+
+            updated_at:
+                new Date().toISOString()
+
+        };
+
+
+        console.log(
+            "Mencoba update:",
+            id,
+            updateData
+        );
+
+
+        /* =========================================
+           UPDATE TANPA .select()
+           
+           Kita gunakan count supaya bisa mengetahui
+           apakah benar-benar ada 1 record yang berubah.
+        ========================================= */
+
+        const hasilUpdate =
+            await supabaseClient
+            .from(SUPABASE_TABLE)
+            .update(
+                updateData,
+                {
+                    count: "exact"
+                }
+            )
+            .eq(
+                "id",
+                id
+            );
+
+
+        console.log(
+            "Hasil UPDATE:",
+            hasilUpdate
+        );
+
+
+        if(hasilUpdate.error){
+
+            throw hasilUpdate.error;
+        }
+
+
+        /* =========================================
+           CEK APAKAH ADA RECORD YANG DIUPDATE
+        ========================================= */
+
+        if(
+            hasilUpdate.count !== null &&
+            hasilUpdate.count !== 1
+        ){
+
+            throw new Error(
+                "Tidak ada data yang berhasil diperbarui. " +
+                "ID pengajuan tidak ditemukan atau UPDATE " +
+                "ditolak oleh RLS."
+            );
+        }
+
+
+        /* =========================================
+           AMBIL ULANG DATA TERBARU
+           
+           UPDATE dan SELECT dipisahkan.
+        ========================================= */
+
+        const hasilBaca =
+            await supabaseClient
+            .from(SUPABASE_TABLE)
+            .select("*")
+            .eq(
+                "id",
+                id
+            )
+            .maybeSingle();
+
+
+        if(hasilBaca.error){
+
+            throw hasilBaca.error;
+        }
+
+
+        if(!hasilBaca.data){
+
+            throw new Error(
+                "Status berhasil dikirim ke database, " +
+                "tetapi data terbaru tidak dapat dibaca kembali."
+            );
+        }
+
+
+        const dataTerbaru =
+            hasilBaca.data;
+
+
+        console.log(
+            "Data terbaru:",
+            dataTerbaru
+        );
+
+
+        /* =========================================
+           UPDATE DATA LOKAL
+        ========================================= */
+
+        pengajuanTerpilih =
+            dataTerbaru;
+
+
+        const index =
+            semuaPengajuan.findIndex(
+                function(item){
+
+                    return String(item.id) ===
+                        String(id);
+
+                }
+            );
+
+
+        if(index !== -1){
+
+            semuaPengajuan[index] =
+                dataTerbaru;
+        }
+
+
+        /* =========================================
+           REFRESH TAMPILAN
+        ========================================= */
+
+        tampilkanStatistik();
+
+
+        /*
+         * Pertahankan pencarian jika sedang digunakan.
+         */
+
+        const keyword =
+            document.getElementById(
+                "searchInput"
+            ).value
+            .trim()
+            .toLowerCase();
+
+
+        if(keyword){
+
+            filterPengajuan();
+
+        }else{
+
+            tampilkanDaftar(
+                semuaPengajuan
+            );
+
+        }
+
+
+        tampilkanDetail(
+            dataTerbaru
+        );
+
+
+        /* =========================================
+           PESAN SUKSES
+        ========================================= */
+
+        tampilkanSukses(
+
+            "Status pengajuan berhasil diperbarui.<br><br>" +
+
+            "<b>" +
+            escapeHTML(statusBaru) +
+            "</b> — " +
+
+            progressBaru +
+
+            "%"
+
+        );
+
+
+        console.log(
+            "✓ UPDATE STATUS BERHASIL",
+            dataTerbaru
+        );
+
+
+    }catch(error){
+
+        console.error(
+            "✕ GAGAL UPDATE STATUS:",
+            error
+        );
+
+
+        tampilkanError(
+
+            "Gagal memperbarui status Supabase.<br><br>" +
+
+            escapeHTML(
+                error.message ||
+                String(error)
+            )
+
+        );
+
+    }
+
+}
 
 
 <!-- =====================================================
