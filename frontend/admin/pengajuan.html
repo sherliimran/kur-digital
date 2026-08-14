@@ -320,7 +320,6 @@ body{
     color:#64748b;
     font-size:11px;
     margin-bottom:5px;
-    text-transform:none;
 }
 
 .detail-value{
@@ -361,7 +360,7 @@ body{
 
 
 /* =========================================================
-   STATUS BUTTON
+   STATUS BUTTONS
 ========================================================= */
 
 .status-buttons{
@@ -382,6 +381,11 @@ body{
 
 .status-btn:hover{
     opacity:.9;
+}
+
+.status-btn:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
 .btn20{
@@ -461,21 +465,6 @@ body{
 
 
 /* =========================================================
-   LINK DOKUMEN
-========================================================= */
-
-.data-link{
-    color:#0057B8;
-    font-weight:bold;
-    text-decoration:none;
-}
-
-.data-link:hover{
-    text-decoration:underline;
-}
-
-
-/* =========================================================
    MOBILE
 ========================================================= */
 
@@ -536,7 +525,6 @@ body{
 </header>
 
 
-
 <main class="container">
 
 
@@ -558,7 +546,6 @@ body{
 </div>
 
 
-
 <!-- =====================================================
      PESAN ERROR
 ===================================================== -->
@@ -567,7 +554,6 @@ body{
     id="pesanError"
     class="message error">
 </div>
-
 
 
 <!-- =====================================================
@@ -580,7 +566,6 @@ body{
 </div>
 
 
-
 <!-- =====================================================
      STATISTIK
 ===================================================== -->
@@ -591,9 +576,7 @@ body{
         Ringkasan Pengajuan
     </h2>
 
-
     <div class="stats">
-
 
         <div class="stat">
 
@@ -654,11 +637,9 @@ body{
 
         </div>
 
-
     </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -677,7 +658,6 @@ body{
             oninput="filterPengajuan()"
         >
 
-
         <button
             type="button"
             class="btn btn-refresh"
@@ -692,7 +672,6 @@ body{
 </section>
 
 
-
 <!-- =====================================================
      SEMUA PENGAJUAN
 ===================================================== -->
@@ -703,7 +682,6 @@ body{
         Semua Pengajuan
     </h2>
 
-
     <div id="daftarPengajuan">
 
         <div class="loading">
@@ -713,7 +691,6 @@ body{
     </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -729,10 +706,7 @@ body{
         Detail Pengajuan
     </h2>
 
-
-    <div id="detailPengajuan">
-    </div>
-
+    <div id="detailPengajuan"></div>
 
     <div class="info">
 
@@ -742,7 +716,6 @@ body{
     </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -758,7 +731,6 @@ body{
         Progress Pengajuan
     </h2>
 
-
     <div class="progress-bg">
 
         <div
@@ -771,7 +743,6 @@ body{
 
     </div>
 
-
     <p id="statusText">
         Menunggu...
     </p>
@@ -779,310 +750,104 @@ body{
 </section>
 
 
+<!-- =====================================================
+     UPDATE STATUS
+===================================================== -->
 
-/* =========================================================
-   UPDATE STATUS SUPABASE - VERSI STABIL
-========================================================= */
+<section
+    class="card"
+    id="statusCard"
+    style="display:none;">
 
-async function ubahStatus(
-    progressBaru,
-    statusBaru
-){
+    <h2 class="title">
+        Ubah Status Pengajuan
+    </h2>
 
-    if(!pengajuanTerpilih){
+    <div class="info">
 
-        tampilkanError(
-            "Pilih pengajuan terlebih dahulu."
-        );
+        Pilih status sesuai proses pengajuan nasabah.
+        Perubahan akan disimpan langsung ke Supabase.
 
-        return;
-    }
+    </div>
 
+    <br>
 
-    const id = pengajuanTerpilih.id;
+    <div class="status-buttons">
 
+        <button
+            type="button"
+            class="status-btn btn0"
+            onclick="ubahStatus(0,'Dibatalkan')">
 
-    const nama =
-        pengajuanTerpilih.nama ||
-        "-";
+            ✕ Dibatalkan
+            <br>
+            0%
 
+        </button>
 
-    const yakin = confirm(
 
-        "Ubah status pengajuan:\n\n" +
+        <button
+            type="button"
+            class="status-btn btn20"
+            onclick="ubahStatus(20,'Menunggu Verifikasi')">
 
-        nama +
+            ⏳ Menunggu Verifikasi
+            <br>
+            20%
 
-        "\n\nMenjadi:\n" +
+        </button>
 
-        statusBaru +
 
-        "\nProgress: " +
+        <button
+            type="button"
+            class="status-btn btn40"
+            onclick="ubahStatus(40,'Sedang Diverifikasi')">
 
-        progressBaru +
+            🔍 Sedang Diverifikasi
+            <br>
+            40%
 
-        "%"
+        </button>
 
-    );
 
+        <button
+            type="button"
+            class="status-btn btn60"
+            onclick="ubahStatus(60,'Dalam Proses')">
 
-    if(!yakin){
+            ⚙ Dalam Proses
+            <br>
+            60%
 
-        return;
-    }
+        </button>
 
 
-    try{
+        <button
+            type="button"
+            class="status-btn btn80"
+            onclick="ubahStatus(80,'Disetujui')">
 
-        /* =========================================
-           PASTIKAN SUPABASE SIAP
-        ========================================= */
+            ✓ Disetujui
+            <br>
+            80%
 
-        if(!supabaseClient){
+        </button>
 
-            const siap =
-                await initSupabase();
 
+        <button
+            type="button"
+            class="status-btn btn100"
+            onclick="ubahStatus(100,'Selesai / Dicairkan')">
 
-            if(!siap){
+            ✓ Selesai / Dicairkan
+            <br>
+            100%
 
-                return;
-            }
+        </button>
 
-        }
+    </div>
 
-
-        /* =========================================
-           DATA YANG AKAN DIUPDATE
-        ========================================= */
-
-        const updateData = {
-
-            status:
-                statusBaru,
-
-            progress:
-                progressBaru,
-
-            sudah_dicairkan:
-                progressBaru === 100,
-
-            updated_at:
-                new Date().toISOString()
-
-        };
-
-
-        console.log(
-            "Mencoba update:",
-            id,
-            updateData
-        );
-
-
-        /* =========================================
-           UPDATE TANPA .select()
-           
-           Kita gunakan count supaya bisa mengetahui
-           apakah benar-benar ada 1 record yang berubah.
-        ========================================= */
-
-        const hasilUpdate =
-            await supabaseClient
-            .from(SUPABASE_TABLE)
-            .update(
-                updateData,
-                {
-                    count: "exact"
-                }
-            )
-            .eq(
-                "id",
-                id
-            );
-
-
-        console.log(
-            "Hasil UPDATE:",
-            hasilUpdate
-        );
-
-
-        if(hasilUpdate.error){
-
-            throw hasilUpdate.error;
-        }
-
-
-        /* =========================================
-           CEK APAKAH ADA RECORD YANG DIUPDATE
-        ========================================= */
-
-        if(
-            hasilUpdate.count !== null &&
-            hasilUpdate.count !== 1
-        ){
-
-            throw new Error(
-                "Tidak ada data yang berhasil diperbarui. " +
-                "ID pengajuan tidak ditemukan atau UPDATE " +
-                "ditolak oleh RLS."
-            );
-        }
-
-
-        /* =========================================
-           AMBIL ULANG DATA TERBARU
-           
-           UPDATE dan SELECT dipisahkan.
-        ========================================= */
-
-        const hasilBaca =
-            await supabaseClient
-            .from(SUPABASE_TABLE)
-            .select("*")
-            .eq(
-                "id",
-                id
-            )
-            .maybeSingle();
-
-
-        if(hasilBaca.error){
-
-            throw hasilBaca.error;
-        }
-
-
-        if(!hasilBaca.data){
-
-            throw new Error(
-                "Status berhasil dikirim ke database, " +
-                "tetapi data terbaru tidak dapat dibaca kembali."
-            );
-        }
-
-
-        const dataTerbaru =
-            hasilBaca.data;
-
-
-        console.log(
-            "Data terbaru:",
-            dataTerbaru
-        );
-
-
-        /* =========================================
-           UPDATE DATA LOKAL
-        ========================================= */
-
-        pengajuanTerpilih =
-            dataTerbaru;
-
-
-        const index =
-            semuaPengajuan.findIndex(
-                function(item){
-
-                    return String(item.id) ===
-                        String(id);
-
-                }
-            );
-
-
-        if(index !== -1){
-
-            semuaPengajuan[index] =
-                dataTerbaru;
-        }
-
-
-        /* =========================================
-           REFRESH TAMPILAN
-        ========================================= */
-
-        tampilkanStatistik();
-
-
-        /*
-         * Pertahankan pencarian jika sedang digunakan.
-         */
-
-        const keyword =
-            document.getElementById(
-                "searchInput"
-            ).value
-            .trim()
-            .toLowerCase();
-
-
-        if(keyword){
-
-            filterPengajuan();
-
-        }else{
-
-            tampilkanDaftar(
-                semuaPengajuan
-            );
-
-        }
-
-
-        tampilkanDetail(
-            dataTerbaru
-        );
-
-
-        /* =========================================
-           PESAN SUKSES
-        ========================================= */
-
-        tampilkanSukses(
-
-            "Status pengajuan berhasil diperbarui.<br><br>" +
-
-            "<b>" +
-            escapeHTML(statusBaru) +
-            "</b> — " +
-
-            progressBaru +
-
-            "%"
-
-        );
-
-
-        console.log(
-            "✓ UPDATE STATUS BERHASIL",
-            dataTerbaru
-        );
-
-
-    }catch(error){
-
-        console.error(
-            "✕ GAGAL UPDATE STATUS:",
-            error
-        );
-
-
-        tampilkanError(
-
-            "Gagal memperbarui status Supabase.<br><br>" +
-
-            escapeHTML(
-                error.message ||
-                String(error)
-            )
-
-        );
-
-    }
-
-}
+</section>
 
 
 <!-- =====================================================
@@ -1098,14 +863,12 @@ async function ubahStatus(
         Data Supabase
     </h2>
 
-
     <div
         id="rawData"
         class="json-box">
     </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -1130,7 +893,6 @@ async function ubahStatus(
 </main>
 
 
-
 <script>
 
 /* =========================================================
@@ -1140,10 +902,8 @@ async function ubahStatus(
 const SUPABASE_URL =
     "https://binojniwitsdhnhqmneq.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_yX4gQ30MAXnmrVAUIL1bZQ_f6E1hnNV";
-
 
 const SUPABASE_TABLE =
     "pengajuan";
@@ -1161,7 +921,7 @@ let pengajuanTerpilih = null;
 
 
 /* =========================================================
-   LOAD SUPABASE JS
+   LOAD SUPABASE LIBRARY
 ========================================================= */
 
 function loadSupabaseLibrary(){
@@ -1174,7 +934,6 @@ function loadSupabaseLibrary(){
         ){
 
             resolve();
-
             return;
 
         }
@@ -1260,6 +1019,12 @@ async function initSupabase(){
         return true;
 
     }catch(error){
+
+        console.error(
+            "Supabase init error:",
+            error
+        );
+
 
         setConnection(
             false,
@@ -1352,6 +1117,13 @@ function tampilkanError(pesan){
     }
 
 
+    if(!box){
+
+        return;
+
+    }
+
+
     box.innerHTML =
         "⚠️ " +
         pesan;
@@ -1395,6 +1167,13 @@ function tampilkanSukses(pesan){
     }
 
 
+    if(!box){
+
+        return;
+
+    }
+
+
     box.innerHTML =
         "✓ " +
         pesan;
@@ -1427,9 +1206,7 @@ function rupiah(nilai){
         Number(nilai);
 
 
-    if(
-        Number.isNaN(angka)
-    ){
+    if(Number.isNaN(angka)){
 
         return String(nilai);
 
@@ -1503,25 +1280,61 @@ function escapeHTML(value){
 
 
     return String(value)
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   ESCAPE ATTRIBUTE
+========================================================= */
+
+function escapeAttribute(value){
+
+    if(
+        value === null ||
+        value === undefined
+    ){
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /\\/g,
+            "\\\\"
+        )
+
+        .replace(
+            /'/g,
+            "\\'"
         );
 
 }
@@ -1541,14 +1354,17 @@ function formatLabel(nama){
 
 
     return String(nama)
+
         .replace(
             /_/g,
             " "
         )
+
         .replace(
             /([a-z])([A-Z])/g,
             "$1 $2"
         )
+
         .replace(
             /\b\w/g,
             function(huruf){
@@ -1562,7 +1378,7 @@ function formatLabel(nama){
 
 
 /* =========================================================
-   FORMAT NILAI DATA
+   FORMAT NILAI
 ========================================================= */
 
 function formatNilai(
@@ -1586,9 +1402,7 @@ function formatNilai(
         .toLowerCase();
 
 
-    /*
-     * Tanggal.
-     */
+    /* Tanggal */
 
     if(
         keyLower === "created_at" ||
@@ -1616,9 +1430,7 @@ function formatNilai(
     }
 
 
-    /*
-     * Progress.
-     */
+    /* Progress */
 
     if(
         keyLower === "progress"
@@ -1631,9 +1443,7 @@ function formatNilai(
     }
 
 
-    /*
-     * Nilai uang.
-     */
+    /* Nilai uang */
 
     if(
         keyLower.includes("jumlah_pinjaman") ||
@@ -1659,9 +1469,7 @@ function formatNilai(
     }
 
 
-    /*
-     * Array / object.
-     */
+    /* Object / Array */
 
     if(
         typeof value === "object"
@@ -1699,11 +1507,18 @@ async function ambilSemuaPengajuan(){
         );
 
 
+    if(!tempat){
+
+        return;
+
+    }
+
+
     tempat.innerHTML = `
 
         <div class="loading">
 
-            Mengambil SEMUA data dari Supabase...
+            Mengambil semua data dari Supabase...
 
         </div>
 
@@ -1727,16 +1542,6 @@ async function ambilSemuaPengajuan(){
         }
 
 
-        /*
-         * PENTING:
-         *
-         * Tidak menggunakan .single()
-         * Tidak menggunakan .maybeSingle()
-         *
-         * Karena kita memang ingin membaca
-         * SEMUA record.
-         */
-
         const hasil =
             await supabaseClient
                 .from(SUPABASE_TABLE)
@@ -1751,20 +1556,14 @@ async function ambilSemuaPengajuan(){
 
 
         semuaPengajuan =
-            Array.isArray(
-                hasil.data
-            )
+            Array.isArray(hasil.data)
             ?
             hasil.data
             :
             [];
 
 
-        /*
-         * Urutkan berdasarkan created_at
-         * di browser supaya tidak bergantung
-         * pada order() Supabase.
-         */
+        /* Urutkan terbaru */
 
         semuaPengajuan.sort(
             function(a,b){
@@ -1804,18 +1603,10 @@ async function ambilSemuaPengajuan(){
         tampilkanStatistik();
 
 
-        /*
-         * Kalau sedang search,
-         * jangan hilangkan hasil pencarian.
-         */
-
         filterPengajuan();
 
 
-        /*
-         * Jika sebelumnya memilih data,
-         * cari versi terbaru dari Supabase.
-         */
+        /* Sinkronkan pengajuan yang sedang dipilih */
 
         if(
             pengajuanTerpilih &&
@@ -1841,7 +1632,6 @@ async function ambilSemuaPengajuan(){
 
                 pengajuanTerpilih =
                     terbaru;
-
 
                 tampilkanDetail(
                     terbaru
@@ -1897,13 +1687,16 @@ async function ambilSemuaPengajuan(){
 
 
         tampilkanError(
+
             "Gagal membaca tabel " +
             SUPABASE_TABLE +
             ":<br><br>" +
+
             escapeHTML(
                 error.message ||
                 String(error)
             )
+
         );
 
     }
@@ -1944,15 +1737,11 @@ function tampilkanStatistik(){
                 .toLowerCase();
 
 
-            /*
-             * Menunggu.
-             */
+            /* Menunggu */
 
             if(
                 progress === 20 ||
-                status.includes(
-                    "menunggu"
-                )
+                status.includes("menunggu")
             ){
 
                 menunggu++;
@@ -1962,18 +1751,12 @@ function tampilkanStatistik(){
             }
 
 
-            /*
-             * Selesai.
-             */
+            /* Selesai */
 
             if(
                 progress === 100 ||
-                status.includes(
-                    "dicairkan"
-                ) ||
-                status.includes(
-                    "selesai"
-                )
+                status.includes("dicairkan") ||
+                status.includes("selesai")
             ){
 
                 selesai++;
@@ -1983,9 +1766,7 @@ function tampilkanStatistik(){
             }
 
 
-            /*
-             * Diproses.
-             */
+            /* Diproses */
 
             if(
                 progress > 20 &&
@@ -2106,8 +1887,7 @@ function tampilkanDaftar(data){
 
                     <div
                         class="list-item ${active}"
-                        onclick="pilihPengajuan('${escapeAttribute(id)}')"
-                    >
+                        onclick="pilihPengajuan('${escapeAttribute(id)}')">
 
                         <div class="list-head">
 
@@ -2120,7 +1900,6 @@ function tampilkanDaftar(data){
                                     )}
 
                                 </div>
-
 
                                 <div class="list-number">
 
@@ -2168,35 +1947,6 @@ function tampilkanDaftar(data){
 
 
 /* =========================================================
-   ESCAPE ATTRIBUTE
-========================================================= */
-
-function escapeAttribute(value){
-
-    if(
-        value === null ||
-        value === undefined
-    ){
-
-        return "";
-
-    }
-
-
-    return String(value)
-        .replace(
-            /\\/g,
-            "\\\\"
-        )
-        .replace(
-            /'/g,
-            "\\'"
-        );
-
-}
-
-
-/* =========================================================
    PILIH PENGAJUAN
 ========================================================= */
 
@@ -2218,7 +1968,7 @@ function pilihPengajuan(id){
     if(!data){
 
         tampilkanError(
-            "Data pengajuan tidak ditemukan di memori halaman."
+            "Data pengajuan tidak ditemukan."
         );
 
         return;
@@ -2229,11 +1979,6 @@ function pilihPengajuan(id){
     pengajuanTerpilih =
         data;
 
-
-    /*
-     * Tampilkan ulang daftar supaya
-     * item terpilih mendapat border biru.
-     */
 
     filterPengajuan();
 
@@ -2285,7 +2030,7 @@ function pilihPengajuan(id){
 
 
 /* =========================================================
-   TAMPILKAN DETAIL SEMUA KOLOM
+   TAMPILKAN DETAIL
 ========================================================= */
 
 function tampilkanDetail(p){
@@ -2296,9 +2041,12 @@ function tampilkanDetail(p){
         );
 
 
-    /*
-     * Ambil semua nama kolom dari object Supabase.
-     */
+    if(!p){
+
+        return;
+
+    }
+
 
     const keys =
         Object.keys(p);
@@ -2348,10 +2096,6 @@ function tampilkanDetail(p){
                     formatted
                 );
 
-
-            /*
-             * Kolom teks panjang dibuat full width.
-             */
 
             const panjang =
                 String(
@@ -2417,9 +2161,7 @@ function tampilkanDetail(p){
     );
 
 
-    /*
-     * Tampilkan JSON mentah.
-     */
+    /* Raw JSON */
 
     const raw =
         document.getElementById(
@@ -2451,7 +2193,7 @@ function tampilkanDetail(p){
 
 
 /* =========================================================
-   PROGRESS
+   TAMPILKAN PROGRESS
 ========================================================= */
 
 function tampilkanProgress(
@@ -2483,40 +2225,56 @@ function tampilkanProgress(
         );
 
 
-    bar.style.width =
-        progress + "%";
+    if(bar){
+
+        bar.style.width =
+            progress + "%";
+
+        bar.innerText =
+            progress + "%";
+
+    }
 
 
-    bar.innerText =
-        progress + "%";
+    const statusText =
+        document.getElementById(
+            "statusText"
+        );
 
 
-    document.getElementById(
-        "statusText"
-    ).innerHTML =
+    if(statusText){
 
-        "<b>Status:</b> " +
-        escapeHTML(
-            status || "-"
-        ) +
+        statusText.innerHTML =
 
-        "<br><br>" +
+            "<b>Status:</b> " +
 
-        "<b>Progress:</b> " +
-        progress +
-        "%";
+            escapeHTML(
+                status || "-"
+            ) +
+
+            "<br><br>" +
+
+            "<b>Progress:</b> " +
+
+            progress +
+
+            "%";
+
+    }
 
 }
 
 
 /* =========================================================
-   UPDATE STATUS
+   UPDATE STATUS - VERSI FINAL
 ========================================================= */
 
 async function ubahStatus(
     progressBaru,
     statusBaru
 ){
+
+    /* Pastikan ada pengajuan */
 
     if(!pengajuanTerpilih){
 
@@ -2547,6 +2305,7 @@ async function ubahStatus(
     const nama =
         pengajuanTerpilih.nama ||
         pengajuanTerpilih.nama_lengkap ||
+        pengajuanTerpilih.namaLengkap ||
         "-";
 
 
@@ -2563,6 +2322,7 @@ async function ubahStatus(
 
             "\nProgress: " +
             progressBaru +
+
             "%\n\n" +
 
             "Lanjutkan?"
@@ -2579,6 +2339,8 @@ async function ubahStatus(
 
     try{
 
+        /* Pastikan Supabase siap */
+
         if(!supabaseClient){
 
             const siap =
@@ -2594,13 +2356,20 @@ async function ubahStatus(
         }
 
 
+        /* Tampilkan proses */
+
+        tampilkanSukses(
+            "Sedang memperbarui status..."
+        );
+
+
         /*
-         * HANYA update kolom yang memang
-         * sudah kita ketahui dari halaman ini.
+         * DATA YANG DIUPDATE
          *
-         * Tidak memakai:
-         * - sudah_dicairkan
-         * - kolom lain yang belum pasti ada
+         * Hanya menggunakan kolom:
+         * status
+         * progress
+         * updated_at
          */
 
         const updateData = {
@@ -2609,7 +2378,7 @@ async function ubahStatus(
                 statusBaru,
 
             progress:
-                progressBaru,
+                Number(progressBaru),
 
             updated_at:
                 new Date().toISOString()
@@ -2618,66 +2387,136 @@ async function ubahStatus(
 
 
         console.log(
-            "Mengirim update Supabase:",
+            "UPDATE SUPABASE:",
             {
+                table:SUPABASE_TABLE,
                 id:id,
-                update:updateData
+                data:updateData
             }
         );
 
 
-        /*
-         * UPDATE.
-         *
-         * Tidak menggunakan .single().
-         */
+        /* =================================================
+           STEP 1
+           UPDATE DATABASE
+        ================================================= */
 
-        const hasil =
+        const hasilUpdate =
             await supabaseClient
                 .from(SUPABASE_TABLE)
                 .update(updateData)
-                .eq("id", id)
-                .select("*");
+                .eq(
+                    "id",
+                    id
+                );
 
 
-        if(hasil.error){
+        if(hasilUpdate.error){
 
-            throw hasil.error;
+            throw hasilUpdate.error;
 
         }
 
 
+        console.log(
+            "UPDATE selesai:",
+            hasilUpdate
+        );
+
+
         /*
-         * Karena select("*") menghasilkan ARRAY,
-         * kita ambil elemen pertama.
+         * Jangan memakai data hasil UPDATE.
+         *
+         * Kita SELECT ulang record dari database.
          */
 
-        if(
-            !hasil.data ||
-            !Array.isArray(hasil.data) ||
-            hasil.data.length === 0
-        ){
+        /* =================================================
+           STEP 2
+           BACA DATA TERBARU
+        ================================================= */
+
+        const hasilBaca =
+            await supabaseClient
+                .from(SUPABASE_TABLE)
+                .select("*")
+                .eq(
+                    "id",
+                    id
+                )
+                .maybeSingle();
+
+
+        if(hasilBaca.error){
+
+            throw hasilBaca.error;
+
+        }
+
+
+        if(!hasilBaca.data){
 
             throw new Error(
-                "Supabase tidak mengembalikan record setelah update. Periksa RLS policy UPDATE pada tabel pengajuan."
+                "Data pengajuan tidak dapat dibaca kembali setelah update. Periksa SELECT policy RLS."
             );
 
         }
 
 
         const dataTerbaru =
-            hasil.data[0];
+            hasilBaca.data;
 
 
         console.log(
-            "Update Supabase berhasil:",
+            "DATA SETELAH UPDATE:",
             dataTerbaru
         );
 
 
-        /*
-         * Ganti data lokal dengan data terbaru.
-         */
+        /* =================================================
+           STEP 3
+           VERIFIKASI UPDATE
+        ================================================= */
+
+        const progressDatabase =
+            Number(
+                dataTerbaru.progress
+            );
+
+
+        const statusDatabase =
+            String(
+                dataTerbaru.status || ""
+            );
+
+
+        if(
+            progressDatabase !==
+            Number(progressBaru)
+        ){
+
+            throw new Error(
+                "Progress tidak berubah di database. Periksa RLS policy UPDATE pada tabel pengajuan."
+            );
+
+        }
+
+
+        if(
+            statusDatabase !==
+            String(statusBaru)
+        ){
+
+            throw new Error(
+                "Status tidak berubah di database. Periksa RLS policy UPDATE pada tabel pengajuan."
+            );
+
+        }
+
+
+        /* =================================================
+           STEP 4
+           UPDATE DATA LOKAL
+        ================================================= */
 
         const index =
             semuaPengajuan.findIndex(
@@ -2704,9 +2543,10 @@ async function ubahStatus(
             dataTerbaru;
 
 
-        /*
-         * Refresh tampilan lokal.
-         */
+        /* =================================================
+           STEP 5
+           REFRESH TAMPILAN
+        ================================================= */
 
         tampilkanStatistik();
 
@@ -2719,45 +2559,65 @@ async function ubahStatus(
         );
 
 
+        document.getElementById(
+            "detailCard"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "progressCard"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "statusCard"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "rawCard"
+        ).style.display =
+            "block";
+
+
+        /* =================================================
+           STEP 6
+           PESAN SUKSES
+        ================================================= */
+
         tampilkanSukses(
 
-            "Status berhasil diperbarui.<br><br>" +
+            "Status pengajuan berhasil diperbarui.<br><br>" +
 
             "<b>" +
+
             escapeHTML(
                 statusBaru
             ) +
+
             "</b>" +
 
             " — Progress " +
 
-            progressBaru +
+            Number(progressBaru) +
 
             "%"
 
         );
 
 
-        /*
-         * Setelah beberapa saat,
-         * baca ulang dari database untuk memastikan
-         * halaman benar-benar sinkron dengan Supabase.
-         */
-
-        setTimeout(
-            async function(){
-
-                await ambilSemuaPengajuan();
-
-            },
-            700
+        console.log(
+            "✓ STATUS BERHASIL DIUPDATE",
+            dataTerbaru
         );
-
 
     }catch(error){
 
         console.error(
-            "Gagal update status:",
+            "✕ GAGAL UPDATE STATUS:",
             error
         );
 
@@ -2815,13 +2675,9 @@ function filterPengajuan(){
         semuaPengajuan.filter(
             function(p){
 
-                /*
-                 * Cari pada SEMUA kolom,
-                 * bukan hanya nama/NIK.
-                 */
-
                 const teks =
                     Object.keys(p)
+
                     .map(
                         function(key){
 
@@ -2864,7 +2720,9 @@ function filterPengajuan(){
 
                         }
                     )
+
                     .join(" ")
+
                     .toLowerCase();
 
 
@@ -2888,14 +2746,6 @@ function filterPengajuan(){
 ========================================================= */
 
 function cekLoginAdmin(){
-
-    /*
-     * Sistem Anda sebelumnya menggunakan:
-     *
-     * localStorage.getItem("adminLogin")
-     *
-     * Jadi tetap kita pertahankan.
-     */
 
     const login =
         localStorage.getItem(
@@ -2943,9 +2793,7 @@ async function mulai(){
     );
 
 
-    /*
-     * Cek login.
-     */
+    /* Cek login */
 
     if(
         !cekLoginAdmin()
@@ -2956,9 +2804,7 @@ async function mulai(){
     }
 
 
-    /*
-     * Koneksi Supabase.
-     */
+    /* Koneksi Supabase */
 
     const siap =
         await initSupabase();
@@ -2971,9 +2817,7 @@ async function mulai(){
     }
 
 
-    /*
-     * Ambil SEMUA data.
-     */
+    /* Ambil semua data */
 
     await ambilSemuaPengajuan();
 
